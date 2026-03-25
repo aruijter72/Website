@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 # Run this once from your website folder to enable auto-push on every commit.
 
 WEBSITE_PATH="$(cd "$(dirname "$0")" && pwd)"
@@ -15,7 +15,7 @@ cat > "$PLIST" << EOF
     <string>nl.arnoldruijterit.autopush</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/bin/bash</string>
+        <string>/bin/zsh</string>
         <string>$WEBSITE_PATH/autopush.sh</string>
     </array>
     <key>WatchPaths</key>
