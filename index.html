@@ -253,9 +253,14 @@
     #services { background: var(--navy); }
     .services-intro { max-width: 1200px; margin: 0 auto 3.5rem; }
     .services-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
       gap: 1.5rem; max-width: 1200px; margin: 0 auto;
     }
+    /* 5 cards: 3 on row 1 (each span 2 of 6), 2 centred on row 2 */
+    .service-card { grid-column: span 2; }
+    .service-card:nth-child(4) { grid-column: 2 / span 2; }
+    .service-card:nth-child(5) { grid-column: 4 / span 2; }
     .service-card {
       background: rgba(255,255,255,.025);
       border: 1px solid rgba(255,255,255,.08);
@@ -306,6 +311,27 @@
       width: 18px; height: 18px; background: var(--gold);
       border-radius: 50%; border: 3px solid var(--navy2);
       box-shadow: 0 0 0 4px rgba(201,163,85,.2);
+    }
+    .tl-dot.current {
+      background: var(--blue);
+      box-shadow: 0 0 0 4px rgba(74,159,212,.25);
+      animation: pulse-current 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse-current {
+      0%, 100% { box-shadow: 0 0 0 4px rgba(74,159,212,.25); }
+      50%       { box-shadow: 0 0 0 9px rgba(74,159,212,.08); }
+    }
+    .tl-card.current { border-color: rgba(74,159,212,.2); }
+    .tl-badge {
+      display: inline-block; font-size: .7rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: .15rem .65rem; border-radius: 20px; margin-left: .6rem;
+      background: rgba(74,159,212,.12); color: var(--blue);
+      border: 1px solid rgba(74,159,212,.25); vertical-align: middle;
+    }
+    .tl-via {
+      font-size: .78rem; color: var(--muted); margin-top: .2rem;
+      font-style: italic;
     }
     .tl-card {
       background: rgba(255,255,255,.025);
@@ -687,9 +713,46 @@
     <p class="section-label">Career History</p>
     <h2 class="section-title">Experience</h2>
     <div class="divider"></div>
-    <p class="section-desc">Over 20 years of progressive IT leadership and architecture roles across major international brands.</p>
+    <p class="section-desc">Over 20 years of progressive IT leadership and architecture roles, currently active as an independent consultant through Arnold Ruijter IT.</p>
   </div>
   <div class="timeline">
+
+    <div class="tl-item fade-in">
+      <div class="tl-dot current"></div>
+      <div class="tl-card current">
+        <div class="tl-header">
+          <div class="tl-role">Interim IT Consultant · Project Leader ESB Tender <span class="tl-badge">Current</span></div>
+          <div class="tl-period">Mar 2026 – Present</div>
+        </div>
+        <div class="tl-company">GR IJsselgemeenten · Capelle aan den IJssel</div>
+        <div class="tl-via">Via Arnold Ruijter IT · Public sector · South Holland</div>
+        <ul class="tl-points">
+          <li>Leading the European public procurement process (EU aanbesteding) for an Enterprise Service Bus on behalf of GR IJsselgemeenten — a cooperation of municipalities in the South Holland region.</li>
+          <li>Authoring core procurement documents: Startnotitie, Aanbestedingsstrategie, and Programma van Eisen (PvE).</li>
+          <li>Conducting market consultation to validate requirements and understand the vendor landscape.</li>
+          <li>Managing the formal tender procedure via TenderNed, including publication and Nota van Inlichtingen (Q&amp;A rounds with suppliers).</li>
+          <li>Evaluating proposals against defined award criteria and preparing the Gunningsadvies (award recommendation).</li>
+          <li>Coordinating with legal, IT, and management stakeholders across the participating municipalities throughout the process.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tl-item fade-in">
+      <div class="tl-dot current"></div>
+      <div class="tl-card current">
+        <div class="tl-header">
+          <div class="tl-role">Owner · Freelance IT Consultant <span class="tl-badge">Current</span></div>
+          <div class="tl-period">Jan 2026 – Present</div>
+        </div>
+        <div class="tl-company">Arnold Ruijter IT · Castricum</div>
+        <ul class="tl-points">
+          <li>Independent IT consultancy providing enterprise and domain architecture, integration architecture, IT leadership, and IT strategy services.</li>
+          <li>Operating across sectors — from retail and fashion to public sector — at the scale and level that adds most value.</li>
+          <li>Current assignment: Project Leader ESB Tender at GR IJsselgemeenten (see above).</li>
+        </ul>
+      </div>
+    </div>
+
     <div class="tl-item fade-in">
       <div class="tl-dot"></div>
       <div class="tl-card">
