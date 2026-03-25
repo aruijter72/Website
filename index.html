@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arnold Ruijter IT — Enterprise Architecture & IT Leadership</title>
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:   #0b1728;
+      --navy2:  #122040;
+      --navy3:  #1a2e54;
+      --gold:   #c9a355;
+      --gold2:  #e8c07a;
+      --blue:   #4a9fd4;
+      --light:  #e8edf5;
+      --muted:  #8a9ab5;
+      --white:  #ffffff;
+      --radius: 10px;
+      --transition: .35s cubic-bezier(.4,0,.2,1);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--navy);
+      color: var(--light);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+    h1, h2, h3, h4 { line-height: 1.25; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--navy); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 68px;
+      background: rgba(11,23,40,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,163,85,.15);
+      transition: box-shadow var(--transition);
+    }
+    nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,.4); }
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 1.1rem; font-weight: 700; letter-spacing: .06em;
+      color: var(--white);
+    }
+    .nav-logo img { height: 36px; width: auto; }
+    .nav-links { display: flex; gap: 2.4rem; align-items: center; }
+    .nav-links a {
+      font-size: .88rem; font-weight: 500; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--muted);
+      transition: color var(--transition);
+      position: relative; padding-bottom: 3px;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 100%;
+      height: 1px; background: var(--gold);
+      transition: right var(--transition);
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--white); }
+    .nav-links a:hover::after, .nav-links a.active::after { right: 0; }
+    .nav-cta {
+      padding: .4rem 1.1rem; border: 1px solid var(--gold);
+      border-radius: 4px; color: var(--gold) !important;
+      font-size: .82rem !important; letter-spacing: .1em !important;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--navy) !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 24px; height: 2px; background: var(--light); border-radius: 2px; transition: var(--transition); }
+
+    /* ── Hero ── */
+    #home {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+      padding: 100px 5vw 60px;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 50%, rgba(74,159,212,.08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 20% 30%, rgba(201,163,85,.06) 0%, transparent 50%),
+        linear-gradient(165deg, #0b1728 0%, #0e2040 50%, #0b1728 100%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(74,159,212,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74,159,212,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-content { position: relative; max-width: 680px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(201,163,85,.1); border: 1px solid rgba(201,163,85,.3);
+      border-radius: 20px; padding: .35rem .9rem;
+      font-size: .78rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1.8rem;
+    }
+    .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
+    .hero-title {
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 800; letter-spacing: -.02em;
+      color: var(--white); margin-bottom: 1.2rem;
+      line-height: 1.1;
+    }
+    .hero-title span { color: var(--gold); }
+    .hero-sub {
+      font-size: 1.15rem; color: var(--muted);
+      margin-bottom: .6rem;
+    }
+    .hero-tagline {
+      font-size: 1.35rem; color: var(--light);
+      font-style: italic; margin-bottom: 2.4rem;
+    }
+    .hero-tagline strong { color: var(--gold2); font-style: normal; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3.5rem; }
+    .btn-primary {
+      padding: .8rem 2rem; background: var(--gold); color: var(--navy);
+      font-weight: 700; font-size: .9rem; letter-spacing: .06em;
+      border-radius: var(--radius); border: none; cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-primary:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(201,163,85,.3); }
+    .btn-outline {
+      padding: .8rem 2rem; background: transparent; color: var(--light);
+      font-weight: 600; font-size: .9rem; letter-spacing: .06em;
+      border-radius: var(--radius); border: 1px solid rgba(255,255,255,.2);
+      cursor: pointer; transition: var(--transition);
+    }
+    .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,.05); transform: translateY(-2px); }
+    .hero-stats { display: flex; gap: 2.5rem; flex-wrap: wrap; align-items: flex-end; }
+    .stat-item {}
+    .stat-value { font-size: 2.2rem; font-weight: 800; color: var(--gold); line-height: 1; }
+    .stat-label { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-top: 2px; }
+    .stat-item.text .stat-value { font-size: 2.2rem; font-weight: 800; line-height: 1; }
+    .hero-visual {
+      position: absolute; right: 5vw; top: 50%; transform: translateY(-50%);
+      opacity: .18; pointer-events: none;
+    }
+    .hero-visual svg { width: min(45vw, 420px); height: auto; }
+
+    /* ── Section base ── */
+    section { padding: 100px 5vw; }
+    .section-label {
+      font-size: .75rem; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: .8rem;
+    }
+    .section-title {
+      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+      font-weight: 800; color: var(--white);
+      margin-bottom: 1.2rem;
+    }
+    .section-desc {
+      font-size: 1.05rem; color: var(--muted);
+      max-width: 600px; line-height: 1.8;
+    }
+    .divider {
+      width: 56px; height: 3px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      border-radius: 2px; margin-bottom: 2.4rem;
+    }
+
+    /* ── About ── */
+    #about { background: var(--navy2); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center; max-width: 1200px; margin: 0 auto;
+    }
+    .about-text p { color: var(--muted); margin-bottom: 1.2rem; line-height: 1.85; }
+    .about-text p:last-of-type { margin-bottom: 0; }
+    .about-quote {
+      border-left: 3px solid var(--gold); padding: 1.2rem 1.5rem;
+      background: rgba(201,163,85,.06); border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 1.05rem; color: var(--light); font-style: italic;
+      margin: 1.8rem 0;
+    }
+    .ppp-card {
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius); padding: 2rem 2.2rem;
+    }
+    .ppp-title {
+      font-size: .75rem; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 1.4rem;
+    }
+    .ppp-items { display: flex; flex-direction: column; gap: 1.2rem; }
+    .ppp-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .ppp-num {
+      width: 36px; height: 36px; min-width: 36px;
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: .9rem; color: var(--navy);
+    }
+    .ppp-item h4 { font-size: 1rem; color: var(--white); margin-bottom: .2rem; }
+    .ppp-item p { font-size: .88rem; color: var(--muted); line-height: 1.6; margin: 0; }
+    .profile-meta { display: flex; flex-direction: column; gap: .8rem; margin-top: 2rem; }
+    .meta-row { display: flex; gap: .8rem; align-items: center; }
+    .meta-icon { color: var(--gold); font-size: 1.1rem; min-width: 20px; text-align: center; }
+    .meta-text { font-size: .9rem; color: var(--muted); }
+    .meta-text strong { color: var(--light); }
+
+    /* ── Services ── */
+    #services { background: var(--navy); }
+    .services-intro { max-width: 1200px; margin: 0 auto 3.5rem; }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem; max-width: 1200px; margin: 0 auto;
+    }
+    .service-card {
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px; padding: 2.2rem 2rem;
+      transition: var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; background: linear-gradient(90deg, var(--gold), var(--blue));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform var(--transition);
+    }
+    .service-card:hover { background: rgba(255,255,255,.05); border-color: rgba(201,163,85,.25); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,.3); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-icon {
+      width: 52px; height: 52px;
+      background: rgba(201,163,85,.1); border: 1px solid rgba(201,163,85,.2);
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.4rem; font-size: 1.5rem;
+    }
+    .service-card h3 { font-size: 1.15rem; color: var(--white); margin-bottom: .8rem; }
+    .service-card > p { font-size: .9rem; color: var(--muted); line-height: 1.75; margin-bottom: 1.4rem; }
+    .service-points { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+    .service-points li {
+      font-size: .85rem; color: var(--muted);
+      padding-left: 1.1rem; position: relative;
+    }
+    .service-points li::before {
+      content: '›'; position: absolute; left: 0;
+      color: var(--gold); font-size: 1rem; line-height: 1.6;
+    }
+
+    /* ── Experience ── */
+    #experience { background: var(--navy2); }
+    .experience-intro { max-width: 1200px; margin: 0 auto 3.5rem; }
+    .timeline { max-width: 900px; margin: 0 auto; position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 20px; top: 0; bottom: 0;
+      width: 2px; background: linear-gradient(to bottom, var(--gold), rgba(201,163,85,.1));
+    }
+    .tl-item {
+      display: flex; gap: 2rem; padding-left: 60px; position: relative;
+      margin-bottom: 3rem;
+    }
+    .tl-dot {
+      position: absolute; left: 12px; top: 4px;
+      width: 18px; height: 18px; background: var(--gold);
+      border-radius: 50%; border: 3px solid var(--navy2);
+      box-shadow: 0 0 0 4px rgba(201,163,85,.2);
+    }
+    .tl-card {
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius); padding: 1.6rem 2rem;
+      flex: 1; transition: var(--transition);
+    }
+    .tl-card:hover { border-color: rgba(201,163,85,.2); background: rgba(255,255,255,.04); }
+    .tl-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: .5rem; margin-bottom: .6rem; }
+    .tl-role { font-size: 1.05rem; font-weight: 700; color: var(--white); }
+    .tl-period {
+      font-size: .78rem; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--gold);
+      background: rgba(201,163,85,.1); padding: .2rem .7rem;
+      border-radius: 20px;
+    }
+    .tl-company { font-size: .9rem; color: var(--blue); margin-bottom: .9rem; font-weight: 500; }
+    .tl-points { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
+    .tl-points li { font-size: .87rem; color: var(--muted); padding-left: 1.1rem; position: relative; }
+    .tl-points li::before { content: '›'; position: absolute; left: 0; color: var(--gold); }
+
+    /* ── Tech Landscape ── */
+    #tech { background: var(--navy); }
+    .tech-intro { max-width: 1200px; margin: 0 auto 3rem; }
+    .tech-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem; max-width: 1200px; margin: 0 auto;
+    }
+    .tech-group {
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--radius); padding: 1.4rem 1.6rem;
+    }
+    .tech-group-title {
+      font-size: .72rem; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: .9rem; padding-bottom: .6rem;
+      border-bottom: 1px solid rgba(201,163,85,.15);
+    }
+    .tech-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .tag {
+      font-size: .75rem; padding: .25rem .7rem;
+      background: rgba(74,159,212,.08); border: 1px solid rgba(74,159,212,.15);
+      color: var(--blue); border-radius: 20px;
+    }
+
+    /* ── Vision ── */
+    #vision { background: var(--navy2); }
+    .vision-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: start; max-width: 1200px; margin: 0 auto;
+    }
+    .vision-text p { color: var(--muted); margin-bottom: 1.2rem; line-height: 1.85; }
+    .vision-text p strong { color: var(--light); }
+    .vision-text p em { color: var(--gold2); font-style: italic; }
+    .vision-highlight {
+      background: linear-gradient(135deg, rgba(201,163,85,.08), rgba(74,159,212,.05));
+      border: 1px solid rgba(201,163,85,.2);
+      border-radius: var(--radius); padding: 1.8rem;
+      margin: 1.8rem 0;
+    }
+    .vision-highlight p { color: var(--light); font-style: italic; font-size: 1.02rem; margin: 0; }
+    .vision-pillars { display: flex; flex-direction: column; gap: 1.4rem; }
+    .pillar {
+      background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius); padding: 1.5rem 1.8rem;
+      display: flex; gap: 1.2rem; align-items: flex-start;
+      transition: var(--transition);
+    }
+    .pillar:hover { border-color: rgba(201,163,85,.25); background: rgba(255,255,255,.04); }
+    .pillar-icon {
+      width: 44px; height: 44px; min-width: 44px;
+      background: linear-gradient(135deg, rgba(201,163,85,.15), rgba(201,163,85,.05));
+      border: 1px solid rgba(201,163,85,.25);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+    }
+    .pillar h3 { font-size: 1rem; color: var(--white); margin-bottom: .4rem; }
+    .pillar p { font-size: .88rem; color: var(--muted); line-height: 1.6; margin: 0; }
+
+    /* ── Education & Skills ── */
+    #credentials { background: var(--navy); }
+    .cred-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3rem; max-width: 900px; margin: 0 auto;
+    }
+    .cred-block h3 { font-size: 1rem; color: var(--gold); letter-spacing: .1em; text-transform: uppercase; font-size: .75rem; font-weight: 700; margin-bottom: 1.4rem; }
+    .cred-list { list-style: none; display: flex; flex-direction: column; gap: .9rem; }
+    .cred-list li { display: flex; gap: .9rem; align-items: flex-start; }
+    .cred-dot { width: 8px; height: 8px; min-width: 8px; background: var(--gold); border-radius: 50%; margin-top: 6px; }
+    .cred-list li span { font-size: .9rem; color: var(--muted); line-height: 1.5; }
+    .cred-list li span strong { color: var(--light); display: block; }
+    .lang-items { display: flex; flex-direction: column; gap: .9rem; }
+    .lang-item { display: flex; justify-content: space-between; align-items: center; }
+    .lang-name { font-size: .9rem; color: var(--light); font-weight: 500; }
+    .lang-bar-wrap { flex: 1; margin: 0 1rem; height: 4px; background: rgba(255,255,255,.08); border-radius: 2px; }
+    .lang-bar { height: 4px; background: linear-gradient(90deg, var(--gold), var(--gold2)); border-radius: 2px; }
+    .lang-level { font-size: .78rem; color: var(--muted); min-width: 50px; text-align: right; }
+
+    /* ── Contact ── */
+    #contact { background: var(--navy2); }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1.4fr;
+      gap: 5rem; max-width: 1100px; margin: 0 auto;
+    }
+    .contact-info h3 { font-size: 1.15rem; color: var(--white); margin-bottom: 1.8rem; }
+    .contact-item { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.5rem; }
+    .contact-icon {
+      width: 40px; height: 40px; min-width: 40px;
+      background: rgba(201,163,85,.1); border: 1px solid rgba(201,163,85,.2);
+      border-radius: 9px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .contact-item h4 { font-size: .78rem; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-bottom: .2rem; }
+    .contact-item p { font-size: .93rem; color: var(--light); }
+    .contact-item a { color: var(--blue); }
+    .contact-item a:hover { color: var(--gold); }
+    .form-group { margin-bottom: 1.3rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    label { display: block; font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }
+    input, textarea, select {
+      width: 100%; padding: .8rem 1rem;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 8px; color: var(--light); font-size: .93rem;
+      font-family: inherit; transition: border-color var(--transition);
+      outline: none;
+    }
+    input:focus, textarea:focus { border-color: var(--gold); background: rgba(255,255,255,.06); }
+    textarea { resize: vertical; min-height: 130px; }
+    .form-submit { margin-top: .5rem; }
+    .btn-submit {
+      width: 100%; padding: .9rem; background: var(--gold); color: var(--navy);
+      font-weight: 700; font-size: .95rem; letter-spacing: .06em;
+      border-radius: var(--radius); border: none; cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-submit:hover { background: var(--gold2); box-shadow: 0 8px 25px rgba(201,163,85,.3); }
+    .kvk-note { font-size: .78rem; color: var(--muted); margin-top: 1.5rem; line-height: 1.6; }
+
+    /* ── Footer ── */
+    footer {
+      background: rgba(0,0,0,.4); border-top: 1px solid rgba(255,255,255,.06);
+      padding: 2rem 5vw;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 10px; }
+    .footer-brand img { height: 28px; width: auto; }
+    .footer-brand span { font-size: .88rem; font-weight: 600; color: var(--light); }
+    .footer-copy { font-size: .8rem; color: var(--muted); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: .82rem; color: var(--muted); }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .about-grid, .vision-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .cred-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; position: fixed; top: 68px; left: 0; right: 0; bottom: 0; background: rgba(11,23,40,.98); flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1.1rem; }
+      .hamburger { display: flex; }
+      .hero-visual { display: none; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { justify-content: center; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+    @media (max-width: 580px) {
+      .hero-stats { gap: 1.5rem; }
+      .tl-item { padding-left: 44px; }
+    }
+
+    /* ── Fade-in animations ── */
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+<!-- ══ Navigation ══ -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">
+    <img src="Logo Wit.png" alt="Arnold Ruijter IT logo" />
+    <span>Arnold Ruijter IT</span>
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#experience">Experience</a>
+    <a href="#vision">Vision</a>
+    <a href="#contact" class="nav-cta">Contact</a>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ══ Hero ══ -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content fade-in">
+
+    <h1 class="hero-title">Arnold <span>Ruijter IT</span></h1>
+    <p class="hero-sub">Enterprise Architecture &amp; IT Leadership</p>
+    <p class="hero-tagline"><strong>When an extra perspective helps</strong></p>
+    <p style="color:var(--muted);font-size:.97rem;margin-bottom:2rem;max-width:520px;">
+      Senior architecture &amp; leadership experience in enterprise IT — driven to achieve innovation, structure, consistency, and team spirit.
+    </p>
+    <div class="hero-actions">
+      <a href="#services" class="btn-primary">View Services</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-value">20+</div>
+        <div class="stat-label">Years experience</div>
+      </div>
+      <div class="stat-item text">
+        <div class="stat-value">Global Scale</div>
+        <div class="stat-label">Companies</div>
+      </div>
+      <div class="stat-item text">
+        <div class="stat-value">Team Builder</div>
+        <div class="stat-label">&amp; Leader</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <img src="Logo Wit.png" alt="" style="width:min(42vw,400px);height:auto;filter:drop-shadow(0 0 40px rgba(201,163,85,0.2));" />
+  </div>
+</section>
+
+<!-- ══ About ══ -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <p class="section-label">About Me</p>
+      <h2 class="section-title">Experience that<br>complements, not replaces.</h2>
+      <div class="divider"></div>
+      <p>My name is Arnold Ruijter. With over 20 years in complex enterprise environments, my goal is to add experience, perspective, and leadership where and when it adds value.</p>
+      <p>I aim to leverage &amp; embrace existing capability, rather than replacing it. In other words, strengthen what is already there and provide extra focus where it is needed.</p>
+      <div class="about-quote">
+        "What you see is what you get" — I am open, direct, and transparent. I do not maintain half-truths, and everyone knows where to stand.
+      </div>
+      <p>I started in IT without highly relevant studies — just a lot of curiosity. From dissecting Excel macros, to Visual Basic, to enterprise-wide architecture. In all those years, I developed my own vision on what I found are the key elements of business IT.</p>
+      <div class="profile-meta">
+        <div class="meta-row">
+          <span class="meta-icon">📍</span>
+          <span class="meta-text"><strong>Castricum</strong>, The Netherlands</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-icon">🌐</span>
+          <span class="meta-text">Dutch · English · German · French</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-icon">🏢</span>
+          <span class="meta-text">Available for interim / advisory roles</span>
+        </div>
+      </div>
+    </div>
+    <div class="fade-in">
+      <div class="ppp-card">
+        <div class="ppp-title">Core Philosophy</div>
+        <div class="ppp-items">
+          <div class="ppp-item">
+            <div class="ppp-num">P</div>
+            <div>
+              <h4>People</h4>
+              <p>IT cannot succeed without the people who use and build it. I invest in understanding teams, coaching individuals, and building trust — because results follow people.</p>
+            </div>
+          </div>
+          <div class="ppp-item">
+            <div class="ppp-num">P</div>
+            <div>
+              <h4>Process</h4>
+              <p>Every organization does things a certain way, for a reason. Understanding those processes — and respecting them while enabling change — is at the heart of any transformation.</p>
+            </div>
+          </div>
+          <div class="ppp-item">
+            <div class="ppp-num">R</div>
+            <div>
+              <h4>Result</h4>
+              <p>Good architecture and strong teams only matter if they deliver. I keep the end goal in sight — translating effort into visible, meaningful progress that the organisation can see and build on.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Services ══ -->
+<section id="services">
+  <div class="services-intro fade-in">
+    <p class="section-label">What I Offer</p>
+    <h2 class="section-title">Core Services</h2>
+    <div class="divider"></div>
+    <p class="section-desc">In my 30+ years of experience — including more than 20 years in large enterprises with complex processes and IT landscapes — I provide the following services:</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card fade-in">
+      <div class="service-icon">🏛️</div>
+      <h3>Enterprise Architecture</h3>
+      <p>Analyse your organisation, understand business processes and the IT landscape, and design a coherent path forward.</p>
+      <ul class="service-points">
+        <li>Analyse organisation structure with a focus on IT</li>
+        <li>Gather requirements from business and IT stakeholders</li>
+        <li>Record current architecture and design the future state</li>
+        <li>Build the roadmap and safeguard consistency during transformation</li>
+        <li>TOGAF-certified approach to architecture governance</li>
+        <li>Guide and manage change across the organisation</li>
+      </ul>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-icon">👥</div>
+      <h3>IT Leadership</h3>
+      <p>Build high-performing IT teams by understanding people, coaching strengths, and creating an environment of ownership and trust.</p>
+      <ul class="service-points">
+        <li>Understand team dynamics, expertise, and interests</li>
+        <li>Coach on strengths and personal ownership</li>
+        <li>Guide communication within the team and with stakeholders</li>
+        <li>Be a person of trust with an open-door approach</li>
+        <li>Enable self-direction — teams that tell you, not the other way around</li>
+      </ul>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-icon">🔗</div>
+      <h3>Integration Architecture</h3>
+      <p>Design robust and scalable integration landscapes for Supply Chain, Finance, Product Master, Logistics, and more.</p>
+      <ul class="service-points">
+        <li>Analyse organisation and IT landscape for integration gaps</li>
+        <li>Design integration architecture based on requirements</li>
+        <li>Apply EDI, EAI, API, and middleware patterns</li>
+        <li>Design or review mapping specifications and communication protocols</li>
+        <li>Maintain architecture consistency and documentation</li>
+      </ul>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-icon">🎯</div>
+      <h3>IT Strategy</h3>
+      <p>Translate business ambitions into a prioritised, realistic IT roadmap — aligned across teams and grounded in the organisation's goals.</p>
+      <ul class="service-points">
+        <li>Analyse opportunities for technology to grow the business</li>
+        <li>Determine critical path vs. nice-to-have</li>
+        <li>Guide people through change with clarity on the "Why"</li>
+        <li>Align business and IT vision into a single coherent strategy</li>
+        <li>Bring the tech and business roadmap together</li>
+        <li>Brainstorm with management and support business targets</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Experience ══ -->
+<section id="experience">
+  <div class="experience-intro fade-in">
+    <p class="section-label">Career History</p>
+    <h2 class="section-title">Experience</h2>
+    <div class="divider"></div>
+    <p class="section-desc">Over 20 years of progressive IT leadership and architecture roles across major international brands.</p>
+  </div>
+  <div class="timeline">
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-header">
+          <div class="tl-role">EMEA Tech Director</div>
+          <div class="tl-period">Sep 2024 – Nov 2025</div>
+        </div>
+        <div class="tl-company">New Balance Europe BV · Amsterdam</div>
+        <ul class="tl-points">
+          <li>Responsible for Enterprise Architecture within EMEA and alignment with global IT governance.</li>
+          <li>Developing target architecture for ERP migration, data foundations, and integrations.</li>
+          <li>Co-owner of BI Governance program: promoting data quality, governance, and data-driven decision-making.</li>
+          <li>Leading European transformation initiatives, including onboarding new countries and rationalizing IT landscapes.</li>
+          <li>Stakeholder management with global teams in Boston and delivery teams in Pune.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-header">
+          <div class="tl-role">Director IT Transformation</div>
+          <div class="tl-period">Nov 2020 – Aug 2024</div>
+        </div>
+        <div class="tl-company">Karl Lagerfeld Europe BV · Amsterdam</div>
+        <ul class="tl-points">
+          <li>Responsible for overall IT strategy, Enterprise Architecture, and annual roadmap.</li>
+          <li>Built a broad IT organization (5 → 25+ FTE) across ERP, BI, security, eCom, infrastructure, and integration.</li>
+          <li>Migrated to modern cloud and SaaS platforms: OKTA, Boomi, Meraki, OneStream, Infor PLM, Akeneo PIM, AuditBoard.</li>
+          <li>60% fewer support issues through network and retail platform modernization.</li>
+          <li>Prepared ERP migration to Infor CloudSuite; improved omnichannel and integrations.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-header">
+          <div class="tl-role">Owner (Freelance)</div>
+          <div class="tl-period">May 2019 – Oct 2020</div>
+        </div>
+        <div class="tl-company">Ruijter ElaborIT · Castricum</div>
+        <ul class="tl-points">
+          <li>IT and enterprise architecture advice for retail and fashion clients (including Crocs, McGregor).</li>
+          <li>Development of target architectures and standardized business processes.</li>
+          <li>Working on EDI, data quality, middleware, eCom (Shopify), and ERP (SAP).</li>
+          <li>Coordination between European and US IT teams, including harmonisation of data and integration strategy.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-header">
+          <div class="tl-role">Sr. Manager ERP Development &amp; Integration</div>
+          <div class="tl-period">Jan 2016 – Apr 2019</div>
+        </div>
+        <div class="tl-company">PVH Europe BV · Amsterdam</div>
+        <ul class="tl-points">
+          <li>Led SAP ERP and integration teams (AFS/FMS, HANA, PI/PO, Gateway, FIORI, Sterling).</li>
+          <li>Architecture and governance around ERP migration from AFS to FMS.</li>
+          <li>Strengthened OmniChannel, API/Microservices, PIM, and BI capabilities.</li>
+          <li>Active role in SOX compliance and alignment with internal/external auditors.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-header">
+          <div class="tl-role">Manager ICT Integration</div>
+          <div class="tl-period">Apr 2013 – Dec 2015</div>
+        </div>
+        <div class="tl-company">PVH Europe BV · Amsterdam</div>
+        <ul class="tl-points">
+          <li>Responsible for integration architecture across multiple brands (Calvin Klein, Tommy Hilfiger).</li>
+          <li>Modernized legacy integration landscape; migrated from Sterling to SAP PI.</li>
+          <li>Designed middleware, EDI, B2B, and EAI solutions for supply chain, retail, and finance.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-header">
+          <div class="tl-role">Team Lead Integration</div>
+          <div class="tl-period">Apr 2007 – Mar 2013</div>
+        </div>
+        <div class="tl-company">PVH Europe BV · Amsterdam</div>
+        <ul class="tl-points">
+          <li>Supported integration of Calvin Klein and Tommy Hilfiger systems, including migration from AS400 to SAP.</li>
+          <li>Design of middleware interfaces and integration standards for scalability and efficiency.</li>
+          <li>Onboarded Japanese operations and supported concession and consignment models.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-header">
+          <div class="tl-role">Business Systems Analyst Integration</div>
+          <div class="tl-period">Sep 2005 – Mar 2007</div>
+        </div>
+        <div class="tl-company">Tommy Hilfiger Europe BV · Amsterdam</div>
+        <ul class="tl-points">
+          <li>Developed and maintained SAP interfaces using Gentran Sterling; supported B2B and EAI integrations.</li>
+          <li>Led eInvoicing projects and external system integrations; modeled processes and improved infrastructure.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-header">
+          <div class="tl-role">Data Manager &amp; EDI Coordinator</div>
+          <div class="tl-period">2002 – 2005</div>
+        </div>
+        <div class="tl-company">Vomar Voordeelmarkt · Alkmaar</div>
+        <ul class="tl-points">
+          <li>Managed retail system data, article creation, and supplier information; supported store operations and reporting.</li>
+          <li>Contributed to EDI implementation and warehouse logistics system rollout.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Tech Landscape ══ -->
+<section id="tech">
+  <div class="tech-intro fade-in">
+    <p class="section-label">System Landscape</p>
+    <h2 class="section-title">Technology Experience</h2>
+    <div class="divider"></div>
+    <p class="section-desc">A broad range of platforms and systems encountered across enterprise environments in retail, fashion, and logistics.</p>
+  </div>
+  <div class="tech-grid fade-in">
+    <div class="tech-group">
+      <div class="tech-group-title">ERP Systems</div>
+      <div class="tech-tags">
+        <span class="tag">SAP AFS/FMS/ECC</span>
+        <span class="tag">SAP HANA</span>
+        <span class="tag">SAP FIORI</span>
+        <span class="tag">SAP Gateway</span>
+        <span class="tag">Infor M3</span>
+        <span class="tag">Infor CloudSuite</span>
+      </div>
+    </div>
+    <div class="tech-group">
+      <div class="tech-group-title">Integration &amp; Middleware</div>
+      <div class="tech-tags">
+        <span class="tag">SAP PI/PO/XI</span>
+        <span class="tag">Boomi</span>
+        <span class="tag">IBM Sterling</span>
+        <span class="tag">Gentran</span>
+        <span class="tag">EDI</span>
+        <span class="tag">EAI</span>
+        <span class="tag">ArchiMate</span>
+      </div>
+    </div>
+    <div class="tech-group">
+      <div class="tech-group-title">BI &amp; Reporting</div>
+      <div class="tech-tags">
+        <span class="tag">Azure DWH</span>
+        <span class="tag">Snowflake</span>
+        <span class="tag">QlikView</span>
+        <span class="tag">SAP BW</span>
+        <span class="tag">OneStream</span>
+        <span class="tag">Spotfire</span>
+      </div>
+    </div>
+    <div class="tech-group">
+      <div class="tech-group-title">eCommerce &amp; Marketplaces</div>
+      <div class="tech-tags">
+        <span class="tag">Shopify</span>
+        <span class="tag">SFCC</span>
+        <span class="tag">Zalando</span>
+        <span class="tag">Farfetch</span>
+        <span class="tag">NuOrder</span>
+        <span class="tag">Elastic</span>
+      </div>
+    </div>
+    <div class="tech-group">
+      <div class="tech-group-title">Product &amp; Lifecycle</div>
+      <div class="tech-tags">
+        <span class="tag">Akeneo PIM</span>
+        <span class="tag">Centric PLM</span>
+        <span class="tag">Infor PLM</span>
+        <span class="tag">GMC</span>
+      </div>
+    </div>
+    <div class="tech-group">
+      <div class="tech-group-title">Security &amp; Identity</div>
+      <div class="tech-tags">
+        <span class="tag">OKTA (IAM)</span>
+        <span class="tag">Crowdstrike</span>
+        <span class="tag">Cisco Umbrella</span>
+        <span class="tag">Azure</span>
+        <span class="tag">Meraki</span>
+        <span class="tag">Mimecast</span>
+      </div>
+    </div>
+    <div class="tech-group">
+      <div class="tech-group-title">Supply Chain &amp; Logistics</div>
+      <div class="tech-tags">
+        <span class="tag">GTNexus</span>
+        <span class="tag">Flexport</span>
+        <span class="tag">ToolsGroup</span>
+        <span class="tag">OSCA</span>
+        <span class="tag">3PLs</span>
+      </div>
+    </div>
+    <div class="tech-group">
+      <div class="tech-group-title">HR &amp; Finance</div>
+      <div class="tech-tags">
+        <span class="tag">SuccessFactors</span>
+        <span class="tag">Workday</span>
+        <span class="tag">Medius</span>
+        <span class="tag">Order2Cash</span>
+        <span class="tag">Concur</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Vision ══ -->
+<section id="vision">
+  <div class="vision-grid">
+    <div class="vision-text fade-in">
+      <p class="section-label">My Vision</p>
+      <h2 class="section-title">People, Process &amp; Result</h2>
+      <div class="divider"></div>
+      <p>Information Technology is overall quite rational, which is why I prefer the functional part of IT over the purely technical. Functional IT drills down to the very core of company culture:</p>
+      <div class="vision-highlight">
+        <p>"We do things a certain way, and <em>this</em> is why. We want to innovate while sticking to those ways as much as possible. If that changes, so should our mindset — which is challenging."</p>
+      </div>
+      <p>We are open to change because we understand the need for growth. However, with any change activities, the people affected should be <strong>heavily involved</strong>. It is important that people trust the process, because their role is essential in jointly delivering the desired results.</p>
+      <p>IT cannot succeed without the involvement of the user community and business SMEs. We should not just tell our stakeholders what is or isn't coming — we should explain the <em>"Why"</em>, leading to outcomes that are agreed on, or even jointly decided.</p>
+      <p>Sure, this cannot always be applied. But at least <strong>the "Why" must always be clear.</strong></p>
+    </div>
+    <div class="vision-pillars fade-in">
+      <div class="pillar">
+        <div class="pillar-icon">🧭</div>
+        <div>
+          <h3>Transparency Over Politics</h3>
+          <p>I say what I can and cannot do. I don't maintain "bent truths." That clarity creates trust — and trust creates results.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">🤝</div>
+        <div>
+          <h3>Leadership Through Trust</h3>
+          <p>The first time I led people, I tried to copy my manager — and it didn't work. I learned to lead as myself: caring for wellbeing, starting with trust, and relying on people's willingness and capabilities.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">🔄</div>
+        <div>
+          <h3>Making Yourself Redundant</h3>
+          <p>The goal of good leadership is to enable your team to set their own actions and make decisions within agreed boundaries. A team that doesn't need you telling them what to do — that's the target.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">⚡</div>
+        <div>
+          <h3>Hands-on When Needed</h3>
+          <p>Beyond strategic roles, I genuinely enjoy getting closer to the detail. Curiosity and hands-on involvement have always been at the root of how I learn and deliver.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Credentials ══ -->
+<section id="credentials">
+  <div style="max-width:900px;margin:0 auto 3rem">
+    <p class="section-label fade-in">Qualifications</p>
+    <h2 class="section-title fade-in">Education &amp; Languages</h2>
+    <div class="divider fade-in"></div>
+  </div>
+  <div class="cred-grid fade-in">
+    <div class="cred-block">
+      <h3>Education &amp; Certifications</h3>
+      <ul class="cred-list">
+        <li>
+          <div class="cred-dot"></div>
+          <span><strong>TOGAF Enterprise Architecture (Certified)</strong>Pearson Vue</span>
+        </li>
+        <li>
+          <div class="cred-dot"></div>
+          <span><strong>SAP Certifications</strong>PI/PO, XI, Integration, ALE</span>
+        </li>
+        <li>
+          <div class="cred-dot"></div>
+          <span><strong>Post-Bachelor Business Management</strong>NCOI</span>
+        </li>
+        <li>
+          <div class="cred-dot"></div>
+          <span><strong>MBO &amp; MAVO Diplomas</strong>Foundation qualifications</span>
+        </li>
+      </ul>
+    </div>
+    <div class="cred-block">
+      <h3>Languages</h3>
+      <div class="lang-items">
+        <div class="lang-item">
+          <span class="lang-name">Dutch</span>
+          <div class="lang-bar-wrap"><div class="lang-bar" style="width:100%"></div></div>
+          <span class="lang-level">Native</span>
+        </div>
+        <div class="lang-item">
+          <span class="lang-name">English</span>
+          <div class="lang-bar-wrap"><div class="lang-bar" style="width:90%"></div></div>
+          <span class="lang-level">Fluent</span>
+        </div>
+        <div class="lang-item">
+          <span class="lang-name">German</span>
+          <div class="lang-bar-wrap"><div class="lang-bar" style="width:55%"></div></div>
+          <span class="lang-level">Average</span>
+        </div>
+        <div class="lang-item">
+          <span class="lang-name">French</span>
+          <div class="lang-bar-wrap"><div class="lang-bar" style="width:45%"></div></div>
+          <span class="lang-level">Average</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Contact ══ -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="fade-in">
+      <p class="section-label">Get In Touch</p>
+      <h2 class="section-title">Let's talk</h2>
+      <div class="divider"></div>
+      <p style="color:var(--muted);margin-bottom:2rem;line-height:1.8;">Looking forward to hearing from you. Whether you have a specific assignment in mind or just want to explore possibilities, I'm happy to connect.</p>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div>
+          <h4>Location</h4>
+          <p>Castricum, The Netherlands</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🌐</div>
+        <div>
+          <h4>Website</h4>
+          <p><a href="#">arnoldruijterit.nl</a></p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🏢</div>
+        <div>
+          <h4>Company</h4>
+          <p>Arnold Ruijter IT</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📋</div>
+        <div>
+          <h4>Legal form</h4>
+          <p>One-man business</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🔢</div>
+        <div>
+          <h4>KVK (Chamber of Commerce)</h4>
+          <p>99478781</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🧾</div>
+        <div>
+          <h4>VAT number</h4>
+          <p>NL005389798B39</p>
+        </div>
+      </div>
+      <p class="kvk-note">
+        All services are provided under the applicability of the general terms and conditions of Arnold Ruijter IT.<br>
+        Country of establishment: The Netherlands
+      </p>
+    </div>
+    <div class="fade-in">
+      <form onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="Your first name" />
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Your last name" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="your@email.com" />
+          </div>
+          <div class="form-group">
+            <label>Phone (optional)</label>
+            <input type="tel" placeholder="+31 6 ..." />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Subject</label>
+          <select>
+            <option value="">Select a topic...</option>
+            <option>Enterprise Architecture</option>
+            <option>IT Leadership</option>
+            <option>Integration Architecture</option>
+            <option>IT Strategy</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Tell me about your situation or assignment..."></textarea>
+        </div>
+        <div class="form-submit">
+          <button type="submit" class="btn-submit">Send Message →</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Footer ══ -->
+<footer>
+  <div class="footer-brand">
+    <img src="Logo Wit.png" alt="Arnold Ruijter IT logo" />
+    <span>Arnold Ruijter IT</span>
+  </div>
+  <span class="footer-copy">© 2025 Arnold Ruijter IT — All rights reserved</span>
+  <div class="footer-links">
+    <a href="#home">Home</a>
+    <a href="#services">Services</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Active nav link
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  // Fade-in on scroll
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const fadeObserver = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        fadeObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  fadeEls.forEach(el => fadeObserver.observe(el));
+
+  // Hamburger menu
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+  document.getElementById('navLinks').querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+  });
+
+  // Form handler (demo)
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-submit');
+    btn.textContent = '✓ Message sent!';
+    btn.style.background = '#2a9d5c';
+    btn.style.color = '#fff';
+    setTimeout(() => {
+      btn.textContent = 'Send Message →';
+      btn.style.background = '';
+      btn.style.color = '';
+      e.target.reset();
+    }, 3000);
+  }
+</script>
+</body>
+</html>
