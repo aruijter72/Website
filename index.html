@@ -39,13 +39,15 @@
     /* ── Nav ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 5vw;
-      height: 68px;
       background: rgba(11,23,40,.92);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(201,163,85,.15);
       transition: box-shadow var(--transition);
+    }
+    .nav-inner {
+      max-width: 1400px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 68px;
     }
     nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,.4); }
     .nav-logo {
@@ -144,8 +146,12 @@
     .stat-value { font-size: 2.2rem; font-weight: 800; color: var(--gold); line-height: 1; }
     .stat-label { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-top: 2px; }
     .stat-item.text .stat-value { font-size: 2.2rem; font-weight: 800; line-height: 1; }
+    .hero-container {
+      max-width: 1400px; margin: 0 auto; width: 100%;
+      position: relative;
+    }
     .hero-visual {
-      position: absolute; right: 5vw; top: 50%; transform: translateY(-50%);
+      position: absolute; right: 0; top: 50%; transform: translateY(-50%);
       opacity: .18; pointer-events: none;
     }
     .hero-visual svg { width: min(45vw, 420px); height: auto; }
@@ -409,7 +415,10 @@
     /* ── Footer ── */
     footer {
       background: rgba(0,0,0,.4); border-top: 1px solid rgba(255,255,255,.06);
-      padding: 2rem 5vw;
+      padding: 2rem 0;
+    }
+    .footer-inner {
+      max-width: 1400px; margin: 0 auto; padding: 0 40px;
       display: flex; justify-content: space-between; align-items: center;
       flex-wrap: wrap; gap: 1rem;
     }
@@ -431,7 +440,7 @@
       .hamburger { display: flex; }
       .hero-visual { display: none; }
       .form-row { grid-template-columns: 1fr; }
-      footer { justify-content: center; text-align: center; }
+      .footer-inner { justify-content: center; text-align: center; }
       .footer-links { justify-content: center; }
     }
     @media (max-width: 580px) {
@@ -448,6 +457,7 @@
 
 <!-- ══ Navigation ══ -->
 <nav id="navbar">
+  <div class="nav-inner">
   <a href="#home" class="nav-logo">
     <img src="Logo Wit.png" alt="Arnold Ruijter IT logo" />
     <span>Arnold Ruijter IT</span>
@@ -463,12 +473,14 @@
   <div class="hamburger" id="hamburger" onclick="toggleMenu()">
     <span></span><span></span><span></span>
   </div>
+  </div>
 </nav>
 
 <!-- ══ Hero ══ -->
 <section id="home">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
+  <div class="hero-container">
   <div class="hero-content fade-in">
 
     <h1 class="hero-title">Arnold <span>Ruijter IT</span></h1>
@@ -498,6 +510,7 @@
   </div>
   <div class="hero-visual">
     <img src="Logo Wit.png" alt="" style="width:min(42vw,400px);height:auto;filter:drop-shadow(0 0 40px rgba(201,163,85,0.2));" />
+  </div>
   </div>
 </section>
 
@@ -1062,6 +1075,7 @@
 
 <!-- ══ Footer ══ -->
 <footer>
+  <div class="footer-inner">
   <div class="footer-brand">
     <img src="Logo Wit.png" alt="Arnold Ruijter IT logo" />
     <span>Arnold Ruijter IT</span>
@@ -1072,6 +1086,7 @@
     <a href="#services">Services</a>
     <a href="#experience">Experience</a>
     <a href="#contact">Contact</a>
+  </div>
   </div>
 </footer>
 
