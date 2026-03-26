@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,7 +14,7 @@
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Arnold Ruijter" />
 
-  <!-- Open Graph — controls how the link looks when shared on LinkedIn, WhatsApp, etc. -->
+  <!-- Open Graph -->
   <meta property="og:type"        content="website" />
   <meta property="og:url"         content="https://arnoldruijterit.nl/" />
   <meta property="og:title"       content="Arnold Ruijter IT — Enterprise Architecture & IT Leadership" />
@@ -28,7 +28,7 @@
   <meta name="twitter:description" content="Senior IT consultant based in The Netherlands. 20+ years of experience in enterprise architecture, integration architecture, and IT leadership." />
   <meta name="twitter:image"       content="https://arnoldruijterit.nl/Logo%20Zwart.png" />
   <style>
-    /* ── Reset & base ── */
+    /* Reset & base */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --navy:   #0b1728;
@@ -45,7 +45,7 @@
     }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-family: 'Catamaran', system-ui, -apple-system, sans-serif;
       background: var(--navy);
       color: var(--light);
       line-height: 1.7;
@@ -54,12 +54,12 @@
     h1, h2, h3, h4 { line-height: 1.25; }
     a { color: inherit; text-decoration: none; }
 
-    /* ── Scrollbar ── */
+    /* Scrollbar */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--navy); }
     ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
 
-    /* ── Nav ── */
+    /* Nav */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       background: rgba(11,23,40,.92);
@@ -89,6 +89,9 @@
     .nav-logo:hover span {
       max-width: 220px; opacity: 1; margin-left: 12px;
     }
+    .nav-center {
+      display: flex; align-items: center; gap: 1rem;
+    }
     .nav-links { display: flex; gap: 2.4rem; align-items: center; }
     .nav-links a {
       font-size: .88rem; font-weight: 500; letter-spacing: .08em;
@@ -112,7 +115,24 @@
     .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
     .hamburger span { width: 24px; height: 2px; background: var(--light); border-radius: 2px; transition: var(--transition); }
 
-    /* ── Hero ── */
+    /* Language Toggle */
+    .lang-toggle {
+      display: flex; align-items: center; gap: 4px;
+      border-left: 1px solid rgba(201,163,85,.2);
+      padding-left: 14px; margin-left: 4px;
+    }
+    .lang-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: .78rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted); padding: 3px 5px; border-radius: 3px;
+      transition: color .25s;
+      font-family: inherit;
+    }
+    .lang-btn.active { color: var(--gold); }
+    .lang-sep { color: var(--muted); opacity: .35; font-size: .7rem; }
+
+    /* Hero */
     #home {
       min-height: 100vh;
       display: flex; align-items: center;
@@ -134,15 +154,6 @@
       background-size: 60px 60px;
     }
     .hero-content { position: relative; max-width: 680px; }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(201,163,85,.1); border: 1px solid rgba(201,163,85,.3);
-      border-radius: 20px; padding: .35rem .9rem;
-      font-size: .78rem; font-weight: 600; letter-spacing: .12em;
-      text-transform: uppercase; color: var(--gold);
-      margin-bottom: 1.8rem;
-    }
-    .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
     .hero-title {
       font-size: clamp(2.8rem, 6vw, 5rem);
       font-weight: 800; letter-spacing: -.02em;
@@ -175,10 +186,8 @@
     }
     .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,.05); transform: translateY(-2px); }
     .hero-stats { display: flex; gap: 2.5rem; flex-wrap: wrap; align-items: flex-end; }
-    .stat-item {}
     .stat-value { font-size: 2.2rem; font-weight: 800; color: var(--gold); line-height: 1; }
     .stat-label { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-top: 2px; }
-    .stat-item.text .stat-value { font-size: 2.2rem; font-weight: 800; line-height: 1; }
     .hero-container {
       max-width: 1400px; margin: 0 auto; width: 100%;
       position: relative;
@@ -189,7 +198,7 @@
     }
     .hero-visual svg { width: min(45vw, 420px); height: auto; }
 
-    /* ── Section base ── */
+    /* Section base */
     section { padding: 100px 5vw; }
     .section-label {
       font-size: .75rem; font-weight: 700; letter-spacing: .2em;
@@ -211,7 +220,7 @@
       border-radius: 2px; margin-bottom: 2.4rem;
     }
 
-    /* ── About ── */
+    /* About */
     #about { background: var(--navy2); }
     .about-grid {
       display: grid; grid-template-columns: 1fr 1fr;
@@ -249,7 +258,7 @@
     .meta-text { font-size: .9rem; color: var(--muted); }
     .meta-text strong { color: var(--light); }
 
-    /* ── Services ── */
+    /* Services */
     #services { background: var(--navy); }
     .services-intro { max-width: 1200px; margin: 0 auto 3.5rem; }
     .services-grid {
@@ -257,7 +266,6 @@
       grid-template-columns: repeat(6, 1fr);
       gap: 1.5rem; max-width: 1200px; margin: 0 auto;
     }
-    /* 5 cards: 3 on row 1 (each span 2 of 6), 2 centred on row 2 */
     .service-card { grid-column: span 2; }
     .service-card:nth-child(4) { grid-column: 2 / span 2; }
     .service-card:nth-child(5) { grid-column: 4 / span 2; }
@@ -294,7 +302,7 @@
       color: var(--gold); font-size: 1rem; line-height: 1.6;
     }
 
-    /* ── Experience ── */
+    /* Experience */
     #experience { background: var(--navy2); }
     .experience-intro { max-width: 1200px; margin: 0 auto 3.5rem; }
     .timeline { max-width: 900px; margin: 0 auto; position: relative; }
@@ -353,7 +361,7 @@
     .tl-points li { font-size: .87rem; color: var(--muted); padding-left: 1.1rem; position: relative; }
     .tl-points li::before { content: '›'; position: absolute; left: 0; color: var(--gold); }
 
-    /* ── Tech Landscape ── */
+    /* Tech */
     #tech { background: var(--navy); }
     .tech-intro { max-width: 1200px; margin: 0 auto 3rem; }
     .tech-grid {
@@ -378,7 +386,7 @@
       color: var(--blue); border-radius: 20px;
     }
 
-    /* ── Vision ── */
+    /* Vision */
     #vision { background: var(--navy2); }
     .vision-grid {
       display: grid; grid-template-columns: 1fr 1fr;
@@ -412,7 +420,7 @@
     .pillar h3 { font-size: 1rem; color: var(--white); margin-bottom: .4rem; }
     .pillar p { font-size: .88rem; color: var(--muted); line-height: 1.6; margin: 0; }
 
-    /* ── Education & Skills ── */
+    /* Credentials */
     #credentials { background: var(--navy); }
     .cred-grid {
       display: grid; grid-template-columns: 1fr 1fr;
@@ -431,7 +439,7 @@
     .lang-bar { height: 4px; background: linear-gradient(90deg, var(--gold), var(--gold2)); border-radius: 2px; }
     .lang-level { font-size: .78rem; color: var(--muted); min-width: 50px; text-align: right; }
 
-    /* ── Contact ── */
+    /* Contact */
     #contact { background: var(--navy2); }
     .contact-grid {
       display: grid; grid-template-columns: 1fr 1.4fr;
@@ -471,7 +479,7 @@
     .btn-submit:hover { background: var(--gold2); box-shadow: 0 8px 25px rgba(201,163,85,.3); }
     .kvk-note { font-size: .78rem; color: var(--muted); margin-top: 1.5rem; line-height: 1.6; }
 
-    /* ── Footer ── */
+    /* Footer */
     footer {
       background: rgba(0,0,0,.4); border-top: 1px solid rgba(255,255,255,.06);
       padding: 2rem 0;
@@ -489,11 +497,15 @@
     .footer-links a { font-size: .82rem; color: var(--muted); }
     .footer-links a:hover { color: var(--gold); }
 
-    /* ── Responsive ── */
+    /* Responsive */
     @media (max-width: 900px) {
       .about-grid, .vision-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
       .cred-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; position: fixed; top: 68px; left: 0; right: 0; bottom: 0; background: rgba(11,23,40,.98); flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+      .services-grid { grid-template-columns: 1fr !important; }
+      .service-card,
+      .service-card:nth-child(4),
+      .service-card:nth-child(5) { grid-column: 1 / -1 !important; }
+      .nav-links { display: none; position: fixed; top: 68px; left: 0; right: 0; bottom: 0; background: rgba(11,23,40,.98); flex-direction: column; align-items: center; justify-content: center; gap: 2rem; z-index: 99; }
       .nav-links.open { display: flex; }
       .nav-links a { font-size: 1.1rem; }
       .hamburger { display: flex; }
@@ -501,131 +513,138 @@
       .form-row { grid-template-columns: 1fr; }
       .footer-inner { justify-content: center; text-align: center; }
       .footer-links { justify-content: center; }
-    }
-    @media (max-width: 580px) {
+      #home { padding: 100px 5vw 60px; }
       .hero-stats { gap: 1.5rem; }
-      .tl-item { padding-left: 44px; }
+      section { padding: 70px 5vw; }
     }
 
-    /* ── Fade-in animations ── */
+    @media (max-width: 580px) {
+      .hero-stats { gap: 1.2rem; }
+      .stat-value { font-size: 1.6rem; }
+      .tl-item { padding-left: 44px; }
+      .hero-title { font-size: clamp(2.2rem, 8vw, 3.5rem); }
+      .section-title { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+      .nav-inner { padding: 0 20px; }
+      .lang-toggle { padding-left: 10px; margin-left: 4px; }
+      .services-grid { gap: 1rem; }
+      .contact-grid { gap: 2rem; }
+    }
+
+    /* Animations */
     .fade-in { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
     .fade-in.visible { opacity: 1; transform: none; }
   </style>
 </head>
 <body>
 
-<!-- ══ Navigation ══ -->
+<!-- Navigation -->
 <nav id="navbar">
   <div class="nav-inner">
-  <a href="#home" class="nav-logo">
-    <img src="Logo Wit.png" alt="Arnold Ruijter IT logo" />
-    <span>Arnold Ruijter IT</span>
-  </a>
-  <div class="nav-links" id="navLinks">
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#experience">Experience</a>
-    <a href="#vision">Vision</a>
-    <a href="#contact" class="nav-cta">Contact</a>
-  </div>
-  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </div>
+    <a href="#home" class="nav-logo">
+      <img src="Logo Wit.png" alt="Arnold Ruijter IT logo" />
+      <span>Arnold Ruijter IT</span>
+    </a>
+    <div class="nav-center">
+      <div class="nav-links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#about" data-i18n="nav.about">About</a>
+        <a href="#services" data-i18n="nav.services">Services</a>
+        <a href="#experience" data-i18n="nav.experience">Experience</a>
+        <a href="#vision" data-i18n="nav.vision">Vision</a>
+        <a href="#contact" class="nav-cta" data-i18n="nav.contact">Contact</a>
+      </div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="btn-nl" onclick="setLang('nl')">NL</button>
+        <span class="lang-sep">·</span>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
   </div>
 </nav>
 
-<!-- ══ Hero ══ -->
+<!-- Hero -->
 <section id="home">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-container">
-  <div class="hero-content fade-in">
-
-    <h1 class="hero-title">Arnold <span>Ruijter IT</span></h1>
-    <p class="hero-sub">Enterprise Architecture &amp; IT Leadership</p>
-    <p class="hero-tagline"><strong>When an extra perspective helps</strong></p>
-    <p style="color:var(--muted);font-size:.97rem;margin-bottom:2rem;max-width:520px;">
-      Senior architecture &amp; leadership experience in enterprise IT — driven to achieve innovation, structure, consistency, and team spirit.
-    </p>
-    <div class="hero-actions">
-      <a href="#services" class="btn-primary">View Services</a>
-      <a href="#contact" class="btn-outline">Get in Touch</a>
+    <div class="hero-content fade-in">
+      <h1 class="hero-title">Arnold <span>Ruijter IT</span></h1>
+      <p class="hero-sub" data-i18n="hero.sub">Enterprise Architecture &amp; IT Leadership</p>
+      <p class="hero-tagline" data-i18n="hero.tagline"><strong>When an extra perspective helps</strong></p>
+      <p style="color:var(--muted);font-size:.97rem;margin-bottom:2rem;max-width:520px;" data-i18n="hero.desc">
+        Senior architecture &amp; leadership experience in enterprise IT — driven to achieve innovation, structure, consistency, and team spirit.
+      </p>
+      <div class="hero-actions">
+        <a href="#services" class="btn-primary" data-i18n="hero.btn.services">View Services</a>
+        <a href="#contact" class="btn-outline" data-i18n="hero.btn.contact">Get in Touch</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-value">20+</div>
+          <div class="stat-label" data-i18n="hero.stat1">Years experience</div>
+        </div>
+        <div class="stat-item text">
+          <div class="stat-value" data-i18n="hero.stat2">Global Scale</div>
+          <div class="stat-label">Companies</div>
+        </div>
+        <div class="stat-item text">
+          <div class="stat-value">Team Builder</div>
+          <div class="stat-label" data-i18n="hero.stat3">&amp; Leader</div>
+        </div>
+      </div>
     </div>
-    <div class="hero-stats">
-      <div class="stat-item">
-        <div class="stat-value">20+</div>
-        <div class="stat-label">Years experience</div>
-      </div>
-      <div class="stat-item text">
-        <div class="stat-value">Global Scale</div>
-        <div class="stat-label">Companies</div>
-      </div>
-      <div class="stat-item text">
-        <div class="stat-value">Team Builder</div>
-        <div class="stat-label">&amp; Leader</div>
-      </div>
+    <div class="hero-visual">
+      <img src="Logo Wit.png" alt="" style="width:min(42vw,400px);height:auto;filter:drop-shadow(0 0 40px rgba(201,163,85,0.2));" />
     </div>
-  </div>
-  <div class="hero-visual">
-    <img src="Logo Wit.png" alt="" style="width:min(42vw,400px);height:auto;filter:drop-shadow(0 0 40px rgba(201,163,85,0.2));" />
-  </div>
   </div>
 </section>
 
-<!-- ══ About ══ -->
+<!-- About -->
 <section id="about">
   <div class="about-grid">
     <div class="about-text fade-in">
-      <p class="section-label">About Me</p>
-      <h2 class="section-title">Experience that<br>complements, not replaces.</h2>
+      <p class="section-label" data-i18n="about.label">About Me</p>
+      <h2 class="section-title" data-i18n="about.title">Experience that<br>complements, not replaces.</h2>
       <div class="divider"></div>
-      <p>My name is Arnold Ruijter. With over 20 years in complex enterprise environments, my goal is to add experience, perspective, and leadership where and when it adds value.</p>
-      <p>I aim to leverage &amp; embrace existing capability, rather than replacing it. In other words, strengthen what is already there and provide extra focus where it is needed.</p>
-      <div class="about-quote">
+      <p data-i18n="about.p1">My name is Arnold Ruijter. With over 20 years in complex enterprise environments, my goal is to add experience, perspective, and leadership where and when it adds value.</p>
+      <p data-i18n="about.p2">I aim to leverage &amp; embrace existing capability, rather than replacing it. In other words, strengthen what is already there and provide extra focus where it is needed.</p>
+      <div class="about-quote" data-i18n="about.quote">
         "What you see is what you get" — I am open, direct, and transparent. I do not maintain half-truths, and everyone knows where to stand.
       </div>
-      <p>I started in IT without highly relevant studies — just a lot of curiosity. From dissecting Excel macros, to Visual Basic, to enterprise-wide architecture. In all those years, I developed my own vision on what I found are the key elements of business IT.</p>
-      <p>While much of my career has been at enterprise or strategic level, I am equally at home with domain architecture, cross-sector assignments, or engagements at any scale. The level of the role matters less than the quality of the outcome.</p>
+      <p data-i18n="about.p3">I started in IT without highly relevant studies — just a lot of curiosity. From dissecting Excel macros, to Visual Basic, to enterprise-wide architecture. In all those years, I developed my own vision on what I found are the key elements of business IT.</p>
+      <p data-i18n="about.p4">While much of my career has been at enterprise or strategic level, I am equally at home with domain architecture, cross-sector assignments, or engagements at any scale. The level of the role matters less than the quality of the outcome.</p>
       <div class="profile-meta">
         <div class="meta-row">
-          <span class="meta-icon">📍</span>
-          <span class="meta-text"><strong>Castricum</strong>, The Netherlands</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-icon">🌐</span>
-          <span class="meta-text">Dutch · English · German · French</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-icon">🏢</span>
-          <span class="meta-text">Available for interim / advisory roles</span>
+          <div class="meta-icon">👤</div>
+          <div class="meta-text" data-i18n="about.meta.avail">Available for interim / advisory roles</div>
         </div>
       </div>
     </div>
-    <div class="fade-in">
-      <div class="ppp-card">
-        <div class="ppp-title">Core Philosophy</div>
-        <div class="ppp-items">
-          <div class="ppp-item">
-            <div class="ppp-num">P</div>
-            <div>
-              <h4>People</h4>
-              <p>IT cannot succeed without the people who use and build it. I invest in understanding teams, coaching individuals, and building trust — because results follow people.</p>
-            </div>
+    <div class="ppp-card fade-in">
+      <h3 class="ppp-title" data-i18n="about.ppp.title">Core Philosophy</h3>
+      <div class="ppp-items">
+        <div class="ppp-item">
+          <div class="ppp-num">P</div>
+          <div>
+            <h4 data-i18n="about.ppp.p1.title">People</h4>
+            <p data-i18n="about.ppp.p1.desc">IT cannot succeed without the people who use and build it. I invest in understanding teams, coaching individuals, and building trust — because results follow people.</p>
           </div>
-          <div class="ppp-item">
-            <div class="ppp-num">P</div>
-            <div>
-              <h4>Process</h4>
-              <p>Every organization does things a certain way, for a reason. Understanding those processes — and respecting them while enabling change — is at the heart of any transformation.</p>
-            </div>
+        </div>
+        <div class="ppp-item">
+          <div class="ppp-num">P</div>
+          <div>
+            <h4 data-i18n="about.ppp.p2.title">Process</h4>
+            <p data-i18n="about.ppp.p2.desc">Every organization does things a certain way, for a reason. Understanding those processes — and respecting them while enabling change — is at the heart of any transformation.</p>
           </div>
-          <div class="ppp-item">
-            <div class="ppp-num">R</div>
-            <div>
-              <h4>Result</h4>
-              <p>Good architecture and strong teams only matter if they deliver. I keep the end goal in sight — translating effort into visible, meaningful progress that the organisation can see and build on.</p>
-            </div>
+        </div>
+        <div class="ppp-item">
+          <div class="ppp-num">R</div>
+          <div>
+            <h4 data-i18n="about.ppp.r.title">Result</h4>
+            <p data-i18n="about.ppp.r.desc">Good architecture and strong teams only matter if they deliver. I keep the end goal in sight — translating effort into visible, meaningful progress that the organisation can see and build on.</p>
           </div>
         </div>
       </div>
@@ -633,627 +652,218 @@
   </div>
 </section>
 
-<!-- ══ Services ══ -->
+<!-- Services -->
 <section id="services">
   <div class="services-intro fade-in">
-    <p class="section-label">What I Offer</p>
-    <h2 class="section-title">Core Services</h2>
-    <div class="divider"></div>
-    <p class="section-desc">In my 30+ years of experience — including more than 20 years in large enterprises with complex processes and IT landscapes — I provide the following services:</p>
+    <p class="section-label" data-i18n="services.label">What I Offer</p>
+    <h2 class="section-title" data-i18n="services.title">Core Services</h2>
+    <p class="section-desc" data-i18n="services.desc">In my 30+ years of experience — including more than 20 years in large enterprises with complex processes and IT landscapes — I provide the following services:</p>
   </div>
   <div class="services-grid">
     <div class="service-card fade-in">
       <div class="service-icon">🏛️</div>
-      <h3>Enterprise &amp; Domain Architecture</h3>
-      <p>Analyse your organisation, understand business processes and the IT landscape, and design a coherent path forward — at enterprise level or scoped to a specific domain.</p>
-      <ul class="service-points">
-        <li>Analyse organisation structure with a focus on IT</li>
-        <li>Gather requirements from business and IT stakeholders</li>
-        <li>Record current architecture and design the future state</li>
-        <li>Build the roadmap and safeguard consistency during transformation</li>
-        <li>TOGAF-certified approach to architecture governance</li>
-        <li>Domain architecture for a specific IT area or capability</li>
-      </ul>
+      <h3 data-i18n="svc1.title">Enterprise &amp; Domain Architecture</h3>
+      <p data-i18n="svc1.desc">Analyse your organisation, understand business processes and the IT landscape, and design a coherent path forward — at enterprise level or scoped to a specific domain.</p>
+      <ul class="service-points" data-i18n="svc1.points"><li>Analyse organisation structure with a focus on IT</li><li>Gather requirements from business and IT stakeholders</li><li>Record current architecture and design the future state</li><li>Build the roadmap and safeguard consistency during transformation</li><li>TOGAF-certified approach to architecture governance</li><li>Domain architecture for a specific IT area or capability</li></ul>
     </div>
     <div class="service-card fade-in">
       <div class="service-icon">👥</div>
-      <h3>IT Leadership</h3>
-      <p>Build high-performing IT teams by understanding people, coaching strengths, and creating an environment of ownership and trust.</p>
-      <ul class="service-points">
-        <li>Understand team dynamics, expertise, and interests</li>
-        <li>Coach on strengths and personal ownership</li>
-        <li>Guide communication within the team and with stakeholders</li>
-        <li>Be a person of trust with an open-door approach</li>
-        <li>Enable self-direction — teams that tell you, not the other way around</li>
-      </ul>
+      <h3 data-i18n="svc2.title">IT Leadership</h3>
+      <p data-i18n="svc2.desc">Build high-performing IT teams by understanding people, coaching strengths, and creating an environment of ownership and trust.</p>
+      <ul class="service-points" data-i18n="svc2.points"><li>Understand team dynamics, expertise, and interests</li><li>Coach on strengths and personal ownership</li><li>Guide communication within the team and with stakeholders</li><li>Be a person of trust with an open-door approach</li><li>Enable self-direction — teams that tell you, not the other way around</li></ul>
     </div>
     <div class="service-card fade-in">
       <div class="service-icon">🔗</div>
-      <h3>Integration Architecture</h3>
-      <p>Design robust and scalable integration landscapes for Supply Chain, Finance, Product Master, Logistics, and more.</p>
-      <ul class="service-points">
-        <li>Analyse organisation and IT landscape for integration gaps</li>
-        <li>Design integration architecture based on requirements</li>
-        <li>Apply EDI, EAI, API, and middleware patterns</li>
-        <li>Design or review mapping specifications and communication protocols</li>
-        <li>Maintain architecture consistency and documentation</li>
-      </ul>
+      <h3 data-i18n="svc3.title">Integration Architecture</h3>
+      <p data-i18n="svc3.desc">Design robust and scalable integration landscapes for Supply Chain, Finance, Product Master, Logistics, and more.</p>
+      <ul class="service-points" data-i18n="svc3.points"><li>Analyse organisation and IT landscape for integration gaps</li><li>Design integration architecture based on requirements</li><li>Apply EDI, EAI, API, and middleware patterns</li><li>Design or review mapping specifications and communication protocols</li><li>Maintain architecture consistency and documentation</li></ul>
     </div>
     <div class="service-card fade-in">
       <div class="service-icon">🎯</div>
-      <h3>IT Strategy</h3>
-      <p>Translate business ambitions into a prioritised, realistic IT roadmap — aligned across teams and grounded in the organisation's goals.</p>
-      <ul class="service-points">
-        <li>Analyse opportunities for technology to grow the business</li>
-        <li>Determine critical path vs. nice-to-have</li>
-        <li>Guide people through change with clarity on the "Why"</li>
-        <li>Align business and IT vision into a single coherent strategy</li>
-        <li>Bring the tech and business roadmap together</li>
-        <li>Brainstorm with management and support business targets</li>
-      </ul>
+      <h3 data-i18n="svc4.title">IT Strategy</h3>
+      <p data-i18n="svc4.desc">Translate business ambitions into a prioritised, realistic IT roadmap — aligned across teams and grounded in the organisation's goals.</p>
+      <ul class="service-points" data-i18n="svc4.points"><li>Analyse opportunities for technology to grow the business</li><li>Determine critical path vs. nice-to-have</li><li>Guide people through change with clarity on the "Why"</li><li>Align business and IT vision into a single coherent strategy</li><li>Bring the tech and business roadmap together</li><li>Brainstorm with management and support business targets</li></ul>
     </div>
     <div class="service-card fade-in">
-      <div class="service-icon">🧩</div>
-      <h3>Advisory &amp; Specialist Roles</h3>
-      <p>Available for engagements beyond the traditional enterprise scope — from domain-level assignments to cross-sector advisory, at whatever scale best fits your situation.</p>
-      <ul class="service-points">
-        <li>Domain architecture within a specific system or IT area</li>
-        <li>Cross-sector engagements — from retail and fashion to public sector and beyond</li>
-        <li>Vendor selection, tendering support, and solution assessment</li>
-        <li>Smaller organisations that benefit from senior expertise on demand</li>
-        <li>Management advisory without a full-time or long-term commitment</li>
-      </ul>
+      <div class="service-icon">💼</div>
+      <h3 data-i18n="svc5.title">Advisory &amp; Specialist Roles</h3>
+      <p data-i18n="svc5.desc">Available for engagements beyond the traditional enterprise scope — from domain-level assignments to cross-sector advisory, at whatever scale best fits your situation.</p>
+      <ul class="service-points" data-i18n="svc5.points"><li>Domain architecture within a specific system or IT area</li><li>Cross-sector engagements — from retail and fashion to public sector and beyond</li><li>Vendor selection, tendering support, and solution assessment</li><li>Smaller organisations that benefit from senior expertise on demand</li><li>Management advisory without a full-time or long-term commitment</li></ul>
     </div>
   </div>
 </section>
 
-<!-- ══ Experience ══ -->
-<section id="experience">
-  <div class="experience-intro fade-in">
-    <p class="section-label">Career History</p>
-    <h2 class="section-title">Experience</h2>
-    <div class="divider"></div>
-    <p class="section-desc">Over 20 years of progressive IT leadership and architecture roles, currently active as an independent consultant through Arnold Ruijter IT.</p>
-  </div>
-  <div class="timeline">
-
-    <div class="tl-item fade-in">
-      <div class="tl-dot current"></div>
-      <div class="tl-card current">
-        <div class="tl-header">
-          <div class="tl-role">Interim IT Consultant · Project Leader ESB Tender <span class="tl-badge">Current</span></div>
-          <div class="tl-period">Mar 2026 – Present</div>
-        </div>
-        <div class="tl-company">GR IJsselgemeenten · Capelle aan den IJssel</div>
-        <div class="tl-via">Via Arnold Ruijter IT · Public sector · South Holland</div>
-        <ul class="tl-points">
-          <li>Leading the European public procurement process (EU aanbesteding) for an Enterprise Service Bus on behalf of GR IJsselgemeenten — a cooperation of municipalities in the South Holland region.</li>
-          <li>Authoring core procurement documents: Startnotitie, Aanbestedingsstrategie, and Programma van Eisen (PvE).</li>
-          <li>Conducting market consultation to validate requirements and understand the vendor landscape.</li>
-          <li>Managing the formal tender procedure via TenderNed, including publication and Nota van Inlichtingen (Q&amp;A rounds with suppliers).</li>
-          <li>Evaluating proposals against defined award criteria and preparing the Gunningsadvies (award recommendation).</li>
-          <li>Coordinating with legal, IT, and management stakeholders across the participating municipalities throughout the process.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="tl-item fade-in">
-      <div class="tl-dot current"></div>
-      <div class="tl-card current">
-        <div class="tl-header">
-          <div class="tl-role">Owner · Freelance IT Consultant <span class="tl-badge">Current</span></div>
-          <div class="tl-period">Jan 2026 – Present</div>
-        </div>
-        <div class="tl-company">Arnold Ruijter IT · Castricum</div>
-        <ul class="tl-points">
-          <li>Independent IT consultancy providing enterprise and domain architecture, integration architecture, IT leadership, and IT strategy services.</li>
-          <li>Operating across sectors — from retail and fashion to public sector — at the scale and level that adds most value.</li>
-          <li>Current assignment: Project Leader ESB Tender at GR IJsselgemeenten (see above).</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="tl-item fade-in">
-      <div class="tl-dot"></div>
-      <div class="tl-card">
-        <div class="tl-header">
-          <div class="tl-role">EMEA Tech Director</div>
-          <div class="tl-period">Sep 2024 – Nov 2025</div>
-        </div>
-        <div class="tl-company">New Balance Europe BV · Amsterdam</div>
-        <ul class="tl-points">
-          <li>Responsible for Enterprise Architecture within EMEA and alignment with global IT governance.</li>
-          <li>Developing target architecture for ERP migration, data foundations, and integrations.</li>
-          <li>Co-owner of BI Governance program: promoting data quality, governance, and data-driven decision-making.</li>
-          <li>Leading European transformation initiatives, including onboarding new countries and rationalizing IT landscapes.</li>
-          <li>Stakeholder management with global teams in Boston and delivery teams in Pune.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="tl-item fade-in">
-      <div class="tl-dot"></div>
-      <div class="tl-card">
-        <div class="tl-header">
-          <div class="tl-role">Director IT Transformation</div>
-          <div class="tl-period">Nov 2020 – Aug 2024</div>
-        </div>
-        <div class="tl-company">Karl Lagerfeld Europe BV · Amsterdam</div>
-        <ul class="tl-points">
-          <li>Responsible for overall IT strategy, Enterprise Architecture, and annual roadmap.</li>
-          <li>Built a broad IT organization (5 → 25+ FTE) across ERP, BI, security, eCom, infrastructure, and integration.</li>
-          <li>Migrated to modern cloud and SaaS platforms: OKTA, Boomi, Meraki, OneStream, Infor PLM, Akeneo PIM, AuditBoard.</li>
-          <li>60% fewer support issues through network and retail platform modernization.</li>
-          <li>Prepared ERP migration to Infor CloudSuite; improved omnichannel and integrations.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="tl-item fade-in">
-      <div class="tl-dot"></div>
-      <div class="tl-card">
-        <div class="tl-header">
-          <div class="tl-role">Owner (Freelance)</div>
-          <div class="tl-period">May 2019 – Oct 2020</div>
-        </div>
-        <div class="tl-company">Ruijter ElaborIT · Castricum</div>
-        <ul class="tl-points">
-          <li>IT and enterprise architecture advice for retail and fashion clients (including Crocs, McGregor).</li>
-          <li>Development of target architectures and standardized business processes.</li>
-          <li>Working on EDI, data quality, middleware, eCom (Shopify), and ERP (SAP).</li>
-          <li>Coordination between European and US IT teams, including harmonisation of data and integration strategy.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="tl-item fade-in">
-      <div class="tl-dot"></div>
-      <div class="tl-card">
-        <div class="tl-header">
-          <div class="tl-role">Sr. Manager ERP Development &amp; Integration</div>
-          <div class="tl-period">Jan 2016 – Apr 2019</div>
-        </div>
-        <div class="tl-company">PVH Europe BV · Amsterdam</div>
-        <ul class="tl-points">
-          <li>Led SAP ERP and integration teams (AFS/FMS, HANA, PI/PO, Gateway, FIORI, Sterling).</li>
-          <li>Architecture and governance around ERP migration from AFS to FMS.</li>
-          <li>Strengthened OmniChannel, API/Microservices, PIM, and BI capabilities.</li>
-          <li>Active role in SOX compliance and alignment with internal/external auditors.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="tl-item fade-in">
-      <div class="tl-dot"></div>
-      <div class="tl-card">
-        <div class="tl-header">
-          <div class="tl-role">Manager ICT Integration</div>
-          <div class="tl-period">Apr 2013 – Dec 2015</div>
-        </div>
-        <div class="tl-company">PVH Europe BV · Amsterdam</div>
-        <ul class="tl-points">
-          <li>Responsible for integration architecture across multiple brands (Calvin Klein, Tommy Hilfiger).</li>
-          <li>Modernized legacy integration landscape; migrated from Sterling to SAP PI.</li>
-          <li>Designed middleware, EDI, B2B, and EAI solutions for supply chain, retail, and finance.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="tl-item fade-in">
-      <div class="tl-dot"></div>
-      <div class="tl-card">
-        <div class="tl-header">
-          <div class="tl-role">Team Lead Integration</div>
-          <div class="tl-period">Apr 2007 – Mar 2013</div>
-        </div>
-        <div class="tl-company">PVH Europe BV · Amsterdam</div>
-        <ul class="tl-points">
-          <li>Supported integration of Calvin Klein and Tommy Hilfiger systems, including migration from AS400 to SAP.</li>
-          <li>Design of middleware interfaces and integration standards for scalability and efficiency.</li>
-          <li>Onboarded Japanese operations and supported concession and consignment models.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="tl-item fade-in">
-      <div class="tl-dot"></div>
-      <div class="tl-card">
-        <div class="tl-header">
-          <div class="tl-role">Business Systems Analyst Integration</div>
-          <div class="tl-period">Sep 2005 – Mar 2007</div>
-        </div>
-        <div class="tl-company">Tommy Hilfiger Europe BV · Amsterdam</div>
-        <ul class="tl-points">
-          <li>Developed and maintained SAP interfaces using Gentran Sterling; supported B2B and EAI integrations.</li>
-          <li>Led eInvoicing projects and external system integrations; modeled processes and improved infrastructure.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="tl-item fade-in">
-      <div class="tl-dot"></div>
-      <div class="tl-card">
-        <div class="tl-header">
-          <div class="tl-role">Data Manager &amp; EDI Coordinator</div>
-          <div class="tl-period">2002 – 2005</div>
-        </div>
-        <div class="tl-company">Vomar Voordeelmarkt · Alkmaar</div>
-        <ul class="tl-points">
-          <li>Managed retail system data, article creation, and supplier information; supported store operations and reporting.</li>
-          <li>Contributed to EDI implementation and warehouse logistics system rollout.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ Tech Landscape ══ -->
-<section id="tech">
-  <div class="tech-intro fade-in">
-    <p class="section-label">System Landscape</p>
-    <h2 class="section-title">Technology Experience</h2>
-    <div class="divider"></div>
-    <p class="section-desc">A broad range of platforms and systems encountered across enterprise environments in retail, fashion, and logistics.</p>
-  </div>
-  <div class="tech-grid fade-in">
-    <div class="tech-group">
-      <div class="tech-group-title">ERP Systems</div>
-      <div class="tech-tags">
-        <span class="tag">SAP AFS/FMS/ECC</span>
-        <span class="tag">SAP HANA</span>
-        <span class="tag">SAP FIORI</span>
-        <span class="tag">SAP Gateway</span>
-        <span class="tag">Infor M3</span>
-        <span class="tag">Infor CloudSuite</span>
-      </div>
-    </div>
-    <div class="tech-group">
-      <div class="tech-group-title">Integration &amp; Middleware</div>
-      <div class="tech-tags">
-        <span class="tag">SAP PI/PO/XI</span>
-        <span class="tag">Boomi</span>
-        <span class="tag">IBM Sterling</span>
-        <span class="tag">Gentran</span>
-        <span class="tag">EDI</span>
-        <span class="tag">EAI</span>
-        <span class="tag">ArchiMate</span>
-      </div>
-    </div>
-    <div class="tech-group">
-      <div class="tech-group-title">BI &amp; Reporting</div>
-      <div class="tech-tags">
-        <span class="tag">Azure DWH</span>
-        <span class="tag">Snowflake</span>
-        <span class="tag">QlikView</span>
-        <span class="tag">SAP BW</span>
-        <span class="tag">OneStream</span>
-        <span class="tag">Spotfire</span>
-      </div>
-    </div>
-    <div class="tech-group">
-      <div class="tech-group-title">eCommerce &amp; Marketplaces</div>
-      <div class="tech-tags">
-        <span class="tag">Shopify</span>
-        <span class="tag">SFCC</span>
-        <span class="tag">Zalando</span>
-        <span class="tag">Farfetch</span>
-        <span class="tag">NuOrder</span>
-        <span class="tag">Elastic</span>
-      </div>
-    </div>
-    <div class="tech-group">
-      <div class="tech-group-title">Product &amp; Lifecycle</div>
-      <div class="tech-tags">
-        <span class="tag">Akeneo PIM</span>
-        <span class="tag">Centric PLM</span>
-        <span class="tag">Infor PLM</span>
-        <span class="tag">GMC</span>
-      </div>
-    </div>
-    <div class="tech-group">
-      <div class="tech-group-title">Security &amp; Identity</div>
-      <div class="tech-tags">
-        <span class="tag">OKTA (IAM)</span>
-        <span class="tag">Crowdstrike</span>
-        <span class="tag">Cisco Umbrella</span>
-        <span class="tag">Azure</span>
-        <span class="tag">Meraki</span>
-        <span class="tag">Mimecast</span>
-      </div>
-    </div>
-    <div class="tech-group">
-      <div class="tech-group-title">Supply Chain &amp; Logistics</div>
-      <div class="tech-tags">
-        <span class="tag">GTNexus</span>
-        <span class="tag">Flexport</span>
-        <span class="tag">ToolsGroup</span>
-        <span class="tag">OSCA</span>
-        <span class="tag">3PLs</span>
-      </div>
-    </div>
-    <div class="tech-group">
-      <div class="tech-group-title">HR &amp; Finance</div>
-      <div class="tech-tags">
-        <span class="tag">SuccessFactors</span>
-        <span class="tag">Workday</span>
-        <span class="tag">Medius</span>
-        <span class="tag">Order2Cash</span>
-        <span class="tag">Concur</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ Vision ══ -->
-<section id="vision">
-  <div class="vision-grid">
-    <div class="vision-text fade-in">
-      <p class="section-label">My Vision</p>
-      <h2 class="section-title">People, Process &amp; Result</h2>
-      <div class="divider"></div>
-      <p>Information Technology is overall quite rational, which is why I prefer the functional part of IT over the purely technical. Functional IT drills down to the very core of company culture:</p>
-      <div class="vision-highlight">
-        <p>"We do things a certain way, and <em>this</em> is why. We want to innovate while sticking to those ways as much as possible. If that changes, so should our mindset — which is challenging."</p>
-      </div>
-      <p>We are open to change because we understand the need for growth. However, with any change activities, the people affected should be <strong>heavily involved</strong>. It is important that people trust the process, because their role is essential in jointly delivering the desired results.</p>
-      <p>IT cannot succeed without the involvement of the user community and business SMEs. We should not just tell our stakeholders what is or isn't coming — we should explain the <em>"Why"</em>, leading to outcomes that are agreed on, or even jointly decided.</p>
-      <p>Sure, this cannot always be applied. But at least <strong>the "Why" must always be clear.</strong></p>
-    </div>
-    <div class="vision-pillars fade-in">
-      <div class="pillar">
-        <div class="pillar-icon">🧭</div>
-        <div>
-          <h3>Transparency Over Politics</h3>
-          <p>I say what I can and cannot do. I don't maintain "bent truths." That clarity creates trust — and trust creates results.</p>
-        </div>
-      </div>
-      <div class="pillar">
-        <div class="pillar-icon">🤝</div>
-        <div>
-          <h3>Leadership Through Trust</h3>
-          <p>The first time I led people, I tried to copy my manager — and it didn't work. I learned to lead as myself: caring for wellbeing, starting with trust, and relying on people's willingness and capabilities.</p>
-        </div>
-      </div>
-      <div class="pillar">
-        <div class="pillar-icon">🔄</div>
-        <div>
-          <h3>Making Yourself Redundant</h3>
-          <p>The goal of good leadership is to enable your team to set their own actions and make decisions within agreed boundaries. A team that doesn't need you telling them what to do — that's the target.</p>
-        </div>
-      </div>
-      <div class="pillar">
-        <div class="pillar-icon">⚡</div>
-        <div>
-          <h3>Hands-on When Needed</h3>
-          <p>Beyond strategic roles, I genuinely enjoy getting closer to the detail. Curiosity and hands-on involvement have always been at the root of how I learn and deliver.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ Credentials ══ -->
-<section id="credentials">
-  <div style="max-width:900px;margin:0 auto 3rem">
-    <p class="section-label fade-in">Qualifications</p>
-    <h2 class="section-title fade-in">Education &amp; Languages</h2>
-    <div class="divider fade-in"></div>
-  </div>
-  <div class="cred-grid fade-in">
-    <div class="cred-block">
-      <h3>Education &amp; Certifications</h3>
-      <ul class="cred-list">
-        <li>
-          <div class="cred-dot"></div>
-          <span><strong>TOGAF Enterprise Architecture (Certified)</strong>Pearson Vue</span>
-        </li>
-        <li>
-          <div class="cred-dot"></div>
-          <span><strong>SAP Certifications</strong>PI/PO, XI, Integration, ALE</span>
-        </li>
-        <li>
-          <div class="cred-dot"></div>
-          <span><strong>Post-Bachelor Business Management</strong>NCOI</span>
-        </li>
-        <li>
-          <div class="cred-dot"></div>
-          <span><strong>MBO &amp; MAVO Diplomas</strong>Foundation qualifications</span>
-        </li>
-      </ul>
-    </div>
-    <div class="cred-block">
-      <h3>Languages</h3>
-      <div class="lang-items">
-        <div class="lang-item">
-          <span class="lang-name">Dutch</span>
-          <div class="lang-bar-wrap"><div class="lang-bar" style="width:100%"></div></div>
-          <span class="lang-level">Native</span>
-        </div>
-        <div class="lang-item">
-          <span class="lang-name">English</span>
-          <div class="lang-bar-wrap"><div class="lang-bar" style="width:90%"></div></div>
-          <span class="lang-level">Fluent</span>
-        </div>
-        <div class="lang-item">
-          <span class="lang-name">German</span>
-          <div class="lang-bar-wrap"><div class="lang-bar" style="width:55%"></div></div>
-          <span class="lang-level">Average</span>
-        </div>
-        <div class="lang-item">
-          <span class="lang-name">French</span>
-          <div class="lang-bar-wrap"><div class="lang-bar" style="width:45%"></div></div>
-          <span class="lang-level">Average</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ Contact ══ -->
-<section id="contact">
-  <div class="contact-grid">
-    <div class="fade-in">
-      <p class="section-label">Get In Touch</p>
-      <h2 class="section-title">Let's talk</h2>
-      <div class="divider"></div>
-      <p style="color:var(--muted);margin-bottom:2rem;line-height:1.8;">Looking forward to hearing from you. Whether you have a specific assignment in mind or just want to explore possibilities, I'm happy to connect.</p>
-      <div class="contact-item">
-        <div class="contact-icon">📍</div>
-        <div>
-          <h4>Location</h4>
-          <p>Castricum, The Netherlands</p>
-        </div>
-      </div>
-      <div class="contact-item">
-        <div class="contact-icon">🌐</div>
-        <div>
-          <h4>Website</h4>
-          <p><a href="#">arnoldruijterit.nl</a></p>
-        </div>
-      </div>
-      <div class="contact-item">
-        <div class="contact-icon">🏢</div>
-        <div>
-          <h4>Company</h4>
-          <p>Arnold Ruijter IT</p>
-        </div>
-      </div>
-      <div class="contact-item">
-        <div class="contact-icon">📋</div>
-        <div>
-          <h4>Legal form</h4>
-          <p>One-man business</p>
-        </div>
-      </div>
-      <div class="contact-item">
-        <div class="contact-icon">🔢</div>
-        <div>
-          <h4>KVK (Chamber of Commerce)</h4>
-          <p>99478781</p>
-        </div>
-      </div>
-      <div class="contact-item">
-        <div class="contact-icon">🧾</div>
-        <div>
-          <h4>VAT number</h4>
-          <p>NL005389798B39</p>
-        </div>
-      </div>
-      <p class="kvk-note">
-        All services are provided under the applicability of the general terms and conditions of Arnold Ruijter IT.<br>
-        Country of establishment: The Netherlands
-      </p>
-    </div>
-    <div class="fade-in" style="padding-top:11rem;">
-      <form onsubmit="handleSubmit(event)">
-        <div class="form-row">
-          <div class="form-group">
-            <label>First Name</label>
-            <input type="text" placeholder="Your first name" />
-          </div>
-          <div class="form-group">
-            <label>Last Name</label>
-            <input type="text" placeholder="Your last name" />
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" placeholder="your@email.com" />
-          </div>
-          <div class="form-group">
-            <label>Phone (optional)</label>
-            <input type="tel" placeholder="+31 6 ..." />
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Subject</label>
-          <select>
-            <option value="">Select a topic...</option>
-            <option>Enterprise Architecture</option>
-            <option>IT Leadership</option>
-            <option>Integration Architecture</option>
-            <option>IT Strategy</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Message</label>
-          <textarea placeholder="Tell me about your situation or assignment..."></textarea>
-        </div>
-        <div class="form-submit">
-          <button type="submit" class="btn-submit">Send Message →</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</section>
-
-<!-- ══ Footer ══ -->
+<!-- Footer -->
 <footer>
   <div class="footer-inner">
-  <div class="footer-brand">
-    <img src="Logo Wit.png" alt="Arnold Ruijter IT logo" />
-    <span>Arnold Ruijter IT</span>
-  </div>
-  <span class="footer-copy">© 2025 Arnold Ruijter IT — All rights reserved</span>
-  <div class="footer-links">
-    <a href="#home">Home</a>
-    <a href="#services">Services</a>
-    <a href="#experience">Experience</a>
-    <a href="#contact">Contact</a>
-  </div>
+    <div class="footer-brand">
+      <img src="Logo Wit.png" alt="Arnold Ruijter IT logo" />
+      <span>Arnold Ruijter IT</span>
+    </div>
+    <div class="footer-copy" data-i18n="footer.copy">© 2026 Arnold Ruijter IT — All rights reserved</div>
+    <div class="footer-links">
+      <a href="#home">Home</a>
+      <a href="#services" data-i18n="footer.services">Services</a>
+      <a href="#experience" data-i18n="footer.experience">Experience</a>
+      <a href="#contact" data-i18n="footer.contact">Contact</a>
+    </div>
   </div>
 </footer>
 
 <script>
-  // Nav scroll effect
+const i18n = {
+  nl: {
+    'nav.about': 'Over mij',
+    'nav.services': 'Diensten',
+    'nav.experience': 'Ervaring',
+    'nav.vision': 'Visie',
+    'nav.contact': 'Contact',
+    'hero.sub': 'Enterprise Architectuur &amp; IT Leiderschap',
+    'hero.tagline': '<strong>Wanneer een extra perspectief helpt</strong>',
+    'hero.desc': 'Senior ervaring in enterprise architectuur en IT-leiderschap — gedreven door innovatie, structuur, consistentie en teamspirit.',
+    'hero.btn.services': 'Bekijk diensten',
+    'hero.btn.contact': 'Neem contact op',
+    'hero.stat1': 'Jaar ervaring',
+    'hero.stat2': 'Bedrijven',
+    'hero.stat3': '&amp; Leider',
+    'about.label': 'Over Mij',
+    'about.title': 'Ervaring die aanvult,<br>niet vervangt.',
+    'about.p1': 'Mijn naam is Arnold Ruijter. Met meer dan 20 jaar ervaring in complexe enterprise-omgevingen is mijn doel om bij te dragen met mijn ervaring, perspectief en leiderschap waar en wanneer dat waarde toevoegt.',
+    'about.p2': 'Ik streef ernaar bestaande capaciteiten te benutten en te omarmen door zoveel mogelijk vanuit dat standpunt verder te bouwen. Met andere woorden: versterk wat er al is en bied extra focus waar dat nodig is.',
+    'about.quote': '"What you see is what you get" — Ik ben open, direct en transparant. Ik houd er geen halve waarheden op na, wat leidt tot algemene duidelijkheid.',
+    'about.p3': 'Ik begon mijn IT-loopbaan zonder bijzonder relevante studies — maar met veel nieuwsgierigheid. Van het ontleden van Excel-macro\'s, tot Visual Basic, tot enterprise-brede architectuur. In al die jaren ontwikkelde ik mijn eigen visie op de sleutelelementen van bedrijfs-IT.',
+    'about.p4': 'Hoewel het grootste deel van mijn loopbaan op enterprise- of strategisch niveau heeft plaatsgevonden, ben ik ook thuis in domeinarchitectuur en opdrachten op elke schaal. Het niveau van de rol is minder belangrijk dan de kwaliteit van het resultaat.',
+    'about.meta.avail': 'Beschikbaar voor interim- en adviesopdrachten',
+    'about.ppp.title': 'Filosofie',
+    'about.ppp.p1.title': 'Mensen',
+    'about.ppp.p1.desc': 'IT kan niet slagen zonder de mensen die het gebruiken en bouwen. Ik investeer in het begrijpen van teams, het coachen van individuen en het opbouwen van vertrouwen — want resultaten volgen mensen.',
+    'about.ppp.p2.title': 'Proces',
+    'about.ppp.p2.desc': 'Elke organisatie werkt op een bepaalde manier, niet zonder reden. Het begrijpen van die processen — en ze respecteren terwijl je verandering mogelijk maakt, staat centraal bij elke transformatie.',
+    'about.ppp.r.title': 'Resultaat',
+    'about.ppp.r.desc': 'Goede architectuur en sterke teams zijn alleen waardevol als ze resultaten opleveren. Ik houd het einddoel voor ogen — inspanning omzetten in zichtbare, betekenisvolle vooruitgang die de organisatie kan zien en op voortbouwen.',
+    'services.label': 'Wat ik bied',
+    'services.title': 'Services',
+    'services.desc': 'In mijn 30+ jaar ervaring — waaronder meer dan 20 jaar in grote ondernemingen met complexe processen en IT-landschappen — bied ik de volgende diensten aan:',
+    'svc1.title': 'Enterprise &amp; Domeinarchitectuur',
+    'svc1.desc': 'Analyseren van de organisatie, begrijpen van de bedrijfsprocessen en het IT-landschap en het ontwerpen van een solide weg vooruit — op enterprise-niveau of gericht op een specifiek domein.',
+    'svc1.points': '<li>Analyseren van de organisatiestructuur vanuit IT-perspectief</li><li>Verzamelen van eisen bij business- en IT-stakeholders</li><li>Vastleggen van de huidige architectuur en ontwerpen van de toekomstige staat</li><li>Bouwen van de roadmap en bewaken van consistentie tijdens de transformatie</li><li>Domeinarchitectuur voor een specifiek IT-gebied of capability</li>',
+    'svc2.title': 'IT Leiderschap',
+    'svc2.desc': 'Bouwen van hoogpresterende IT-teams door mensen te begrijpen, sterktes te coachen en een omgeving van eigenaarschap en vertrouwen te creëren.',
+    'svc2.points': '<li>Begrijpen van teamdynamiek, expertise en persoonlijke interesses</li><li>Coachen op sterktes en persoonlijk eigenaarschap</li><li>Begeleiden van communicatie binnen het team en richting stakeholders</li><li>Vertrouwenspersoon met een open-deurbeleid</li><li>Stimuleren van zelfsturing — teams die jou vertellen wat er speelt, niet andersom</li>',
+    'svc3.title': 'Integratiearchitectuur',
+    'svc3.desc': 'Ontwerpen van robuuste en schaalbare integratielandschappen voor Supply Chain, Finance, Product Master, Logistiek en meer.',
+    'svc3.points': '<li>Analyseren van organisatie en IT-landschap op integratiegaten</li><li>Ontwerpen van integratiearchitectuur op basis van eisen</li><li>Naar behoefte toepassen van EDI-, EAI-, API- en middlewarepatronen</li><li>Ontwerpen of reviewen van mappingspecificaties en communicatieprotocollen</li><li>Behouden van architectuurconsistentie en documentatie</li>',
+    'svc4.title': 'IT Strategie',
+    'svc4.desc': 'Vertalen van zakelijke ambities naar een geprioriteerde, realistische IT-roadmap — afgestemd over teams en verankerd in de doelstellingen van de organisatie.',
+    'svc4.points': '<li>Analyseren van kansen voor technologie om de business te laten groeien</li><li>Bepalen van het kritieke pad versus nice-to-have</li><li>Begeleiden van mensen door verandering met duidelijkheid over het "Waarom"</li><li>Samenbrengen van de visie van business en IT in één strategie</li><li>Verbinden van de technologie- en business-roadmap</li><li>Meedenken met management en ondersteunen van bedrijfsdoelstellingen</li>',
+    'svc5.title': 'Advies &amp; Specialistische Opdrachten',
+    'svc5.desc': 'Beschikbaar voor opdrachten buiten de traditionele enterprise-scope — van domeingerichte opdrachten tot cross-sectoraal advies, op de schaal die het best bij uw situatie past.',
+    'svc5.points': '<li>Domeinarchitectuur binnen een specifiek systeem of IT-gebied</li><li>Cross-sectorale opdrachten — van retail en mode tot publieke sector en verder</li><li>Aanbestedingsondersteuning, leveranciersselectie en oplossingsassessment</li><li>Kleinere organisaties die baat hebben bij senior expertise op afroep</li><li>Managementadvies zonder langdurige commitment</li>',
+    'footer.copy': '© 2026 Arnold Ruijter IT — Alle rechten voorbehouden',
+    'footer.services': 'Diensten',
+    'footer.experience': 'Ervaring',
+    'footer.contact': 'Contact',
+  },
+  en: {
+    'nav.about': 'About',
+    'nav.services': 'Services',
+    'nav.experience': 'Experience',
+    'nav.vision': 'Vision',
+    'nav.contact': 'Contact',
+    'hero.sub': 'Enterprise Architecture &amp; IT Leadership',
+    'hero.tagline': '<strong>When an extra perspective helps</strong>',
+    'hero.desc': 'Senior architecture &amp; leadership experience in enterprise IT — driven to achieve innovation, structure, consistency, and team spirit.',
+    'hero.btn.services': 'View Services',
+    'hero.btn.contact': 'Get in Touch',
+    'hero.stat1': 'Years experience',
+    'hero.stat2': 'Companies',
+    'hero.stat3': '&amp; Leader',
+    'about.label': 'About Me',
+    'about.title': 'Experience that<br>complements, not replaces.',
+    'about.p1': 'My name is Arnold Ruijter. With over 20 years in complex enterprise environments, my goal is to add experience, perspective, and leadership where and when it adds value.',
+    'about.p2': 'I aim to leverage &amp; embrace existing capability by building from that foundation as much as possible. In other words, strengthen what is already there and provide extra focus where it is needed.',
+    'about.quote': '"What you see is what you get" — I am open, direct, and transparent. I do not maintain half-truths, leading to overall clarity.',
+    'about.p3': 'I started in IT without highly relevant studies — just a lot of curiosity. From dissecting Excel macros, to Visual Basic, to enterprise-wide architecture. In all those years, I developed my own vision on what I found are the key elements of business IT.',
+    'about.p4': 'While much of my career has been at enterprise or strategic level, I am equally at home with domain architecture, cross-sector assignments, or engagements at any scale. The level of the role matters less than the quality of the outcome.',
+    'about.meta.avail': 'Available for interim / advisory roles',
+    'about.ppp.title': 'Philosophy',
+    'about.ppp.p1.title': 'People',
+    'about.ppp.p1.desc': 'IT cannot succeed without the people who use and build it. I invest in understanding teams, coaching individuals, and building trust — because results follow people.',
+    'about.ppp.p2.title': 'Process',
+    'about.ppp.p2.desc': 'Every organization does things a certain way, for a reason. Understanding those processes — and respecting them while enabling change — is at the heart of any transformation.',
+    'about.ppp.r.title': 'Result',
+    'about.ppp.r.desc': 'Good architecture and strong teams only matter if they deliver. I keep the end goal in sight — translating effort into visible, meaningful progress that the organisation can see and build on.',
+    'services.label': 'What I Offer',
+    'services.title': 'Core Services',
+    'services.desc': 'In my 30+ years of experience — including more than 20 years in large enterprises with complex processes and IT landscapes — I provide the following services:',
+    'svc1.title': 'Enterprise &amp; Domain Architecture',
+    'svc1.desc': 'Analyse your organisation, understand business processes and the IT landscape, and design a coherent path forward — at enterprise level or scoped to a specific domain.',
+    'svc1.points': '<li>Analyse organisation structure with a focus on IT</li><li>Gather requirements from business and IT stakeholders</li><li>Record current architecture and design the future state</li><li>Build the roadmap and safeguard consistency during transformation</li><li>TOGAF-certified approach to architecture governance</li><li>Domain architecture for a specific IT area or capability</li>',
+    'svc2.title': 'IT Leadership',
+    'svc2.desc': 'Build high-performing IT teams by understanding people, coaching strengths, and creating an environment of ownership and trust.',
+    'svc2.points': '<li>Understand team dynamics, expertise, and interests</li><li>Coach on strengths and personal ownership</li><li>Guide communication within the team and with stakeholders</li><li>Be a person of trust with an open-door approach</li><li>Enable self-direction — teams that tell you, not the other way around</li>',
+    'svc3.title': 'Integration Architecture',
+    'svc3.desc': 'Design robust and scalable integration landscapes for Supply Chain, Finance, Product Master, Logistics, and more.',
+    'svc3.points': '<li>Analyse organisation and IT landscape for integration gaps</li><li>Design integration architecture based on requirements</li><li>Apply EDI, EAI, API, and middleware patterns</li><li>Design or review mapping specifications and communication protocols</li><li>Maintain architecture consistency and documentation</li>',
+    'svc4.title': 'IT Strategy',
+    'svc4.desc': 'Translate business ambitions into a prioritised, realistic IT roadmap — aligned across teams and grounded in the organisation\'s goals.',
+    'svc4.points': '<li>Analyse opportunities for technology to grow the business</li><li>Determine critical path vs. nice-to-have</li><li>Guide people through change with clarity on the "Why"</li><li>Align business and IT vision into a single coherent strategy</li><li>Bring the tech and business roadmap together</li><li>Brainstorm with management and support business targets</li>',
+    'svc5.title': 'Advisory &amp; Specialist Roles',
+    'svc5.desc': 'Available for engagements beyond the traditional enterprise scope — from domain-level assignments to cross-sector advisory, at whatever scale best fits your situation.',
+    'svc5.points': '<li>Domain architecture within a specific system or IT area</li><li>Cross-sector engagements — from retail and fashion to public sector and beyond</li><li>Vendor selection, tendering support, and solution assessment</li><li>Smaller organisations that benefit from senior expertise on demand</li><li>Management advisory without a full-time or long-term commitment</li>',
+    'footer.copy': '© 2026 Arnold Ruijter IT — All rights reserved',
+    'footer.services': 'Services',
+    'footer.experience': 'Experience',
+    'footer.contact': 'Contact',
+  }
+};
+
+let currentLang = localStorage.getItem('arit-lang') || 'nl';
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('arit-lang', lang);
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (i18n[lang] && i18n[lang][key] !== undefined) el.innerHTML = i18n[lang][key];
+  });
+  document.getElementById('btn-nl').classList.toggle('active', lang === 'nl');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+}
+
+document.addEventListener('DOMContentLoaded', () => setLang(currentLang));
+
+function toggleMenu() {
+  const navLinks = document.getElementById('navLinks');
+  navLinks.classList.toggle('open');
+}
+
+window.addEventListener('scroll', () => {
   const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 20);
-  });
-
-  // Active nav link
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        navLinks.forEach(a => {
-          a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
-        });
-      }
-    });
-  }, { rootMargin: '-25% 0px -60% 0px' });
-  sections.forEach(s => observer.observe(s));
-
-  // Fade-in on scroll
-  const fadeEls = document.querySelectorAll('.fade-in');
-  const fadeObserver = new IntersectionObserver(entries => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 60);
-        fadeObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  fadeEls.forEach(el => fadeObserver.observe(el));
-
-  // Hamburger menu
-  function toggleMenu() {
-    document.getElementById('navLinks').classList.toggle('open');
+  if (window.scrollY > 10) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
   }
-  document.getElementById('navLinks').querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
-  });
+});
 
-  // Form handler (demo)
-  function handleSubmit(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('.btn-submit');
-    btn.textContent = '✓ Message sent!';
-    btn.style.background = '#2a9d5c';
-    btn.style.color = '#fff';
-    setTimeout(() => {
-      btn.textContent = 'Send Message →';
-      btn.style.background = '';
-      btn.style.color = '';
-      e.target.reset();
-    }, 3000);
-  }
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 </script>
+
 </body>
 </html>
