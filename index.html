@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Arnold Ruijter IT</title>
 
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="apple-touch-icon" href="favicon.png" />
@@ -361,6 +366,45 @@
     .tl-points li { font-size: .87rem; color: var(--muted); padding-left: 1.1rem; position: relative; }
     .tl-points li::before { content: '›'; position: absolute; left: 0; color: var(--gold); }
 
+    /* Timeline section breaks */
+    .tl-section-break {
+      padding-left: 60px; position: relative;
+      margin-bottom: 1.8rem; margin-top: 3rem;
+    }
+    .tl-section-break:first-child { margin-top: 0; }
+    .tl-section-label {
+      font-size: .68rem; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: .25rem; opacity: .8;
+    }
+    .tl-section-title {
+      font-size: 1.25rem; font-weight: 800; color: var(--white); letter-spacing: .01em;
+      display: flex; align-items: center; gap: .55rem; font-family: 'Catamaran', system-ui, sans-serif;
+    }
+    .tl-section-logo {
+      height: 1.55em; width: auto; display: inline-block; flex-shrink: 0;
+    }
+    .tl-section-title .arit-gold {
+      color: var(--gold); font-weight: 800;
+    }
+
+    /* Sub-entry within a card (current assignment under ARIT) */
+    .tl-sub-entry {
+      margin-top: 1.6rem; padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .tl-sub-label {
+      font-size: .68rem; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--blue); margin-bottom: .9rem; opacity: .9;
+    }
+
+    /* Multi-role company block (PVH) */
+    .tl-multi-company { margin-bottom: .4rem; }
+    .tl-multi-period { font-size: .78rem; color: var(--muted); font-weight: 500; margin-bottom: 1.4rem; }
+    .pvh-role + .pvh-role {
+      margin-top: 1.5rem; padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+
     /* Tech */
     #tech { background: var(--navy); }
     .tech-intro { max-width: 1200px; margin: 0 auto 3rem; }
@@ -703,23 +747,11 @@
   </div>
   <div class="timeline">
 
-    <div class="tl-item fade-in">
-      <div class="tl-dot current"></div>
-      <div class="tl-card current">
-        <div class="tl-header">
-          <div class="tl-role" data-i18n="exp.1.role">Interim IT Consultant · Project Leader ESB Tender <span class="tl-badge" data-i18n="exp.badge">Current</span></div>
-          <div class="tl-period">Mar 2026 – Present</div>
-        </div>
-        <div class="tl-company">GR IJsselgemeenten · Capelle aan den IJssel</div>
-        <div class="tl-via" data-i18n="exp.1.via">Via Arnold Ruijter IT · Public sector · South Holland</div>
-        <ul class="tl-points" data-i18n="exp.1.points">
-          <li>Leading the European public procurement process (EU aanbesteding) for an Enterprise Service Bus on behalf of GR IJsselgemeenten — a cooperation of municipalities in the South Holland region.</li>
-          <li>Authoring core procurement documents: Startnotitie, Aanbestedingsstrategie, and Programma van Eisen (PvE).</li>
-          <li>Conducting market consultation to validate requirements and understand the vendor landscape.</li>
-          <li>Managing the formal tender procedure via TenderNed, including publication and Nota van Inlichtingen (Q&amp;A rounds with suppliers).</li>
-          <li>Evaluating proposals against defined award criteria and preparing the Gunningsadvies (award recommendation).</li>
-          <li>Coordinating with legal, IT, and management stakeholders across the participating municipalities throughout the process.</li>
-        </ul>
+    <!-- ── SECTION 1: Arnold Ruijter IT ──────────────────────────────── -->
+    <div class="tl-section-break fade-in">
+      <div class="tl-section-label" data-i18n="exp.s1.label">Current</div>
+      <div class="tl-section-title">
+        <img src="Logo Huisstijl geel.png" class="tl-section-logo" alt="Arnold Ruijter IT logo" />Arnold <span class="arit-gold">Ruijter IT</span>
       </div>
     </div>
 
@@ -734,9 +766,33 @@
         <ul class="tl-points" data-i18n="exp.2.points">
           <li>Independent IT consultancy providing enterprise and domain architecture, integration architecture, IT leadership, and IT strategy services.</li>
           <li>Operating across sectors — from retail and fashion to public sector — at the scale and level that adds most value.</li>
-          <li>Current assignment: Project Leader ESB Tender at GR IJsselgemeenten (see above).</li>
         </ul>
+
+        <!-- Current assignment: GR IJsselgemeenten -->
+        <div class="tl-sub-entry">
+          <div class="tl-sub-label" data-i18n="exp.assignment.label">Current Assignment</div>
+          <div class="tl-header">
+            <div class="tl-role" data-i18n="exp.1.role">Interim IT Consultant · Project Leader ESB Tender <span class="tl-badge" data-i18n="exp.badge">Current</span></div>
+            <div class="tl-period">Mar 2026 – Present</div>
+          </div>
+          <div class="tl-company">GR IJsselgemeenten · Capelle aan den IJssel</div>
+          <div class="tl-via" data-i18n="exp.1.via">Via Arnold Ruijter IT · Public sector · South Holland</div>
+          <ul class="tl-points" data-i18n="exp.1.points">
+            <li>Leading the European public procurement process (EU aanbesteding) for an Enterprise Service Bus on behalf of GR IJsselgemeenten — a cooperation of municipalities in the South Holland region.</li>
+            <li>Authoring core procurement documents: Startnotitie, Aanbestedingsstrategie, and Programma van Eisen (PvE).</li>
+            <li>Conducting market consultation to validate requirements and understand the vendor landscape.</li>
+            <li>Managing the formal tender procedure via TenderNed, including publication and Nota van Inlichtingen (Q&amp;A rounds with suppliers).</li>
+            <li>Evaluating proposals against defined award criteria and preparing the Gunningsadvies (award recommendation).</li>
+            <li>Coordinating with legal, IT, and management stakeholders across the participating municipalities throughout the process.</li>
+          </ul>
+        </div>
       </div>
+    </div>
+
+    <!-- ── SECTION 2: Previous Employment ────────────────────────────── -->
+    <div class="tl-section-break fade-in">
+      <div class="tl-section-label" data-i18n="exp.s2.label">Background</div>
+      <div class="tl-section-title" data-i18n="exp.s2.title">Previous Employment</div>
     </div>
 
     <div class="tl-item fade-in">
@@ -792,52 +848,49 @@
       </div>
     </div>
 
+    <!-- PVH: 3 roles grouped under one company block -->
     <div class="tl-item fade-in">
       <div class="tl-dot"></div>
       <div class="tl-card">
-        <div class="tl-header">
-          <div class="tl-role" data-i18n="exp.6.role">Sr. Manager ERP Development &amp; Integration</div>
-          <div class="tl-period">Jan 2016 – Apr 2019</div>
-        </div>
-        <div class="tl-company">PVH Europe BV · Amsterdam</div>
-        <ul class="tl-points" data-i18n="exp.6.points">
-          <li>Led SAP ERP and integration teams (AFS/FMS, HANA, PI/PO, Gateway, FIORI, Sterling).</li>
-          <li>Architecture and governance around ERP migration from AFS to FMS.</li>
-          <li>Strengthened OmniChannel, API/Microservices, PIM, and BI capabilities.</li>
-          <li>Active role in SOX compliance and alignment with internal/external auditors.</li>
-        </ul>
-      </div>
-    </div>
+        <div class="tl-multi-company tl-company">PVH Europe BV · Amsterdam</div>
+        <div class="tl-multi-period" data-i18n="exp.pvh.period">Apr 2007 – Apr 2019 · 12 years</div>
 
-    <div class="tl-item fade-in">
-      <div class="tl-dot"></div>
-      <div class="tl-card">
-        <div class="tl-header">
-          <div class="tl-role" data-i18n="exp.7.role">Manager ICT Integration</div>
-          <div class="tl-period">Apr 2013 – Dec 2015</div>
+        <div class="pvh-role">
+          <div class="tl-header">
+            <div class="tl-role" data-i18n="exp.6.role">Sr. Manager ERP Development &amp; Integration</div>
+            <div class="tl-period">Jan 2016 – Apr 2019</div>
+          </div>
+          <ul class="tl-points" data-i18n="exp.6.points">
+            <li>Led SAP ERP and integration teams (AFS/FMS, HANA, PI/PO, Gateway, FIORI, Sterling).</li>
+            <li>Architecture and governance around ERP migration from AFS to FMS.</li>
+            <li>Strengthened OmniChannel, API/Microservices, PIM, and BI capabilities.</li>
+            <li>Active role in SOX compliance and alignment with internal/external auditors.</li>
+          </ul>
         </div>
-        <div class="tl-company">PVH Europe BV · Amsterdam</div>
-        <ul class="tl-points" data-i18n="exp.7.points">
-          <li>Responsible for integration architecture across multiple brands (Calvin Klein, Tommy Hilfiger).</li>
-          <li>Modernized legacy integration landscape; migrated from Sterling to SAP PI.</li>
-          <li>Designed middleware, EDI, B2B, and EAI solutions for supply chain, retail, and finance.</li>
-        </ul>
-      </div>
-    </div>
 
-    <div class="tl-item fade-in">
-      <div class="tl-dot"></div>
-      <div class="tl-card">
-        <div class="tl-header">
-          <div class="tl-role" data-i18n="exp.8.role">Team Lead Integration</div>
-          <div class="tl-period">Apr 2007 – Mar 2013</div>
+        <div class="pvh-role">
+          <div class="tl-header">
+            <div class="tl-role" data-i18n="exp.7.role">Manager ICT Integration</div>
+            <div class="tl-period">Apr 2013 – Dec 2015</div>
+          </div>
+          <ul class="tl-points" data-i18n="exp.7.points">
+            <li>Responsible for integration architecture across multiple brands (Calvin Klein, Tommy Hilfiger).</li>
+            <li>Modernized legacy integration landscape; migrated from Sterling to SAP PI.</li>
+            <li>Designed middleware, EDI, B2B, and EAI solutions for supply chain, retail, and finance.</li>
+          </ul>
         </div>
-        <div class="tl-company">PVH Europe BV · Amsterdam</div>
-        <ul class="tl-points" data-i18n="exp.8.points">
-          <li>Supported integration of Calvin Klein and Tommy Hilfiger systems, including migration from AS400 to SAP.</li>
-          <li>Design of middleware interfaces and integration standards for scalability and efficiency.</li>
-          <li>Onboarded Japanese operations and supported concession and consignment models.</li>
-        </ul>
+
+        <div class="pvh-role">
+          <div class="tl-header">
+            <div class="tl-role" data-i18n="exp.8.role">Team Lead Integration</div>
+            <div class="tl-period">Apr 2007 – Mar 2013</div>
+          </div>
+          <ul class="tl-points" data-i18n="exp.8.points">
+            <li>Supported integration of Calvin Klein and Tommy Hilfiger systems, including migration from AS400 to SAP.</li>
+            <li>Design of middleware interfaces and integration standards for scalability and efficiency.</li>
+            <li>Onboarded Japanese operations and supported concession and consignment models.</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -1207,11 +1260,17 @@ const i18n = {
     'exp.title': 'Ervaring',
     'exp.desc': 'Meer dan 20 jaar progressieve IT-leiderschaps- en architectuurrollen, momenteel actief als zelfstandig consultant via Arnold Ruijter IT.',
     'exp.badge': 'Huidig',
+    'exp.s1.label': 'Huidig',
+    'exp.s1.title': 'Arnold Ruijter IT',
+    'exp.s2.label': 'Achtergrond',
+    'exp.s2.title': 'Eerdere Werkervaring',
+    'exp.assignment.label': 'Huidige Opdracht',
+    'exp.pvh.period': 'Apr 2007 – Apr 2019 · 12 jaar',
     'exp.1.role': 'Interim IT Consultant · Projectleider ESB Aanbesteding <span class="tl-badge" data-i18n="exp.badge">Huidig</span>',
     'exp.1.via': 'Via Arnold Ruijter IT · Publieke sector · Zuid-Holland',
     'exp.1.points': '<li>Leiding over het Europees aanbestedingsproces (EU aanbesteding) voor een Enterprise Service Bus namens GR IJsselgemeenten — een samenwerkingsverband van gemeenten in de regio Zuid-Holland.</li><li>Opstellen van kerndocumenten: Startnotitie, Aanbestedingsstrategie en Programma van Eisen (PvE).</li><li>Uitvoeren van marktconsultatie om eisen te valideren en het leverancierslandschap in kaart te brengen.</li><li>Beheren van de formele aanbestedingsprocedure via TenderNed, inclusief publicatie en Nota van Inlichtingen (vraag- en antwoordrondes met leveranciers).</li><li>Beoordelen van offertes op basis van gunningscriteria en opstellen van het Gunningsadvies.</li><li>Afstemming met juridische, IT- en managementstakeholders van de deelnemende gemeenten gedurende het gehele proces.</li>',
     'exp.2.role': 'Eigenaar · Freelance IT Consultant <span class="tl-badge" data-i18n="exp.badge">Huidig</span>',
-    'exp.2.points': '<li>Zelfstandig IT-adviesbureau met diensten op het gebied van enterprise- en domeinarchitectuur, integratiearchitectuur, IT-leiderschap en IT-strategie.</li><li>Actief in meerdere sectoren — van retail en mode tot de publieke sector — op de schaal en het niveau dat de meeste waarde toevoegt.</li><li>Huidige opdracht: Projectleider ESB Aanbesteding bij GR IJsselgemeenten (zie boven).</li>',
+    'exp.2.points': '<li>Zelfstandig IT-adviesbureau met diensten op het gebied van enterprise- en domeinarchitectuur, integratiearchitectuur, IT-leiderschap en IT-strategie.</li><li>Actief in meerdere sectoren — van retail en mode tot de publieke sector — op de schaal en het niveau dat de meeste waarde toevoegt.</li>',
     'exp.3.role': 'EMEA Tech Director',
     'exp.3.points': '<li>Verantwoordelijk voor Enterprise Architecture binnen EMEA en afstemming met het mondiale IT-governance.</li><li>Ontwikkelen van doelarchitectuur voor ERP-migratie, datafundamenten en integraties.</li><li>Mede-eigenaar van het BI Governance-programma: bevorderen van datakwaliteit, governance en datagedreven besluitvorming.</li><li>Leiden van Europese transformatie-initiatieven, waaronder onboarding van nieuwe landen en rationalisatie van IT-landschappen.</li><li>Stakeholdermanagement met mondiale teams in Boston en delivery-teams in Pune.</li>',
     'exp.4.role': 'Director IT Transformation',
@@ -1351,11 +1410,17 @@ const i18n = {
     'exp.title': 'Experience',
     'exp.desc': 'Over 20 years of progressive IT leadership and architecture roles, currently active as an independent consultant through Arnold Ruijter IT.',
     'exp.badge': 'Current',
+    'exp.s1.label': 'Current',
+    'exp.s1.title': 'Arnold Ruijter IT',
+    'exp.s2.label': 'Background',
+    'exp.s2.title': 'Previous Employment',
+    'exp.assignment.label': 'Current Assignment',
+    'exp.pvh.period': 'Apr 2007 – Apr 2019 · 12 years',
     'exp.1.role': 'Interim IT Consultant · Project Leader ESB Tender <span class="tl-badge" data-i18n="exp.badge">Current</span>',
     'exp.1.via': 'Via Arnold Ruijter IT · Public sector · South Holland',
     'exp.1.points': '<li>Leading the European public procurement process (EU aanbesteding) for an Enterprise Service Bus on behalf of GR IJsselgemeenten — a cooperation of municipalities in the South Holland region.</li><li>Authoring core procurement documents: Startnotitie, Aanbestedingsstrategie, and Programma van Eisen (PvE).</li><li>Conducting market consultation to validate requirements and understand the vendor landscape.</li><li>Managing the formal tender procedure via TenderNed, including publication and Nota van Inlichtingen (Q&amp;A rounds with suppliers).</li><li>Evaluating proposals against defined award criteria and preparing the Gunningsadvies (award recommendation).</li><li>Coordinating with legal, IT, and management stakeholders across the participating municipalities throughout the process.</li>',
     'exp.2.role': 'Owner · Freelance IT Consultant <span class="tl-badge" data-i18n="exp.badge">Current</span>',
-    'exp.2.points': '<li>Independent IT consultancy providing enterprise and domain architecture, integration architecture, IT leadership, and IT strategy services.</li><li>Operating across sectors — from retail and fashion to public sector — at the scale and level that adds most value.</li><li>Current assignment: Project Leader ESB Tender at GR IJsselgemeenten (see above).</li>',
+    'exp.2.points': '<li>Independent IT consultancy providing enterprise and domain architecture, integration architecture, IT leadership, and IT strategy services.</li><li>Operating across sectors — from retail and fashion to public sector — at the scale and level that adds most value.</li>',
     'exp.3.role': 'EMEA Tech Director',
     'exp.3.points': '<li>Responsible for Enterprise Architecture within EMEA and alignment with global IT governance.</li><li>Developing target architecture for ERP migration, data foundations, and integrations.</li><li>Co-owner of BI Governance program: promoting data quality, governance, and data-driven decision-making.</li><li>Leading European transformation initiatives, including onboarding new countries and rationalizing IT landscapes.</li><li>Stakeholder management with global teams in Boston and delivery teams in Pune.</li>',
     'exp.4.role': 'Director IT Transformation',
