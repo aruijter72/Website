@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacyverklaring — Arnold Ruijter IT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:  #0b1728;
+      --navy2: #0f1f35;
+      --gold:  #c9a355;
+      --gold2: #b8922e;
+      --white: #ffffff;
+      --light: #e8edf5;
+      --muted: #8a9ab5;
+      --border: rgba(255,255,255,.07);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Catamaran', system-ui, sans-serif;
+      background: var(--navy); color: var(--light);
+      line-height: 1.75; font-size: 1rem;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(11,23,40,.95); border-bottom: 1px solid var(--border);
+      padding: 0 40px; height: 68px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--white);
+      font-size: 1rem; font-weight: 700;
+    }
+    .nav-logo img { height: 32px; width: auto; }
+    .arit-name  { font-weight: 400; color: var(--white); }
+    .arit-gold  { font-weight: 800; color: var(--gold); }
+    .nav-back {
+      font-size: .85rem; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--muted);
+      text-decoration: none; transition: color .2s;
+    }
+    .nav-back:hover { color: var(--white); }
+
+    /* Content */
+    main {
+      max-width: 780px; margin: 0 auto;
+      padding: 120px 40px 80px;
+    }
+    .page-label {
+      font-size: .72rem; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: .6rem;
+    }
+    h1 {
+      font-size: 2.2rem; font-weight: 800; color: var(--white);
+      line-height: 1.2; margin-bottom: .5rem;
+    }
+    .last-updated {
+      font-size: .8rem; color: var(--muted); margin-bottom: 3rem;
+    }
+    .divider {
+      width: 48px; height: 3px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      margin: 1rem 0 2.5rem;
+    }
+    h2 {
+      font-size: 1.15rem; font-weight: 700; color: var(--white);
+      margin: 2.5rem 0 .75rem; letter-spacing: .03em;
+    }
+    p { color: var(--muted); margin-bottom: 1rem; }
+    ul {
+      color: var(--muted); padding-left: 1.4rem;
+      margin-bottom: 1rem;
+    }
+    li { margin-bottom: .35rem; }
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .info-box {
+      background: rgba(201,163,85,.07); border: 1px solid rgba(201,163,85,.2);
+      border-radius: 8px; padding: 1.2rem 1.5rem; margin: 2rem 0;
+      font-size: .9rem; color: var(--light);
+    }
+    .info-box strong { color: var(--gold); }
+    .lang-switch {
+      display: flex; gap: .5rem; margin-bottom: 2rem; align-items: center;
+    }
+    .lang-btn {
+      background: none; border: 1px solid var(--border); border-radius: 4px;
+      padding: .25rem .75rem; font-size: .78rem; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase; cursor: pointer;
+      color: var(--muted); font-family: inherit; transition: all .2s;
+    }
+    .lang-btn.active { color: var(--gold); border-color: rgba(201,163,85,.4); }
+    .lang-sep { color: var(--muted); font-size: .7rem; }
+    .lang-section { display: none; }
+    .lang-section.visible { display: block; }
+
+    /* Footer */
+    footer {
+      background: rgba(0,0,0,.4); border-top: 1px solid var(--border);
+      padding: 1.5rem 40px; text-align: center;
+      font-size: .8rem; color: var(--muted);
+    }
+    footer a { color: var(--gold); }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      main { padding: 100px 20px 60px; }
+      h1 { font-size: 1.7rem; }
+      footer { padding: 1.5rem 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="Logo Huisstijl geel.png" alt="Arnold Ruijter IT" />
+    <span><span class="arit-name">Arnold</span> <strong class="arit-gold">Ruijter IT</strong></span>
+  </a>
+  <a href="index.html" class="nav-back">← Terug naar de website</a>
+</nav>
+
+<main>
+  <div class="lang-switch">
+    <button class="lang-btn active" onclick="setPrivacyLang('nl')">NL</button>
+    <span class="lang-sep">·</span>
+    <button class="lang-btn" onclick="setPrivacyLang('en')">EN</button>
+  </div>
+
+  <!-- Dutch -->
+  <div class="lang-section visible" id="lang-nl">
+    <p class="page-label">Juridisch</p>
+    <h1>Privacyverklaring</h1>
+    <p class="last-updated">Laatst bijgewerkt: maart 2026</p>
+    <div class="divider"></div>
+
+    <p>Arnold Ruijter IT hecht veel waarde aan de bescherming van uw persoonsgegevens. In deze privacyverklaring leggen wij uit welke gegevens wij verzamelen, waarom wij deze verzamelen en hoe wij hiermee omgaan.</p>
+
+    <div class="info-box">
+      <strong>Verantwoordelijke:</strong> Arnold Ruijter IT<br />
+      Gevestigd in Nederland &nbsp;·&nbsp;
+      <strong>Contact:</strong> <a href="mailto:arnold@arnoldruijterit.nl">arnold@arnoldruijterit.nl</a>
+    </div>
+
+    <h2>1. Welke gegevens verzamelen wij?</h2>
+    <p>Wij verzamelen uitsluitend gegevens die u zelf aan ons verstrekt via het contactformulier op deze website:</p>
+    <ul>
+      <li>Voornaam en achternaam</li>
+      <li>E-mailadres</li>
+      <li>Telefoonnummer (optioneel)</li>
+      <li>Onderwerp en berichtinhoud</li>
+    </ul>
+    <p>Wij verzamelen geen analytische gegevens, plaatsen geen trackingcookies en gebruiken geen advertentienetwerken.</p>
+
+    <h2>2. Waarvoor gebruiken wij uw gegevens?</h2>
+    <p>Uw gegevens worden uitsluitend gebruikt om uw bericht te beantwoorden en contact met u op te nemen in het kader van een mogelijke samenwerking of opdracht. Wij gebruiken uw gegevens niet voor marketing of andere doeleinden zonder uw toestemming.</p>
+
+    <h2>3. Hoe lang bewaren wij uw gegevens?</h2>
+    <p>Wij bewaren uw gegevens niet langer dan noodzakelijk voor het beantwoorden van uw bericht, en in ieder geval niet langer dan 12 maanden na het laatste contact.</p>
+
+    <h2>4. Derden en verwerkers</h2>
+    <p>Uw gegevens worden verwerkt via de volgende diensten:</p>
+    <ul>
+      <li><strong>Web3Forms</strong> — dienst voor het verzenden van contactformulieren. Uw formulierdata wordt via hun servers verzonden naar ons e-mailadres. Zie <a href="https://web3forms.com/privacy" target="_blank" rel="noopener">web3forms.com/privacy</a>.</li>
+      <li><strong>Google Fonts</strong> — lettertypen worden geladen via Google's CDN. Hierbij wordt uw IP-adres aan Google doorgegeven. Zie <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</li>
+      <li><strong>GitHub Pages</strong> — deze website wordt gehost via GitHub Pages. Zie <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a>.</li>
+    </ul>
+    <p>Wij verkopen uw gegevens nooit aan derden en delen deze niet verder dan noodzakelijk voor bovenstaande diensten.</p>
+
+    <h2>5. Cookies en lokale opslag</h2>
+    <p>Deze website gebruikt <strong>geen trackingcookies</strong>. Wij slaan uitsluitend de volgende gegevens op in uw browser:</p>
+    <ul>
+      <li><strong>Taalvoorkeur</strong> — opgeslagen in <code>localStorage</code> zodat de website uw taal onthoudt (NL/EN).</li>
+      <li><strong>Cookie-acceptatie</strong> — opgeslagen in <code>localStorage</code> zodat de cookiebalk niet herhaaldelijk verschijnt.</li>
+    </ul>
+    <p>Deze gegevens verlaten uw browser niet en worden niet gedeeld met derden.</p>
+
+    <h2>6. Uw rechten</h2>
+    <p>Op grond van de AVG (GDPR) heeft u de volgende rechten:</p>
+    <ul>
+      <li>Recht op inzage in uw persoonsgegevens</li>
+      <li>Recht op correctie van onjuiste gegevens</li>
+      <li>Recht op verwijdering van uw gegevens</li>
+      <li>Recht op beperking van de verwerking</li>
+      <li>Recht op bezwaar tegen de verwerking</li>
+    </ul>
+    <p>U kunt deze rechten uitoefenen door contact op te nemen via <a href="mailto:arnold@arnoldruijterit.nl">arnold@arnoldruijterit.nl</a>. Wij reageren binnen 30 dagen op uw verzoek.</p>
+
+    <h2>7. Klachten</h2>
+    <p>Heeft u een klacht over de verwerking van uw persoonsgegevens? Dan kunt u contact opnemen met de <a href="https://www.autoriteitpersoonsgegevens.nl" target="_blank" rel="noopener">Autoriteit Persoonsgegevens</a>.</p>
+
+    <h2>8. Wijzigingen</h2>
+    <p>Wij behouden ons het recht voor deze privacyverklaring te wijzigen. De meest recente versie is altijd te vinden op deze pagina.</p>
+  </div>
+
+  <!-- English -->
+  <div class="lang-section" id="lang-en">
+    <p class="page-label">Legal</p>
+    <h1>Privacy Policy</h1>
+    <p class="last-updated">Last updated: March 2026</p>
+    <div class="divider"></div>
+
+    <p>Arnold Ruijter IT values the protection of your personal data. This privacy policy explains what data we collect, why we collect it, and how we handle it.</p>
+
+    <div class="info-box">
+      <strong>Controller:</strong> Arnold Ruijter IT<br />
+      Established in the Netherlands &nbsp;·&nbsp;
+      <strong>Contact:</strong> <a href="mailto:arnold@arnoldruijterit.nl">arnold@arnoldruijterit.nl</a>
+    </div>
+
+    <h2>1. What data do we collect?</h2>
+    <p>We only collect data that you provide yourself via the contact form on this website:</p>
+    <ul>
+      <li>First and last name</li>
+      <li>Email address</li>
+      <li>Phone number (optional)</li>
+      <li>Subject and message content</li>
+    </ul>
+    <p>We do not collect analytics data, place no tracking cookies, and use no advertising networks.</p>
+
+    <h2>2. How do we use your data?</h2>
+    <p>Your data is used solely to respond to your message and get in touch with you regarding a potential collaboration or assignment. We do not use your data for marketing or any other purpose without your consent.</p>
+
+    <h2>3. How long do we retain your data?</h2>
+    <p>We retain your data no longer than necessary to respond to your message, and in any case no longer than 12 months after the last contact.</p>
+
+    <h2>4. Third parties and processors</h2>
+    <p>Your data is processed via the following services:</p>
+    <ul>
+      <li><strong>Web3Forms</strong> — a contact form submission service. Your form data is sent via their servers to our email address. See <a href="https://web3forms.com/privacy" target="_blank" rel="noopener">web3forms.com/privacy</a>.</li>
+      <li><strong>Google Fonts</strong> — fonts are loaded from Google's CDN, which transmits your IP address to Google. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</li>
+      <li><strong>GitHub Pages</strong> — this website is hosted via GitHub Pages. See <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a>.</li>
+    </ul>
+    <p>We never sell your data to third parties and do not share it beyond what is necessary for the above services.</p>
+
+    <h2>5. Cookies and local storage</h2>
+    <p>This website uses <strong>no tracking cookies</strong>. We only store the following data in your browser:</p>
+    <ul>
+      <li><strong>Language preference</strong> — stored in <code>localStorage</code> so the site remembers your language (NL/EN).</li>
+      <li><strong>Cookie acceptance</strong> — stored in <code>localStorage</code> so the cookie bar does not reappear.</li>
+    </ul>
+    <p>This data does not leave your browser and is not shared with third parties.</p>
+
+    <h2>6. Your rights</h2>
+    <p>Under GDPR you have the following rights:</p>
+    <ul>
+      <li>Right of access to your personal data</li>
+      <li>Right to rectification of inaccurate data</li>
+      <li>Right to erasure of your data</li>
+      <li>Right to restriction of processing</li>
+      <li>Right to object to processing</li>
+    </ul>
+    <p>You can exercise these rights by contacting us at <a href="mailto:arnold@arnoldruijterit.nl">arnold@arnoldruijterit.nl</a>. We will respond within 30 days.</p>
+
+    <h2>7. Complaints</h2>
+    <p>If you have a complaint about the processing of your personal data, you may contact the Dutch Data Protection Authority (<a href="https://www.autoriteitpersoonsgegevens.nl/en" target="_blank" rel="noopener">Autoriteit Persoonsgegevens</a>).</p>
+
+    <h2>8. Changes</h2>
+    <p>We reserve the right to amend this privacy policy. The most recent version will always be available on this page.</p>
+  </div>
+</main>
+
+<footer>
+  © 2026 Arnold Ruijter IT &nbsp;·&nbsp;
+  <a href="index.html">Terug naar website</a>
+</footer>
+
+<script>
+  function setPrivacyLang(lang) {
+    document.getElementById('lang-nl').classList.toggle('visible', lang === 'nl');
+    document.getElementById('lang-en').classList.toggle('visible', lang === 'en');
+    document.querySelectorAll('.lang-btn').forEach((btn, i) => {
+      btn.classList.toggle('active', (i === 0 && lang === 'nl') || (i === 1 && lang === 'en'));
+    });
+    document.querySelector('html').lang = lang;
+  }
+  // Sync with main site language preference
+  const savedLang = localStorage.getItem('arit-lang') || 'nl';
+  if (savedLang === 'en') setPrivacyLang('en');
+</script>
+
+</body>
+</html>

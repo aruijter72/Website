@@ -530,6 +530,26 @@
     .btn-submit:hover { background: var(--gold2); box-shadow: 0 8px 25px rgba(201,163,85,.3); }
     .kvk-note { font-size: .78rem; color: var(--muted); margin-top: 1.5rem; line-height: 1.6; }
 
+    /* Cookie bar */
+    #cookieBar {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 2000;
+      background: rgba(7,15,28,.97); border-top: 1px solid rgba(201,163,85,.25);
+      padding: .9rem 2rem; display: flex; align-items: center;
+      justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
+      font-size: .82rem; color: var(--muted);
+      backdrop-filter: blur(8px);
+    }
+    #cookieBar a { color: var(--gold); text-decoration: none; }
+    #cookieBar a:hover { text-decoration: underline; }
+    #cookieAccept {
+      flex-shrink: 0; padding: .45rem 1.2rem;
+      background: var(--gold); color: var(--navy);
+      border: none; border-radius: 4px; font-weight: 700;
+      font-size: .8rem; letter-spacing: .06em; cursor: pointer;
+      text-transform: uppercase; transition: background .2s;
+    }
+    #cookieAccept:hover { background: var(--gold2); }
+
     /* Footer */
     footer {
       background: rgba(0,0,0,.4); border-top: 1px solid rgba(255,255,255,.06);
@@ -1219,9 +1239,19 @@
       <a href="#services" data-i18n="footer.services">Services</a>
       <a href="#experience" data-i18n="footer.experience">Experience</a>
       <a href="#contact" data-i18n="footer.contact">Contact</a>
+      <a href="privacy.html" data-i18n="footer.privacy">Privacy</a>
     </div>
   </div>
 </footer>
+
+<!-- Cookie consent bar -->
+<div id="cookieBar" style="display:none;">
+  <span id="cookieText">
+    Deze website gebruikt functionele cookies en lokale opslag voor taalvoorkeur. Via het contactformulier worden persoonsgegevens verwerkt.
+    Lees onze <a href="privacy.html">privacyverklaring</a>.
+  </span>
+  <button id="cookieAccept" onclick="acceptCookies()">Accepteren</button>
+</div>
 
 <script>
 const i18n = {
@@ -1373,6 +1403,7 @@ const i18n = {
     'footer.services': 'Diensten',
     'footer.experience': 'Ervaring',
     'footer.contact': 'Contact',
+    'footer.privacy': 'Privacyverklaring',
   },
   en: {
     'nav.about': 'About',
@@ -1522,6 +1553,7 @@ const i18n = {
     'footer.services': 'Services',
     'footer.experience': 'Experience',
     'footer.contact': 'Contact',
+    'footer.privacy': 'Privacy Policy',
   }
 };
 
@@ -1541,9 +1573,31 @@ function setLang(lang) {
   });
   document.getElementById('btn-nl').classList.toggle('active', lang === 'nl');
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  // Update cookie bar text
+  const cookieText = document.getElementById('cookieText');
+  if (cookieText) {
+    cookieText.innerHTML = lang === 'nl'
+      ? 'Deze website gebruikt functionele cookies en lokale opslag voor taalvoorkeur. Via het contactformulier worden persoonsgegevens verwerkt. Lees onze <a href="privacy.html">privacyverklaring</a>.'
+      : 'This website uses functional cookies and local storage for language preferences. Personal data is processed via the contact form. Read our <a href="privacy.html">privacy policy</a>.';
+    document.getElementById('cookieAccept').textContent = lang === 'nl' ? 'Accepteren' : 'Accept';
+  }
 }
 
-document.addEventListener('DOMContentLoaded', () => setLang(currentLang));
+// Cookie consent
+function acceptCookies() {
+  localStorage.setItem('arit-cookies', 'accepted');
+  document.getElementById('cookieBar').style.display = 'none';
+}
+function initCookieBar() {
+  if (!localStorage.getItem('arit-cookies')) {
+    document.getElementById('cookieBar').style.display = 'flex';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  setLang(currentLang);
+  initCookieBar();
+});
 
 async function handleSubmit(e) {
   e.preventDefault();
