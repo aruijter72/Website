@@ -535,7 +535,9 @@
     }
     .footer-brand { display: flex; align-items: center; gap: 10px; }
     .footer-brand img { height: 28px; width: auto; }
-    .footer-brand span { font-size: .88rem; font-weight: 600; color: var(--light); }
+    .footer-brand > span { font-size: .88rem; color: var(--light); }
+    .footer-brand .arit-name { font-weight: 400; color: var(--white); }
+    .footer-brand .arit-gold { font-weight: 800; color: var(--gold); }
     .footer-copy { font-size: .8rem; color: var(--muted); }
     .footer-links { display: flex; gap: 1.5rem; }
     .footer-links a { font-size: .82rem; color: var(--muted); }
@@ -549,7 +551,7 @@
       .service-card,
       .service-card:nth-child(4),
       .service-card:nth-child(5) { grid-column: 1 / -1 !important; }
-      .nav-links { display: none; position: fixed; top: 68px; left: 0; right: 0; bottom: 0; background: rgba(11,23,40,.98); flex-direction: column; align-items: center; justify-content: center; gap: 2rem; z-index: 99; }
+      .nav-links { display: none; position: fixed; top: 68px; left: 0; right: 0; bottom: 0; background: rgba(11,23,40,1); flex-direction: column; align-items: center; justify-content: center; gap: 2rem; z-index: 1000; }
       .nav-links.open { display: flex; }
       .nav-links a { font-size: 1.1rem; }
       .hamburger { display: flex; }
@@ -585,7 +587,7 @@
 <nav id="navbar">
   <div class="nav-inner">
     <a href="#home" class="nav-logo">
-      <img src="Logo Wit.png" alt="Arnold Ruijter IT logo" />
+      <img src="Logo Huisstijl geel.png" alt="Arnold Ruijter IT logo" />
       <span><span class="arit-name">Arnold</span> <strong class="arit-gold">Ruijter IT</strong></span>
     </a>
     <div class="nav-center">
@@ -1193,8 +1195,8 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      <img src="Logo Wit.png" alt="Arnold Ruijter IT logo" />
-      <span>Arnold Ruijter IT</span>
+      <img src="Logo Huisstijl geel.png" alt="Arnold Ruijter IT logo" />
+      <span><span class="arit-name">Arnold</span> <strong class="arit-gold">Ruijter IT</strong></span>
     </div>
     <div class="footer-copy" data-i18n="footer.copy">© 2026 Arnold Ruijter IT — All rights reserved</div>
     <div class="footer-links">
