@@ -1162,30 +1162,30 @@
       <p class="kvk-note" data-i18n="contact.kvk.note">All services are provided under the applicability of the general terms and conditions of Arnold Ruijter IT.<br>Country of establishment: The Netherlands</p>
     </div>
     <div class="fade-in" style="padding-top:11rem;">
-      <form onsubmit="handleSubmit(event)">
+      <form id="contactForm" onsubmit="handleSubmit(event)">
         <div class="form-row">
           <div class="form-group">
             <label data-i18n="form.fname">First Name</label>
-            <input type="text" data-i18n-placeholder="form.fname.ph" placeholder="Your first name" />
+            <input type="text" name="first_name" required data-i18n-placeholder="form.fname.ph" placeholder="Your first name" />
           </div>
           <div class="form-group">
             <label data-i18n="form.lname">Last Name</label>
-            <input type="text" data-i18n-placeholder="form.lname.ph" placeholder="Your last name" />
+            <input type="text" name="last_name" required data-i18n-placeholder="form.lname.ph" placeholder="Your last name" />
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label data-i18n="form.email">Email</label>
-            <input type="email" placeholder="your@email.com" />
+            <input type="email" name="email" required placeholder="your@email.com" />
           </div>
           <div class="form-group">
             <label data-i18n="form.phone">Phone (optional)</label>
-            <input type="tel" placeholder="+31 6 ..." />
+            <input type="tel" name="phone" placeholder="+31 6 ..." />
           </div>
         </div>
         <div class="form-group">
           <label data-i18n="form.subject">Subject</label>
-          <select>
+          <select name="subject">
             <option value="" data-i18n="form.subject.ph">Select a topic...</option>
             <option>Enterprise Architecture</option>
             <option data-i18n="form.opt.leadership">IT Leadership</option>
@@ -1196,11 +1196,12 @@
         </div>
         <div class="form-group">
           <label data-i18n="form.message">Message</label>
-          <textarea data-i18n-placeholder="form.message.ph" placeholder="Tell me about your situation or assignment..."></textarea>
+          <textarea name="message" required data-i18n-placeholder="form.message.ph" placeholder="Tell me about your situation or assignment..."></textarea>
         </div>
         <div class="form-submit">
-          <button type="submit" class="btn-submit" data-i18n="form.submit">Send Message →</button>
+          <button type="submit" id="submitBtn" class="btn-submit" data-i18n="form.submit">Send Message →</button>
         </div>
+        <div id="formFeedback" style="margin-top:1rem;font-size:.9rem;display:none;"></div>
       </form>
     </div>
   </div>
@@ -1546,6 +1547,46 @@ function setLang(lang) {
 }
 
 document.addEventListener('DOMContentLoaded', () => setLang(currentLang));
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  const form     = document.getElementById('contactForm');
+  const btn      = document.getElementById('submitBtn');
+  const feedback = document.getElementById('formFeedback');
+  const lang     = localStorage.getItem('arit-lang') || 'nl';
+
+  btn.disabled   = true;
+  btn.textContent = lang === 'nl' ? 'Versturen…' : 'Sending…';
+  feedback.style.display = 'none';
+
+  const data = new FormData(form);
+  data.append('access_key', '745b43ff-1f61-401d-ad57-d28b4be5a255');
+  data.append('subject', 'New contact via arnoldruijterit.nl — ' + (data.get('subject') || 'General'));
+  data.append('from_name', (data.get('first_name') + ' ' + data.get('last_name')).trim());
+
+  try {
+    const res  = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data });
+    const json = await res.json();
+    if (json.success) {
+      feedback.style.color   = '#4ad474';
+      feedback.textContent   = lang === 'nl'
+        ? '✓ Bericht verzonden! Ik neem zo snel mogelijk contact met je op.'
+        : '✓ Message sent! I\'ll get back to you as soon as possible.';
+      form.reset();
+    } else {
+      throw new Error(json.message || 'Unknown error');
+    }
+  } catch (err) {
+    feedback.style.color   = '#f56a6a';
+    feedback.textContent   = lang === 'nl'
+      ? '✗ Er ging iets mis. Probeer het later opnieuw of mail naar arnold@arnoldruijterit.nl.'
+      : '✗ Something went wrong. Please try again or email arnold@arnoldruijterit.nl.';
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = lang === 'nl' ? 'Verstuur bericht →' : 'Send Message →';
+    feedback.style.display = 'block';
+  }
+}
 
 function toggleMenu() {
   const navLinks = document.getElementById('navLinks');
