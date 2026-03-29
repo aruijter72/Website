@@ -98,20 +98,27 @@
     .nav-center {
       display: flex; align-items: center; gap: 1rem;
     }
-    .nav-links { display: flex; gap: 2.4rem; align-items: center; }
-    .nav-links a {
+    .nav-links-desktop { display: flex; gap: 2.4rem; align-items: center; }
+    .nav-links-desktop a, .nav-links a {
       font-size: .88rem; font-weight: 500; letter-spacing: .08em;
       text-transform: uppercase; color: var(--muted);
       transition: color var(--transition);
       position: relative; padding-bottom: 3px;
     }
-    .nav-links a::after {
+    .nav-links-desktop a::after, .nav-links a::after {
       content: ''; position: absolute; bottom: 0; left: 0; right: 100%;
       height: 1px; background: var(--gold);
       transition: right var(--transition);
     }
+    .nav-links-desktop a:hover, .nav-links-desktop a.active,
     .nav-links a:hover, .nav-links a.active { color: var(--white); }
+    .nav-links-desktop a:hover::after, .nav-links-desktop a.active::after,
     .nav-links a:hover::after, .nav-links a.active::after { right: 0; }
+    /* Mobile overlay — hidden by default, shown via JS */
+    .nav-links { display: none; position: fixed; top: 68px; left: 0; right: 0; bottom: 0;
+      background: rgba(11,23,40,1); flex-direction: column; align-items: center;
+      justify-content: center; gap: 2rem; z-index: 1000; }
+    .nav-links.open { display: flex; }
     .nav-cta {
       padding: .4rem 1.1rem; border: 1px solid var(--gold);
       border-radius: 4px; color: var(--gold) !important;
@@ -551,8 +558,7 @@
       .service-card,
       .service-card:nth-child(4),
       .service-card:nth-child(5) { grid-column: 1 / -1 !important; }
-      .nav-links { display: none; position: fixed; top: 68px; left: 0; right: 0; bottom: 0; background: rgba(11,23,40,1); flex-direction: column; align-items: center; justify-content: center; gap: 2rem; z-index: 1000; }
-      .nav-links.open { display: flex; }
+      .nav-links-desktop { display: none; }
       .nav-links a { font-size: 1.1rem; }
       .hamburger { display: flex; }
       .hero-visual { display: none; }
@@ -591,7 +597,7 @@
       <span><span class="arit-name">Arnold</span> <strong class="arit-gold">Ruijter IT</strong></span>
     </a>
     <div class="nav-center">
-      <div class="nav-links" id="navLinks">
+      <div class="nav-links-desktop">
         <a href="#home">Home</a>
         <a href="#about" data-i18n="nav.about">About</a>
         <a href="#services" data-i18n="nav.services">Services</a>
@@ -610,6 +616,15 @@
     </div>
   </div>
 </nav>
+<!-- Mobile menu overlay — outside <nav> to avoid iOS fixed-in-fixed bug -->
+<div class="nav-links" id="navLinks">
+  <a href="#home">Home</a>
+  <a href="#about" data-i18n="nav.about">About</a>
+  <a href="#services" data-i18n="nav.services">Services</a>
+  <a href="#experience" data-i18n="nav.experience">Experience</a>
+  <a href="#vision" data-i18n="nav.vision">Vision</a>
+  <a href="#contact" class="nav-cta" data-i18n="nav.contact">Contact</a>
+</div>
 
 <!-- Hero -->
 <section id="home">
