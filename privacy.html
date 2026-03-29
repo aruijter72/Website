@@ -124,7 +124,7 @@
     <img src="Logo Huisstijl geel.png" alt="Arnold Ruijter IT" />
     <span><span class="arit-name">Arnold</span> <strong class="arit-gold">Ruijter IT</strong></span>
   </a>
-  <a href="index.html" class="nav-back">← Terug naar de website</a>
+  <a href="index.html" class="nav-back" id="navBack">← Terug naar de website</a>
 </nav>
 
 <main>
@@ -269,7 +269,7 @@
 
 <footer>
   © 2026 Arnold Ruijter IT &nbsp;·&nbsp;
-  <a href="index.html">Terug naar website</a>
+  <a href="index.html" id="footerBack">Terug naar website</a>
 </footer>
 
 <script>
@@ -280,6 +280,8 @@
       btn.classList.toggle('active', (i === 0 && lang === 'nl') || (i === 1 && lang === 'en'));
     });
     document.querySelector('html').lang = lang;
+    document.getElementById('navBack').textContent   = lang === 'nl' ? '← Terug naar de website' : '← Back to the website';
+    document.getElementById('footerBack').textContent = lang === 'nl' ? 'Terug naar website' : 'Back to website';
   }
   // Sync with main site language preference
   const savedLang = localStorage.getItem('arit-lang') || 'nl';
