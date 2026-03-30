@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Arnold Ruijter IT</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <meta name="description" content="Get in touch with Arnold Ruijter for consulting inquiries and advisory services." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Arnold Ruijter" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="Logo Huisstijl geel.png" alt="Arnold Ruijter IT logo" />
+      <span><span class="arit-name">Arnold</span> <strong class="arit-gold">Ruijter IT</strong></span>
+    </a>
+    <div class="nav-center">
+      <div class="nav-links-desktop">
+        <a href="index.html">Home</a>
+        <a href="about.html" data-i18n="nav.about">About</a>
+        <a href="services.html" data-i18n="nav.services">Services</a>
+        <a href="experience.html" data-i18n="nav.experience">Experience</a>
+        <a href="vision.html" data-i18n="nav.vision">Vision</a>
+        <a href="contact.html" class="nav-cta" data-i18n="nav.contact">Contact</a>
+      </div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="btn-nl" onclick="setLang('nl')">NL</button>
+        <span class="lang-sep">·</span>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<div class="nav-links" id="navLinks">
+  <a href="index.html">Home</a>
+  <a href="about.html" data-i18n="nav.about">About</a>
+  <a href="services.html" data-i18n="nav.services">Services</a>
+  <a href="experience.html" data-i18n="nav.experience">Experience</a>
+  <a href="vision.html" data-i18n="nav.vision">Vision</a>
+  <a href="contact.html" class="nav-cta" data-i18n="nav.contact">Contact</a>
+</div>
+
+<section id="contact" style="background: var(--navy2);">
+  <div class="contact-grid">
+    <div class="fade-in">
+      <p class="section-label" data-i18n="contact.label">Get In Touch</p>
+      <h2 class="section-title" data-i18n="contact.title">Let's talk</h2>
+      <div class="divider"></div>
+      <p style="color:var(--muted);margin-bottom:2rem;line-height:1.8;" data-i18n="contact.desc">Looking forward to hearing from you. Whether you have a specific assignment in mind or just want to explore possibilities, I'm happy to connect.</p>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div>
+          <h4 data-i18n="contact.loc.title">Location</h4>
+          <p data-i18n="contact.loc.val">Castricum, The Netherlands</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🌐</div>
+        <div>
+          <h4 data-i18n="contact.web.title">Website</h4>
+          <p><a href="#">arnoldruijterit.nl</a></p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🏢</div>
+        <div>
+          <h4 data-i18n="contact.co.title">Company</h4>
+          <p>Arnold Ruijter IT</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📋</div>
+        <div>
+          <h4 data-i18n="contact.legal.title">Legal form</h4>
+          <p data-i18n="contact.legal.val">One-man business</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🔢</div>
+        <div>
+          <h4 data-i18n="contact.kvk.title">KVK (Chamber of Commerce)</h4>
+          <p>99478781</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🧾</div>
+        <div>
+          <h4 data-i18n="contact.vat.title">VAT number</h4>
+          <p>NL005389798B39</p>
+        </div>
+      </div>
+      <p class="kvk-note" data-i18n="contact.kvk.note">All services are provided under the applicability of the general terms and conditions of Arnold Ruijter IT.<br>Country of establishment: The Netherlands</p>
+    </div>
+    <div class="fade-in" style="padding-top:11rem;">
+      <form id="contactForm" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label data-i18n="form.fname">First Name</label>
+            <input type="text" name="first_name" required data-i18n-placeholder="form.fname.ph" placeholder="Your first name" />
+          </div>
+          <div class="form-group">
+            <label data-i18n="form.lname">Last Name</label>
+            <input type="text" name="last_name" required data-i18n-placeholder="form.lname.ph" placeholder="Your last name" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label data-i18n="form.email">Email</label>
+            <input type="email" name="email" required placeholder="your@email.com" />
+          </div>
+          <div class="form-group">
+            <label data-i18n="form.phone">Phone (optional)</label>
+            <input type="tel" name="phone" placeholder="+31 6 ..." />
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="form.subject">Subject</label>
+          <select name="subject">
+            <option value="" data-i18n="form.subject.ph">Select a topic...</option>
+            <option>Enterprise Architecture</option>
+            <option data-i18n="form.opt.leadership">IT Leadership</option>
+            <option>Integration Architecture</option>
+            <option data-i18n="form.opt.strategy">IT Strategy</option>
+            <option data-i18n="form.opt.other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label data-i18n="form.message">Message</label>
+          <textarea name="message" required data-i18n-placeholder="form.message.ph" placeholder="Tell me about your situation or assignment..."></textarea>
+        </div>
+        <div class="form-submit">
+          <button type="submit" id="submitBtn" class="btn-submit" data-i18n="form.submit">Send Message →</button>
+        </div>
+        <div id="formFeedback" style="margin-top:1rem;font-size:.9rem;display:none;"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="Logo Huisstijl geel.png" alt="Arnold Ruijter IT logo" />
+      <span><span class="arit-name">Arnold</span> <strong class="arit-gold">Ruijter IT</strong></span>
+    </div>
+    <div class="footer-copy" data-i18n="footer.copy">© 2026 Arnold Ruijter IT — All rights reserved</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="services.html" data-i18n="footer.services">Services</a>
+      <a href="experience.html" data-i18n="footer.experience">Experience</a>
+      <a href="contact.html" data-i18n="footer.contact">Contact</a>
+      <a href="privacy.html" data-i18n="footer.privacy">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+<div id="cookieBar" style="display:none;">
+  <span id="cookieText">
+    Deze website gebruikt functionele cookies en lokale opslag voor taalvoorkeur. Via het contactformulier worden persoonsgegevens verwerkt.
+    Lees onze <a href="privacy.html">privacyverklaring</a>.
+  </span>
+  <button id="cookieAccept" onclick="acceptCookies()">Accepteren</button>
+</div>
+
+<script src="shared.js"></script>
+<script>
+async function handleSubmit(e) {
+  e.preventDefault();
+  const form     = document.getElementById('contactForm');
+  const btn      = document.getElementById('submitBtn');
+  const feedback = document.getElementById('formFeedback');
+  const lang     = localStorage.getItem('arit-lang') || 'nl';
+
+  btn.disabled   = true;
+  btn.textContent = lang === 'nl' ? 'Versturen…' : 'Sending…';
+  feedback.style.display = 'none';
+
+  const data = new FormData(form);
+  data.append('access_key', '745b43ff-1f61-401d-ad57-d28b4be5a255');
+  data.append('subject', 'New contact via arnoldruijterit.nl — ' + (data.get('subject') || 'General'));
+  data.append('from_name', (data.get('first_name') + ' ' + data.get('last_name')).trim());
+
+  try {
+    const res  = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data });
+    const json = await res.json();
+    if (json.success) {
+      feedback.style.color   = '#4ad474';
+      feedback.textContent   = lang === 'nl'
+        ? '✓ Bericht verzonden! Ik neem zo snel mogelijk contact met je op.'
+        : '✓ Message sent! I\'ll get back to you as soon as possible.';
+      form.reset();
+    } else {
+      throw new Error(json.message || 'Unknown error');
+    }
+  } catch (err) {
+    feedback.style.color   = '#f56a6a';
+    feedback.textContent   = lang === 'nl'
+      ? '✗ Er ging iets mis. Probeer het later opnieuw of mail naar arnold@arnoldruijterit.nl.'
+      : '✗ Something went wrong. Please try again or email arnold@arnoldruijterit.nl.';
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = lang === 'nl' ? 'Verstuur bericht →' : 'Send Message →';
+    feedback.style.display = 'block';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  setLang(currentLang);
+  initCookieBar();
+  document.querySelectorAll('.nav-links-desktop a, .nav-links a').forEach(a => {
+    if (a.getAttribute('href') === 'contact.html') a.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>

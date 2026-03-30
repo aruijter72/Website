@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — Arnold Ruijter IT</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <meta name="description" content="Enterprise architecture, IT leadership, integration architecture, IT strategy, and advisory services." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Arnold Ruijter" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="Logo Huisstijl geel.png" alt="Arnold Ruijter IT logo" />
+      <span><span class="arit-name">Arnold</span> <strong class="arit-gold">Ruijter IT</strong></span>
+    </a>
+    <div class="nav-center">
+      <div class="nav-links-desktop">
+        <a href="index.html">Home</a>
+        <a href="about.html" data-i18n="nav.about">About</a>
+        <a href="services.html" data-i18n="nav.services">Services</a>
+        <a href="experience.html" data-i18n="nav.experience">Experience</a>
+        <a href="vision.html" data-i18n="nav.vision">Vision</a>
+        <a href="contact.html" class="nav-cta" data-i18n="nav.contact">Contact</a>
+      </div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="btn-nl" onclick="setLang('nl')">NL</button>
+        <span class="lang-sep">·</span>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<div class="nav-links" id="navLinks">
+  <a href="index.html">Home</a>
+  <a href="about.html" data-i18n="nav.about">About</a>
+  <a href="services.html" data-i18n="nav.services">Services</a>
+  <a href="experience.html" data-i18n="nav.experience">Experience</a>
+  <a href="vision.html" data-i18n="nav.vision">Vision</a>
+  <a href="contact.html" class="nav-cta" data-i18n="nav.contact">Contact</a>
+</div>
+
+<section id="services" style="background: var(--navy);">
+  <div class="services-intro fade-in">
+    <p class="section-label" data-i18n="services.label">What I Offer</p>
+    <h2 class="section-title" data-i18n="services.title">Services</h2>
+    <p class="section-desc" data-i18n="services.desc">In my 30+ years of experience — including more than 20 years in large enterprises with complex processes and IT landscapes — I provide the following services:</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card fade-in">
+      <div class="service-icon">🏛️</div>
+      <h3 data-i18n="svc1.title">Enterprise &amp; Domain Architecture</h3>
+      <p data-i18n="svc1.desc">Analyse your organisation, understand business processes and the IT landscape, and design a coherent path forward — at enterprise level or scoped to a specific domain.</p>
+      <ul class="service-points" data-i18n="svc1.points"><li>Analyse organisation structure with a focus on IT</li><li>Gather requirements from business and IT stakeholders</li><li>Record current architecture and design the future state</li><li>Build the roadmap and safeguard consistency during transformation</li><li>TOGAF-certified approach to architecture governance</li><li>Domain architecture for a specific IT area or capability</li></ul>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-icon">👥</div>
+      <h3 data-i18n="svc2.title">IT Leadership</h3>
+      <p data-i18n="svc2.desc">Build high-performing IT teams by understanding people, coaching strengths, and creating an environment of ownership and trust.</p>
+      <ul class="service-points" data-i18n="svc2.points"><li>Understand team dynamics, expertise, and interests</li><li>Coach on strengths and personal ownership</li><li>Guide communication within the team and with stakeholders</li><li>Be a person of trust with an open-door approach</li><li>Enable self-direction — teams that tell you, not the other way around</li></ul>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-icon">🔗</div>
+      <h3 data-i18n="svc3.title">Integration Architecture</h3>
+      <p data-i18n="svc3.desc">Design robust and scalable integration landscapes for Supply Chain, Finance, Product Master, Logistics, and more.</p>
+      <ul class="service-points" data-i18n="svc3.points"><li>Analyse organisation and IT landscape for integration gaps</li><li>Design integration architecture based on requirements</li><li>Apply EDI, EAI, API, and middleware patterns</li><li>Design or review mapping specifications and communication protocols</li><li>Maintain architecture consistency and documentation</li></ul>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-icon">🎯</div>
+      <h3 data-i18n="svc4.title">IT Strategy</h3>
+      <p data-i18n="svc4.desc">Translate business ambitions into a prioritised, realistic IT roadmap — aligned across teams and grounded in the organisation's goals.</p>
+      <ul class="service-points" data-i18n="svc4.points"><li>Analyse opportunities for technology to grow the business</li><li>Determine critical path vs. nice-to-have</li><li>Guide people through change with clarity on the "Why"</li><li>Align business and IT vision into a single coherent strategy</li><li>Bring the tech and business roadmap together</li><li>Brainstorm with management and support business targets</li></ul>
+    </div>
+    <div class="service-card fade-in">
+      <div class="service-icon">💼</div>
+      <h3 data-i18n="svc5.title">Advisory &amp; Specialist Roles</h3>
+      <p data-i18n="svc5.desc">Available for engagements beyond the traditional enterprise scope — from domain-level assignments to cross-sector advisory, at whatever scale best fits your situation.</p>
+      <ul class="service-points" data-i18n="svc5.points"><li>Domain architecture within a specific system or IT area</li><li>Cross-sector engagements — from retail and fashion to public sector and beyond</li><li>Vendor selection, tendering support, and solution assessment</li><li>Smaller organisations that benefit from senior expertise on demand</li><li>Management advisory without a full-time or long-term commitment</li></ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="Logo Huisstijl geel.png" alt="Arnold Ruijter IT logo" />
+      <span><span class="arit-name">Arnold</span> <strong class="arit-gold">Ruijter IT</strong></span>
+    </div>
+    <div class="footer-copy" data-i18n="footer.copy">© 2026 Arnold Ruijter IT — All rights reserved</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="services.html" data-i18n="footer.services">Services</a>
+      <a href="experience.html" data-i18n="footer.experience">Experience</a>
+      <a href="contact.html" data-i18n="footer.contact">Contact</a>
+      <a href="privacy.html" data-i18n="footer.privacy">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+<div id="cookieBar" style="display:none;">
+  <span id="cookieText">
+    Deze website gebruikt functionele cookies en lokale opslag voor taalvoorkeur. Via het contactformulier worden persoonsgegevens verwerkt.
+    Lees onze <a href="privacy.html">privacyverklaring</a>.
+  </span>
+  <button id="cookieAccept" onclick="acceptCookies()">Accepteren</button>
+</div>
+
+<script src="shared.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  setLang(currentLang);
+  initCookieBar();
+  document.querySelectorAll('.nav-links-desktop a, .nav-links a').forEach(a => {
+    if (a.getAttribute('href') === 'services.html') a.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
