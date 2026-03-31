@@ -1,7 +1,7 @@
 const i18n = {
   nl: {
     'nav.about': 'Over mij',
-    'nav.services': 'Diensten',
+    'nav.services': 'Services',
     'nav.experience': 'Ervaring',
     'nav.vision': 'Visie',
     'nav.contact': 'Contact',
@@ -144,7 +144,7 @@ const i18n = {
     'form.message.ph': 'Vertel me over uw situatie of opdracht...',
     'form.submit': 'Verstuur bericht →',
     'footer.copy': '© 2026 Arnold Ruijter IT — Alle rechten voorbehouden',
-    'footer.services': 'Diensten',
+    'footer.services': 'Services',
     'footer.experience': 'Ervaring',
     'footer.contact': 'Contact',
     'footer.privacy': 'Privacyverklaring',
@@ -153,7 +153,7 @@ const i18n = {
     'explore.desc': 'Van architectuur en leiderschap tot ervaring en visie — alles op één plek.',
     'explore.card1.title': 'Over mij',
     'explore.card1.desc': 'Wie ik ben, mijn filosofie en wat ik meeneem als consultant.',
-    'explore.card2.title': 'Diensten',
+    'explore.card2.title': 'Services',
     'explore.card2.desc': 'Enterprise architectuur, IT-leiderschap, integratie en strategisch advies.',
     'explore.card3.title': 'Ervaring',
     'explore.card3.desc': '20+ jaar in grote internationale ondernemingen, van PVH tot de publieke sector.',
