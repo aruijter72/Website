@@ -98,7 +98,7 @@ const i18n = {
     'vision.v1.title': 'Transparantie boven Politiek',
     'vision.v1.desc': 'Ik zeg wat ik wel en niet kan. Ik houd er geen halve waarheden op na. Die duidelijkheid schept vertrouwen — en vertrouwen levert resultaten.',
     'vision.v2.title': 'Leiderschap door Vertrouwen',
-    'vision.v2.desc': 'De eerste keer dat ik leidingaf, probeerde ik mijn manager te kopiëren — en dat werkte niet. Ik leerde mezelf te zijn als leider: aandacht voor welzijn, beginnen met vertrouwen en vertrouwen op de bereidheid en capaciteiten van mensen.',
+    'vision.v2.desc': 'De eerste keer dat ik leidinggaf, probeerde ik mijn manager te kopiëren — en dat werkte niet. Ik leerde mezelf te zijn als leider: aandacht voor welzijn, beginnen met vertrouwen en vertrouwen op de bereidheid en capaciteiten van mensen.',
     'vision.v3.title': 'Jezelf Overbodig Maken',
     'vision.v3.desc': 'Het doel van goed leiderschap is je team in staat stellen eigen acties te ondernemen en beslissingen te nemen binnen afgesproken kaders. Een team dat jou niet nodig heeft om te vertellen wat ze moeten doen — dat is het doel.',
     'vision.v4.title': 'Hands-on Wanneer Nodig',
