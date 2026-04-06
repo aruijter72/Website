@@ -246,7 +246,8 @@
       </p>
       <div class="arch-hero-actions">
         <a href="architise-tool.html" target="_blank" rel="noopener"
-           class="btn-primary" data-i18n="arch.cta.try">⬡ Try it live</a>
+           class="btn-primary" data-i18n="arch.cta.try"
+           onclick="this.href='architise-tool.html?lang='+(localStorage.getItem('arit-lang')||'nl')">⬡ Try it live</a>
       </div>
       <div class="arch-badge-row">
         <span class="arch-badge free" data-i18n="arch.badge.free">Instant Access</span>
@@ -339,7 +340,8 @@
         <h3 data-i18n="arch.get.live.title">Try it live</h3>
         <p data-i18n="arch.get.live.desc">Open the tool directly in your browser — no download needed. Always up to date with the latest version.</p>
         <a href="architise-tool.html" target="_blank" rel="noopener"
-           class="btn-primary" style="text-align:center" data-i18n="arch.get.live.btn">Open Architise →</a>
+           class="btn-primary" style="text-align:center" data-i18n="arch.get.live.btn"
+           onclick="this.href='architise-tool.html?lang='+(localStorage.getItem('arit-lang')||'nl')">Open Architise →</a>
         <span class="get-note" data-i18n="arch.get.live.note">Requires an internet connection</span>
       </div>
       <div class="get-card fade-in">
