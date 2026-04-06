@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architise — ArchiMate 3 Modelling Tool by Arnold Ruijter IT</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <meta name="description" content="Architise is a free, standalone ArchiMate 3 modelling tool — no installation, no account, works offline. Built by Arnold Ruijter IT." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Arnold Ruijter" />
+
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://arnoldruijterit.nl/architise.html" />
+  <meta property="og:title"       content="Architise — Free ArchiMate 3 Modelling Tool" />
+  <meta property="og:description" content="A free, standalone ArchiMate 3 modelling tool. No installation, no account — download once and works offline. Built by Arnold Ruijter IT." />
+  <meta property="og:image"       content="https://arnoldruijterit.nl/Logo%20Zwart.png" />
+  <meta property="og:locale"      content="en_GB" />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* ── Architise page extras ────────────────────────────── */
+    #architise-hero {
+      min-height: 88vh;
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+      padding: 120px 5vw 80px;
+      background: var(--navy);
+    }
+    .arch-hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 65% 45%, rgba(167,138,245,.07) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 70% at 15% 30%, rgba(201,163,85,.05) 0%, transparent 55%),
+        linear-gradient(160deg, #0b1728 0%, #111830 55%, #0b1728 100%);
+      pointer-events: none;
+    }
+    .arch-hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(167,138,245,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(167,138,245,.035) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .arch-hero-inner {
+      position: relative; max-width: 1280px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 4rem; align-items: center;
+    }
+    .arch-hero-logo {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 1.6rem;
+    }
+    .arch-hero-logo img { height: 60px; width: auto; }
+    .arch-logo-text {
+      font-size: 2.4rem; font-weight: 800; letter-spacing: -.02em;
+      color: var(--gold); line-height: 1;
+    }
+    .arch-hero-tagline {
+      font-size: 1.22rem; color: var(--muted); margin-bottom: .6rem;
+      letter-spacing: .01em;
+    }
+    .arch-hero-desc {
+      font-size: 1.05rem; color: var(--light); line-height: 1.85;
+      max-width: 560px; margin-bottom: 2.4rem;
+    }
+    .arch-hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+    .arch-badge-row {
+      display: flex; gap: .65rem; flex-wrap: wrap; margin-top: 2.4rem;
+    }
+    .arch-badge {
+      font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      padding: .25rem .7rem; border-radius: 20px;
+    }
+    .arch-badge.free   { background: rgba(122,245,160,.12); color: #7af5a0; border: 1px solid rgba(122,245,160,.3); }
+    .arch-badge.open   { background: rgba(74,159,212,.12);  color: #7adaf5; border: 1px solid rgba(74,159,212,.3); }
+    .arch-badge.nl     { background: rgba(201,163,85,.12);  color: var(--gold);  border: 1px solid rgba(201,163,85,.3); }
+    .arch-badge.off    { background: rgba(255,255,255,.06); color: var(--muted); border: 1px solid rgba(255,255,255,.12); }
+    .arch-hero-visual {
+      display: flex; flex-direction: column; align-items: center; gap: .7rem;
+    }
+    .arch-screen-mock {
+      width: 360px; max-width: 38vw;
+      background: #141628; border: 1px solid rgba(255,255,255,.12);
+      border-radius: 12px; overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(201,163,85,.1);
+    }
+    .arch-mock-bar {
+      background: #0f1223; padding: .55rem 1rem;
+      display: flex; align-items: center; gap: .5rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .arch-mock-dot { width: 9px; height: 9px; border-radius: 50%; }
+    .arch-mock-title {
+      font-size: .7rem; font-weight: 700; color: #c9a355; margin-left: .3rem; letter-spacing: .04em;
+    }
+    .arch-mock-body { padding: 1rem; display: flex; flex-direction: column; gap: .45rem; }
+    .arch-mock-layer {
+      padding: .5rem .75rem; border-radius: 6px; font-size: .7rem; font-weight: 700;
+      display: flex; align-items: center; gap: .5rem; letter-spacing: .04em;
+    }
+    .arch-mock-layer.biz  { background: rgba(245,230,122,.12); color: #d4c050; border: 1px solid rgba(245,230,122,.3); }
+    .arch-mock-layer.app  { background: rgba(122,218,245,.1);  color: #55bedd; border: 1px solid rgba(122,218,245,.3); }
+    .arch-mock-layer.tech { background: rgba(122,245,160,.1);  color: #50d478; border: 1px solid rgba(122,245,160,.3); }
+    .arch-mock-layer.swim { background: rgba(167,138,245,.1);  color: #b09af5; border: 1px solid rgba(167,138,245,.3); }
+    .arch-mock-elem {
+      margin-left: 1.2rem; padding: .28rem .55rem; border-radius: 4px;
+      font-size: .64rem; font-weight: 600; color: var(--muted);
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+      width: fit-content;
+    }
+
+    /* ── Features ────────────────────────────────────────── */
+    #architise-features {
+      background: var(--navy2); padding: 90px 5vw;
+    }
+    .feat-intro { max-width: 1200px; margin: 0 auto 3rem; }
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.4rem; max-width: 1200px; margin: 0 auto;
+    }
+    .feat-card {
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px; padding: 1.8rem 1.6rem;
+      transition: var(--transition); position: relative; overflow: hidden;
+    }
+    .feat-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px; transform: scaleX(0); transform-origin: left;
+      transition: transform var(--transition);
+    }
+    .feat-card.gold::before  { background: linear-gradient(90deg, var(--gold), var(--gold2)); }
+    .feat-card.blue::before  { background: linear-gradient(90deg, var(--blue), #7adaf5); }
+    .feat-card.green::before { background: linear-gradient(90deg, #7af5a0, #50d478); }
+    .feat-card.purple::before{ background: linear-gradient(90deg, #a78af5, #b09af5); }
+    .feat-card:hover { background: rgba(255,255,255,.045); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,.25); }
+    .feat-card:hover::before { transform: scaleX(1); }
+    .feat-card.gold:hover  { border-color: rgba(201,163,85,.3); }
+    .feat-card.blue:hover  { border-color: rgba(74,159,212,.3); }
+    .feat-card.green:hover { border-color: rgba(122,245,160,.3); }
+    .feat-card.purple:hover{ border-color: rgba(167,138,245,.3); }
+    .feat-icon {
+      font-size: 1.7rem; margin-bottom: 1rem;
+      width: 48px; height: 48px;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 11px; display: flex; align-items: center; justify-content: center;
+    }
+    .feat-card h3 { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: .55rem; }
+    .feat-card p  { font-size: .88rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── Get started ─────────────────────────────────────── */
+    #architise-get {
+      background: var(--navy); padding: 90px 5vw;
+    }
+    .get-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2rem; max-width: 860px; margin: 3rem auto 0;
+    }
+    .get-card {
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px; padding: 2rem 1.8rem;
+      display: flex; flex-direction: column; gap: 1rem;
+      transition: var(--transition);
+    }
+    .get-card:hover { border-color: rgba(201,163,85,.25); background: rgba(255,255,255,.04); }
+    .get-card-icon { font-size: 2rem; }
+    .get-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .get-card p  { font-size: .9rem; color: var(--muted); line-height: 1.7; flex: 1; }
+    .get-note    { font-size: .8rem; color: var(--muted); opacity: .7; }
+
+
+    /* responsive */
+    @media (max-width: 860px) {
+      .arch-hero-inner { grid-template-columns: 1fr; }
+      .arch-hero-visual { display: none; }
+      .get-grid { grid-template-columns: 1fr; }
+      .arch-mock-screen { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="Logo Huisstijl geel.png" alt="Arnold Ruijter IT logo" />
+      <span><span class="arit-name">Arnold</span> <strong class="arit-gold">Ruijter IT</strong></span>
+    </a>
+    <div class="nav-center">
+      <div class="nav-links-desktop">
+        <a href="index.html">Home</a>
+        <a href="about.html" data-i18n="nav.about">About</a>
+        <a href="services.html" data-i18n="nav.services">Services</a>
+        <a href="experience.html" data-i18n="nav.experience">Experience</a>
+        <a href="vision.html" data-i18n="nav.vision">Vision</a>
+        <a href="architise.html" class="active">Architise</a>
+        <a href="contact.html" class="nav-cta" data-i18n="nav.contact">Contact</a>
+      </div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="btn-nl" onclick="setLang('nl')">NL</button>
+        <span class="lang-sep">·</span>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<div class="nav-links" id="navLinks">
+  <a href="index.html">Home</a>
+  <a href="about.html" data-i18n="nav.about">About</a>
+  <a href="services.html" data-i18n="nav.services">Services</a>
+  <a href="experience.html" data-i18n="nav.experience">Experience</a>
+  <a href="vision.html" data-i18n="nav.vision">Vision</a>
+  <a href="architise.html">Architise</a>
+  <a href="contact.html" class="nav-cta" data-i18n="nav.contact">Contact</a>
+</div>
+
+<!-- ── Hero ──────────────────────────────────────────────── -->
+<section id="architise-hero">
+  <div class="arch-hero-bg"></div>
+  <div class="arch-hero-grid"></div>
+  <div class="arch-hero-inner">
+    <div class="fade-in">
+      <div class="arch-hero-logo">
+        <img src="Architise-Logo-A.png" alt="Architise logo" />
+        <div class="arch-logo-text">Architise</div>
+      </div>
+      <p class="arch-hero-tagline" data-i18n="arch.tagline">Free ArchiMate 3 Modelling Tool</p>
+      <p class="arch-hero-desc" data-i18n="arch.desc">
+        A standalone architecture modelling tool — built on the ArchiMate 3 standard.
+        No installation, no account, no subscription. Download once and it works anywhere,
+        including fully offline.
+      </p>
+      <div class="arch-hero-actions">
+        <a href="architise-tool.html" target="_blank" rel="noopener"
+           class="btn-primary" data-i18n="arch.cta.try">⬡ Try it live</a>
+      </div>
+      <div class="arch-badge-row">
+        <span class="arch-badge free" data-i18n="arch.badge.free">Free forever</span>
+<span class="arch-badge nl"   data-i18n="arch.badge.nl">EN / NL</span>
+        <span class="arch-badge off"  data-i18n="arch.badge.off">Offline capable</span>
+      </div>
+    </div>
+
+    <!-- Visual mock-up of the app UI -->
+    <div class="arch-hero-visual fade-in">
+      <div class="arch-screen-mock">
+        <div class="arch-mock-bar">
+          <div class="arch-mock-dot" style="background:#ef4444"></div>
+          <div class="arch-mock-dot" style="background:#f59e0b;margin-left:4px"></div>
+          <div class="arch-mock-dot" style="background:#22c55e;margin-left:4px"></div>
+          <span class="arch-mock-title">⬡ Architise</span>
+        </div>
+        <div class="arch-mock-body">
+          <div class="arch-mock-layer biz">🏢 Business Layer</div>
+          <div class="arch-mock-elem">BusinessActor · BusinessRole · BusinessProcess</div>
+          <div class="arch-mock-layer app" style="margin-top:.3rem">💻 Application Layer</div>
+          <div class="arch-mock-elem">ApplicationComponent · ApplicationService</div>
+          <div class="arch-mock-layer tech" style="margin-top:.3rem">🔧 Technology Layer</div>
+          <div class="arch-mock-elem">Node · SystemSoftware · TechnologyService</div>
+          <div class="arch-mock-layer swim" style="margin-top:.3rem">⟳ Swimlane</div>
+          <div class="arch-mock-elem">Lanes · Tasks · Decision · Flow</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features ──────────────────────────────────────────── -->
+<section id="architise-features">
+  <div class="feat-intro fade-in">
+    <p class="section-label" data-i18n="arch.feat.label">What it does</p>
+    <h2 class="section-title" data-i18n="arch.feat.title">Everything you need to model architecture</h2>
+    <div class="divider"></div>
+    <p class="section-desc" data-i18n="arch.feat.desc">
+      Architise covers the full ArchiMate 3 standard across three layers,
+      a dedicated Swimlane mode for process diagrams, and exports
+      compatible with Archi 5.x — all in a single file you can open in any browser.
+    </p>
+  </div>
+  <div class="feat-grid">
+    <div class="feat-card gold fade-in">
+      <div class="feat-icon">⬡</div>
+      <h3 data-i18n="arch.f1.title">Full ArchiMate 3 coverage</h3>
+      <p data-i18n="arch.f1.desc">Business, Application, and Technology layers — with Active Structure, Behaviour, and Passive Structure element types, and all ArchiMate relationship types.</p>
+    </div>
+    <div class="feat-card purple fade-in">
+      <div class="feat-icon">⟳</div>
+      <h3 data-i18n="arch.f2.title">Swimlane mode</h3>
+      <p data-i18n="arch.f2.desc">A dedicated Swimlane editor for process diagrams, completely separate from the ArchiMate workspace. Bridge from Business Layer actors to Swimlane lanes in one click.</p>
+    </div>
+    <div class="feat-card blue fade-in">
+      <div class="feat-icon">⬇</div>
+      <h3 data-i18n="arch.f3.title">Archi 5.x export</h3>
+      <p data-i18n="arch.f3.desc">Export your model as a native .archimate file, readable by Archi 5.x and compatible with the Open Group AMEFF format. Also exports to draw.io.</p>
+    </div>
+    <div class="feat-card green fade-in">
+      <div class="feat-icon">🌐</div>
+      <h3 data-i18n="arch.f4.title">English & Dutch</h3>
+      <p data-i18n="arch.f4.desc">Switch between English and Dutch at any time. All tooltips, empty states, onboarding, and the full manual are available in both languages.</p>
+    </div>
+    <div class="feat-card gold fade-in">
+      <div class="feat-icon">📁</div>
+      <h3 data-i18n="arch.f5.title">Save &amp; load</h3>
+      <p data-i18n="arch.f5.desc">Save your model as JSON and reload it later. Use Save As to choose filename and folder. Works with the browser's native file picker on modern browsers.</p>
+    </div>
+    <div class="feat-card blue fade-in">
+      <div class="feat-icon">✦</div>
+      <h3 data-i18n="arch.f6.title">Guided start</h3>
+      <p data-i18n="arch.f6.desc">An onboarding wizard and ready-made templates help you build your first architecture model in minutes — no prior ArchiMate knowledge required.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Get started ────────────────────────────────────────── -->
+<section id="architise-get">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="fade-in" style="text-align:center;margin-bottom:0">
+      <p class="section-label" data-i18n="arch.get.label">Get started</p>
+      <h2 class="section-title" data-i18n="arch.get.title">Two ways to use Architise</h2>
+      <div class="divider" style="margin:0 auto 0"></div>
+    </div>
+    <div class="get-grid">
+      <div class="get-card fade-in">
+        <div class="get-card-icon">🌐</div>
+        <h3 data-i18n="arch.get.live.title">Try it live</h3>
+        <p data-i18n="arch.get.live.desc">Open the tool directly in your browser — no download needed. Always up to date with the latest version.</p>
+        <a href="architise-tool.html" target="_blank" rel="noopener"
+           class="btn-primary" style="text-align:center" data-i18n="arch.get.live.btn">Open Architise →</a>
+        <span class="get-note" data-i18n="arch.get.live.note">Requires an internet connection</span>
+      </div>
+      <div class="get-card fade-in">
+        <div class="get-card-icon">💾</div>
+        <h3 data-i18n="arch.get.dl.title">Use it offline</h3>
+        <p data-i18n="arch.get.dl.desc">Want a local copy? Open the live version, then save it via your browser's File → Save As. Or get in touch and I'll send you the file directly.</p>
+        <a href="contact.html"
+           class="btn-outline" style="text-align:center" data-i18n="arch.get.dl.btn">Get in touch →</a>
+        <span class="get-note" data-i18n="arch.get.dl.note">Single HTML file · Open in any browser · Data stays on your device</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="Logo Huisstijl geel.png" alt="Arnold Ruijter IT logo" />
+      <span><span class="arit-name">Arnold</span> <strong class="arit-gold">Ruijter IT</strong></span>
+    </div>
+    <div class="footer-copy" data-i18n="footer.copy">© 2026 Arnold Ruijter IT — All rights reserved</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="services.html" data-i18n="footer.services">Services</a>
+      <a href="experience.html" data-i18n="footer.experience">Experience</a>
+      <a href="architise.html">Architise</a>
+      <a href="contact.html" data-i18n="footer.contact">Contact</a>
+      <a href="privacy.html" data-i18n="footer.privacy">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+<div id="cookieBar" style="display:none;">
+  <span id="cookieText">
+    Deze website gebruikt functionele cookies en lokale opslag voor taalvoorkeur.
+    Lees onze <a href="privacy.html">privacyverklaring</a>.
+  </span>
+  <button id="cookieAccept" onclick="acceptCookies()">Accepteren</button>
+</div>
+
+<script src="shared.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  setLang(currentLang);
+  initCookieBar();
+  document.querySelectorAll('.nav-links-desktop a, .nav-links a').forEach(a => {
+    if (a.getAttribute('href') === 'architise.html') a.classList.add('active');
+  });
+  // Fade-in observer
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+  } else {
+    document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+  }
+});
+</script>
+</body>
+</html>
