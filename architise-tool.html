@@ -44,6 +44,16 @@
       --proc-bg:     rgba(167,138,245,.13);
       --proc-border: rgba(167,138,245,.4);
       --proc-text:   #b09af5;
+      /* Motivation layer */
+      --mot:        #c4a8f5;
+      --mot-bg:     rgba(196,168,245,.1);
+      --mot-border: rgba(196,168,245,.35);
+      --mot-text:   #b090e8;
+      /* Strategy layer */
+      --str:        #f5c878;
+      --str-bg:     rgba(245,200,120,.1);
+      --str-border: rgba(245,200,120,.35);
+      --str-text:   #d4a840;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -178,6 +188,8 @@
     .stat-dot.app  { background: var(--app); }
     .stat-dot.tech { background: var(--tech); }
     .stat-dot.rel  { background: var(--rel); }
+    .stat-dot.mot { background: var(--mot); }
+    .stat-dot.str { background: var(--str); }
     .stat-count { font-weight: 700; color: var(--white); }
 
     /* ── Tab navigation ──────────────────────────────────────── */
@@ -393,6 +405,8 @@
     .type-badge.biz  { background: var(--biz-bg);  color: var(--biz-text);  border: 1px solid var(--biz-border); }
     .type-badge.app  { background: var(--app-bg);  color: var(--app-text);  border: 1px solid var(--app-border); }
     .type-badge.tech { background: var(--tech-bg); color: var(--tech-text); border: 1px solid var(--tech-border); }
+    .type-badge.mot { background: var(--mot-bg); color: var(--mot-text); border: 1px solid var(--mot-border); }
+    .type-badge.str { background: var(--str-bg); color: var(--str-text); border: 1px solid var(--str-border); }
 
     .elem-input {
       background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
@@ -718,6 +732,14 @@
     .tab-btn.active.help { color: var(--white); border-bottom-color: var(--gold); }
     .tab-icon.proc { background: var(--proc-bg); color: var(--proc-text); border: 1px solid var(--proc-border); }
     .tab-btn.active.proc { color: var(--white); border-bottom-color: var(--proc); }
+    /* ── Motivation & Strategy layers ─────────────────────────── */
+    .tab-btn.active.mot  { color: var(--white); border-bottom-color: var(--mot); }
+    .tab-btn.active.str  { color: var(--white); border-bottom-color: var(--str); }
+    .tab-icon.mot { background: rgba(196,168,245,.12); color: var(--mot); border: 1px solid rgba(196,168,245,.3); }
+    .tab-icon.str { background: rgba(245,200,120,.12); color: var(--str); border: 1px solid rgba(245,200,120,.3); }
+    .tab-adv-toggle { background:none; border:none; cursor:pointer; font-size:.8rem; color:var(--muted); padding:4px 10px; border-radius:5px; transition:color .15s; white-space:nowrap; margin-left:6px; }
+    .tab-adv-toggle:hover { color:var(--white); }
+    .tab-adv-sep { width:1px; height:20px; background:var(--border); margin:0 4px; flex-shrink:0; }
 
     .ml-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
     @media (max-width: 900px) { .ml-grid { grid-template-columns: 1fr; } }
@@ -811,6 +833,8 @@
     .legend-elem-badge.biz  { background: var(--biz-bg);  color: var(--biz-text);  border: 1px solid var(--biz-border); }
     .legend-elem-badge.app  { background: var(--app-bg);  color: var(--app-text);  border: 1px solid var(--app-border); }
     .legend-elem-badge.tech { background: var(--tech-bg); color: var(--tech-text); border: 1px solid var(--tech-border); }
+    .legend-elem-badge.mot { background: var(--mot-bg); color: var(--mot-text); border: 1px solid var(--mot-border); }
+    .legend-elem-badge.str { background: var(--str-bg); color: var(--str-text); border: 1px solid var(--str-border); }
     .legend-elem-desc { font-size: .7rem; color: var(--muted); line-height: 1.4; }
     .legend-elem-name { font-size: .75rem; font-weight: 600; color: var(--white); }
 
@@ -1182,6 +1206,12 @@
     <span class="tab-icon rel">R</span> Relationships</button>
   <button class="tab-btn help"        id="tab-btn-help"          onclick="showTab('help')">
     <span class="tab-icon help">?</span> Manual &amp; Legend</button>
+  <div class="tab-adv-sep" id="adv-sep"></div>
+  <button class="tab-adv-toggle" id="adv-toggle-btn" onclick="toggleAdvancedLayers()">⋯ <span id="adv-toggle-label">Advanced</span> ▸</button>
+  <button class="tab-btn mot" id="tab-btn-motivation" onclick="showTab('motivation')" style="display:none">
+    <span class="tab-icon mot">M</span> <span id="tab-mot-label">Motivation</span></button>
+  <button class="tab-btn str" id="tab-btn-strategy"   onclick="showTab('strategy')" style="display:none">
+    <span class="tab-icon str">S</span> <span id="tab-str-label">Strategy</span></button>
 </nav>
 
 <!-- ── Tab Panels (ArchiMate mode) ─────────────────────────── -->
@@ -1191,6 +1221,8 @@
   <div id="tab-technology"    class="tab-panel"></div>
   <div id="tab-relationships" class="tab-panel"></div>
   <div id="tab-help"          class="tab-panel"></div>
+  <div id="tab-motivation"    class="tab-panel"></div>
+  <div id="tab-strategy"      class="tab-panel"></div>
 </main>
 
 <!-- ── Swimlane Mode Panel ──────────────────────────────────── -->
@@ -1270,10 +1302,19 @@ const STRINGS = {
     'ldesc-biz':   'Represents the business environment — actors, roles, processes, services, and objects handled at the organisational level.',
     'ldesc-app':   'Represents software applications and their components, interfaces, functions, and data objects that support the business.',
     'ldesc-tech':  'Represents hardware, software infrastructure, networks, and physical assets that support the application and business layers.',
+    'ldesc-mot':   'Captures the reasons and drivers behind the architecture — stakeholder interests, goals, requirements, and constraints.',
+    'ldesc-str':   'Represents the capabilities and direction of the organisation — resources, capabilities, value streams, and courses of action.',
     // Section headings (kept as display labels; keys in LAYER_CONFIG stay English)
     'sec-active':  'Active Structure',
     'sec-behav':   'Behaviour',
     'sec-passive': 'Passive Structure',
+    'sec-stakeholders': 'Stakeholders',
+    'sec-motivations':  'Motivations',
+    'sec-resources':    'Resources',
+    'sec-direction':    'Direction',
+    'tab-mot':    'Motivation',
+    'tab-str':    'Strategy',
+    'adv-toggle': 'Advanced',
     // Table columns (renderLayer)
     'col-type':    'Type',
     'col-name':    'Name *',
@@ -1396,10 +1437,19 @@ const STRINGS = {
     'ldesc-biz':   'Vertegenwoordigt de bedrijfsomgeving — actoren, rollen, processen, services en objecten op organisatieniveau.',
     'ldesc-app':   'Vertegenwoordigt softwareapplicaties en hun componenten, interfaces, functies en gegevensobjecten die de bedrijfslaag ondersteunen.',
     'ldesc-tech':  'Vertegenwoordigt hardware, software-infrastructuur, netwerken en fysieke assets die de applicatie- en bedrijfslagen ondersteunen.',
+    'ldesc-mot':   'Legt de redenen en drijfveren achter de architectuur vast — stakeholderbelangen, doelen, vereisten en beperkingen.',
+    'ldesc-str':   'Vertegenwoordigt de capaciteiten en richting van de organisatie — resources, capabilities, waardestromen en handelingsplannen.',
     // Section headings
     'sec-active':  'Actieve Structuur',
     'sec-behav':   'Gedrag',
     'sec-passive': 'Passieve Structuur',
+    'sec-stakeholders': 'Stakeholders',
+    'sec-motivations':  'Motivaties',
+    'sec-resources':    'Resources',
+    'sec-direction':    'Richting',
+    'tab-mot':    'Motivatie',
+    'tab-str':    'Strategie',
+    'adv-toggle': 'Geavanceerd',
     // Table columns
     'col-type':    'Type',
     'col-name':    'Naam *',
@@ -1503,14 +1553,20 @@ function t(key) {
 const SEC_KEY = {
   'Active Structure': 'sec-active',
   'Behaviour':        'sec-behav',
-  'Passive Structure':'sec-passive'
+  'Passive Structure':'sec-passive',
+  'Stakeholders': 'sec-stakeholders',
+  'Motivations':  'sec-motivations',
+  'Resources':    'sec-resources',
+  'Direction':    'sec-direction'
 };
 
 // Layer key → description STRINGS key
 const LAYER_DESC_KEY = {
   business:    'ldesc-biz',
   application: 'ldesc-app',
-  technology:  'ldesc-tech'
+  technology:  'ldesc-tech',
+  motivation:  'ldesc-mot',
+  strategy:    'ldesc-str'
 };
 
 function setLanguage(lang) {
@@ -1561,7 +1617,8 @@ function applyTranslations() {
   const tabMap = {
     'tab-btn-business':'tab-biz','tab-btn-application':'tab-app',
     'tab-btn-technology':'tab-tech','tab-btn-relationships':'tab-rel',
-    'tab-btn-help':'tab-help','tab-btn-process':'tab-process'
+    'tab-btn-help':'tab-help','tab-btn-process':'tab-process',
+    'tab-btn-motivation':'tab-mot','tab-btn-strategy':'tab-str'
   };
   for (const [elId, key] of Object.entries(tabMap)) {
     const btn = document.getElementById(elId);
@@ -1572,6 +1629,13 @@ function applyTranslations() {
       if (icon) btn.prepend(icon);
     }
   }
+  // Advanced layers toggle label
+  const advLabel = document.getElementById('adv-toggle-label');
+  if (advLabel) advLabel.textContent = t('adv-toggle');
+  const tabMotLbl = document.getElementById('tab-mot-label');
+  if (tabMotLbl) tabMotLbl.textContent = t('tab-mot');
+  const tabStrLbl = document.getElementById('tab-str-label');
+  if (tabStrLbl) tabStrLbl.textContent = t('tab-str');
   // Footer
   const fc = document.getElementById('footer-compat');
   if (fc) fc.textContent = t('footer-compat');
@@ -1697,6 +1761,22 @@ const LAYER_CONFIG = {
       'Behaviour':        ['TechnologyFunction','TechnologyProcess','TechnologyInteraction','TechnologyEvent','TechnologyService'],
       'Passive Structure':['Artifact','TechnologyObject']
     }
+  },
+  motivation: {
+    label: 'Motivation', colorClass: 'mot',
+    description: 'Captures the reasons and drivers behind the architecture — stakeholder interests, goals, requirements, and constraints.',
+    sections: {
+      'Stakeholders': ['Stakeholder'],
+      'Motivations':  ['Driver','Assessment','Goal','Outcome','Principle','Requirement','Constraint','Value','Meaning']
+    }
+  },
+  strategy: {
+    label: 'Strategy', colorClass: 'str',
+    description: 'Represents the capabilities and direction of the organisation — resources, capabilities, value streams, and courses of action.',
+    sections: {
+      'Resources':  ['Resource'],
+      'Direction':  ['Capability','ValueStream','CourseOfAction']
+    }
   }
 };
 
@@ -1746,7 +1826,23 @@ const TYPE_LABELS = {
   TechnologyService:       'Technology Service',
   // Technology Passive Structure
   Artifact:                'Artifact',
-  TechnologyObject:        'Technology Object'
+  TechnologyObject:        'Technology Object',
+  // Motivation
+  Stakeholder:      'Stakeholder',
+  Driver:           'Driver',
+  Assessment:       'Assessment',
+  Goal:             'Goal',
+  Outcome:          'Outcome',
+  Principle:        'Principle',
+  Requirement:      'Requirement',
+  Constraint:       'Constraint',
+  Value:            'Value',
+  Meaning:          'Meaning',
+  // Strategy
+  Resource:         'Resource',
+  Capability:       'Capability',
+  ValueStream:      'Value Stream',
+  CourseOfAction:   'Course of Action'
 };
 
 // All relationship types with ArchiMate semantics
@@ -2310,7 +2406,7 @@ function setRel(id, field, val) {
 // ══════════════════════════════════════════════════════════════
 // RENDERING
 // ══════════════════════════════════════════════════════════════
-const SECTION_CLS = { 'Active Structure':'active-struct', 'Behaviour':'behaviour', 'Passive Structure':'passive-struct' };
+const SECTION_CLS = { 'Active Structure':'active-struct', 'Behaviour':'behaviour', 'Passive Structure':'passive-struct', 'Stakeholders':'active-struct', 'Motivations':'behaviour', 'Resources':'active-struct', 'Direction':'behaviour' };
 
 function renderLayer(layer) {
   const panel  = document.getElementById(`tab-${layer}`);
@@ -2535,6 +2631,8 @@ function renderAll() {
   renderLayer('business');
   renderLayer('application');
   renderLayer('technology');
+  renderLayer('motivation');
+  renderLayer('strategy');
   renderRelationships();
   renderProcTab();
 }
@@ -2650,6 +2748,25 @@ function showTab(tab) {
   if (panel) panel.classList.add('active');
   const btn = document.getElementById(`tab-btn-${tab}`);
   if (btn) btn.classList.add('active');
+}
+
+let _advLayersVisible = false;
+function toggleAdvancedLayers() {
+  _advLayersVisible = !_advLayersVisible;
+  const motBtn = document.getElementById('tab-btn-motivation');
+  const strBtn = document.getElementById('tab-btn-strategy');
+  const toggleBtn = document.getElementById('adv-toggle-btn');
+  if (motBtn) motBtn.style.display = _advLayersVisible ? '' : 'none';
+  if (strBtn) strBtn.style.display = _advLayersVisible ? '' : 'none';
+  if (toggleBtn) {
+    const arrow = _advLayersVisible ? '▾' : '▸';
+    const label = document.getElementById('adv-toggle-label');
+    toggleBtn.innerHTML = `⋯ <span id="adv-toggle-label">${label ? label.textContent : 'Advanced'}</span> ${arrow}`;
+  }
+  if (!_advLayersVisible) {
+    const cur = document.querySelector('.tab-btn.mot.active, .tab-btn.str.active');
+    if (cur) showTab('business');
+  }
 }
 
 function switchMode(mode) {
@@ -2923,6 +3040,7 @@ function computeDagreLayout() {
 
 function generateArchimateXML(extLayout = null) {
   const mid  = genId(), bfId = genId(), afId = genId(), tfId = genId();
+  const mfId = genId(), sfId = genId();
   const rfId = genId(), vfId = genId(), viewId = genId();
 
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`
@@ -2936,7 +3054,9 @@ function generateArchimateXML(extLayout = null) {
   // Element folders
   const layers = [{key:'business',folder:'Business',id:bfId},
                   {key:'application',folder:'Application',id:afId},
-                  {key:'technology',folder:'Technology',id:tfId}];
+                  {key:'technology',folder:'Technology',id:tfId},
+                  {key:'motivation',folder:'Motivation',id:mfId},
+                  {key:'strategy',folder:'Strategy',id:sfId}];
   for (const {key,folder,id} of layers) {
     xml += `  <folder name="${folder}" id="${id}" type="${key}">\n`;
     for (const el of model.elements.filter(e=>e.layer===key)) xml += buildElemXml(el);
@@ -2984,7 +3104,9 @@ function generateArchimateXML(extLayout = null) {
   const LAYER_META = {
     business:    {label:'Business Layer',    r:245, g:230, b:122, a:38, lr:200, lg:190, lb:90},
     application: {label:'Application Layer', r:122, g:218, b:245, a:33, lr:90,  lg:180, lb:210},
-    technology:  {label:'Technology Layer',  r:122, g:245, b:160, a:33, lr:90,  lg:200, lb:130}
+    technology:  {label:'Technology Layer',  r:122, g:245, b:160, a:33, lr:90,  lg:200, lb:130},
+    motivation:  {label:'Motivation Layer',  r:196, g:168, b:245, a:30, lr:170, lg:140, lb:220},
+    strategy:    {label:'Strategy Layer',    r:245, g:200, b:120, a:30, lr:210, lg:170, lb:80}
   };
   const ASPECT_LABELS = ['Active Structure', 'Behaviour', 'Passive Structure'];
 
@@ -3287,7 +3409,23 @@ const ELEM_DESCS = {
   TechnologyService:       'An explicitly defined exposed technology behaviour that fulfils a need of a node or component.',
   // Technology Passive Structure
   Artifact:                'A piece of data used or produced in a software development or operational process (file, DB, image).',
-  TechnologyObject:        'A passive element used or produced by technology behaviour.'
+  TechnologyObject:        'A passive element used or produced by technology behaviour.',
+  // Motivation
+  Stakeholder:    'A person, team, or organisation with an interest in the outcomes of the architecture.',
+  Driver:         'An external or internal condition that motivates an organisation to change or act.',
+  Assessment:     'An evaluation of a driver — e.g. a SWOT analysis, risk assessment, or gap analysis.',
+  Goal:           'A high-level intended outcome that the organisation wishes to achieve.',
+  Outcome:        'A tangible result or end-state produced by achieving a goal.',
+  Principle:      'A general rule or guideline that guides the design and direction of the organisation.',
+  Requirement:    'A specification of a need that must be fulfilled by the architecture.',
+  Constraint:     'A restriction on the architecture that must be observed (budget, regulation, time).',
+  Value:          'Something considered important or beneficial to stakeholders or the organisation.',
+  Meaning:        'Knowledge or expertise associated with a concept in a particular context.',
+  // Strategy
+  Resource:       'An asset — person, material, or digital — that is available to execute a course of action.',
+  Capability:     'An ability or capacity an organisation possesses to achieve a particular goal.',
+  ValueStream:    'A sequence of activities that together deliver overall value to customers or stakeholders.',
+  CourseOfAction: 'An approach, plan, or programme of change to achieve a goal or respond to a driver.'
 };
 
 // Short real-world examples for every element type (shown in tooltips)
@@ -3327,7 +3465,21 @@ const TYPE_EXAMPLES = {
   TechnologyEvent:         'Server Crash, Certificate Expiry, Disk Full',
   TechnologyService:       'Authentication Service, Object Storage, DNS',
   Artifact:                'Deployed JAR File, Config File, Database Dump, Docker Image',
-  TechnologyObject:        'Physical Tape, VM Snapshot, Log Archive'
+  TechnologyObject:        'Physical Tape, VM Snapshot, Log Archive',
+  Stakeholder:    'CFO, Regulatory Authority, Customer, IT Department, Board of Directors',
+  Driver:         'Market pressure, New regulation (DORA, GDPR), Cost reduction target',
+  Assessment:     'SWOT Analysis, Risk Register, Current State Gap Assessment',
+  Goal:           'Reduce time-to-market by 30%, Achieve ISO 27001 certification',
+  Outcome:        'Improved customer satisfaction score, Reduced operational costs',
+  Principle:      'Data stays in the EU, APIs are the integration standard',
+  Requirement:    'System must handle 10,000 concurrent users, Data must be encrypted at rest',
+  Constraint:     'Budget capped at €2M, Go-live before Q4, Must reuse existing infrastructure',
+  Value:          'Customer trust, Data security, Operational efficiency',
+  Meaning:        'Definition of "customer" in this context, What "real-time" means for this system',
+  Resource:       'Development Team, Cloud Budget, CRM Platform, Vendor Contract',
+  Capability:     'Customer Analytics, Omnichannel Sales, Real-time Data Processing',
+  ValueStream:    'Order-to-Cash, Lead-to-Opportunity, Incident-to-Resolution',
+  CourseOfAction: 'Digital Transformation Programme, Cloud Migration Plan, Vendor Consolidation'
 };
 
 // Plain-language descriptions of the three ArchiMate aspects (shown in section header tooltips)
@@ -3346,6 +3498,26 @@ const SECTION_DESCS = {
     title: 'Passive Structure — the "things"',
     desc:  'Objects that are created, used, or consumed by behaviour. Ask: what is being processed or produced?',
     ex:    'Documents, data records, files, contracts, reports'
+  },
+  'Stakeholders': {
+    title: 'Stakeholders — the "interested parties"',
+    desc:  'Persons, teams, or organisations that have an interest in the outcomes of the architecture.',
+    ex:    'Board, customers, regulators, IT department, suppliers'
+  },
+  'Motivations': {
+    title: 'Motivations — the "why"',
+    desc:  'Drivers, goals, requirements, and constraints that explain why the architecture is shaped the way it is.',
+    ex:    'Regulation, cost targets, strategic goals, design principles'
+  },
+  'Resources': {
+    title: 'Resources — the "assets"',
+    desc:  'Assets available to execute a strategy — people, budgets, platforms, or contracts.',
+    ex:    'Development team, cloud budget, vendor contract, CRM platform'
+  },
+  'Direction': {
+    title: 'Direction — the "how we get there"',
+    desc:  'Capabilities, value streams, and courses of action that define how the organisation will achieve its goals.',
+    ex:    'Customer analytics capability, order-to-cash value stream, cloud migration plan'
   }
 };
 
@@ -3395,7 +3567,23 @@ const ELEM_DESCS_NL = {
   TechnologyService:       'Expliciet gedefinieerd technologiegedrag dat een behoefte van een knooppunt of component vervult.',
   // Technology Passive Structure
   Artifact:                'Een stuk gegevens gebruikt of geproduceerd in een software- of operationeel proces (bestand, DB, image).',
-  TechnologyObject:        'Een passief element gebruikt of geproduceerd door technologiegedrag.'
+  TechnologyObject:        'Een passief element gebruikt of geproduceerd door technologiegedrag.',
+  // Motivation
+  Stakeholder:    'Een persoon, team of organisatie met een belang bij de uitkomsten van de architectuur.',
+  Driver:         'Een externe of interne conditie die de organisatie aanzet tot verandering of actie.',
+  Assessment:     'Een evaluatie van een driver — bijv. een SWOT-analyse, risicoanalyse of gap-analyse.',
+  Goal:           'Een op hoog niveau gewenste uitkomst die de organisatie wil bereiken.',
+  Outcome:        'Een tastbaar resultaat of eindtoestand die voortkomt uit het bereiken van een doel.',
+  Principle:      'Een algemene regel of richtlijn voor het ontwerp en de richting van de organisatie.',
+  Requirement:    'Een specificatie van een behoefte die door de architectuur vervuld moet worden.',
+  Constraint:     'Een beperking die bij de architectuur in acht moet worden genomen (budget, regelgeving, tijd).',
+  Value:          'Iets dat voor stakeholders of de organisatie als belangrijk of waardevol wordt beschouwd.',
+  Meaning:        'Kennis of expertise verbonden aan een concept in een bepaalde context.',
+  // Strategy
+  Resource:       'Een asset — persoon, materiaal of digitaal — beschikbaar voor het uitvoeren van een handeling.',
+  Capability:     'Een vermogen of capaciteit die de organisatie bezit om een bepaald doel te bereiken.',
+  ValueStream:    'Een reeks activiteiten die samen waarde leveren aan klanten of stakeholders.',
+  CourseOfAction: 'Een aanpak, plan of veranderprogramma om een doel te bereiken of op een driver te reageren.'
 };
 
 const TYPE_EXAMPLES_NL = {
@@ -3434,7 +3622,21 @@ const TYPE_EXAMPLES_NL = {
   TechnologyEvent:         'Servercrash, Certificaat Verlopen, Schijf Vol',
   TechnologyService:       'Authenticatieservice, Objectopslag, DNS',
   Artifact:                'Gedeployde JAR, Configuratiebestand, Database Dump, Docker Image',
-  TechnologyObject:        'Fysieke Tape, VM-snapshot, Logarchief'
+  TechnologyObject:        'Fysieke Tape, VM-snapshot, Logarchief',
+  Stakeholder:    'CFO, Toezichthouder, Klant, IT-afdeling, Raad van Bestuur',
+  Driver:         'Marktdruk, Nieuwe regelgeving (DORA, AVG), Kostenreductiedoelstelling',
+  Assessment:     'SWOT-analyse, Risicoregister, As-is Gap-analyse',
+  Goal:           'Doorlooptijd met 30% verminderen, ISO 27001-certificering behalen',
+  Outcome:        'Verbeterde klanttevredenheid, Lagere operationele kosten',
+  Principle:      'Data blijft in de EU, APIs zijn de integratiestandaard',
+  Requirement:    'Systeem moet 10.000 gelijktijdige gebruikers aankunnen, Data moet versleuteld worden opgeslagen',
+  Constraint:     'Budget max. €2M, Live vóór Q4, Bestaande infrastructuur hergebruiken',
+  Value:          'Klantvertrouwen, Databeveiliging, Operationele efficiëntie',
+  Meaning:        'Definitie van "klant" in deze context, Wat "realtime" betekent voor dit systeem',
+  Resource:       'Ontwikkelteam, Cloudbudget, CRM-platform, Leverancierscontract',
+  Capability:     'Klantanalyse, Omnichannel Verkoop, Realtime Gegevensverwerking',
+  ValueStream:    'Order-to-Cash, Lead-to-Opportunity, Incident-to-Resolution',
+  CourseOfAction: 'Digitaal transformatieprogramma, Cloudmigratie plan, Leveranciersconsolidatie'
 };
 
 const SECTION_DESCS_NL = {
@@ -3452,6 +3654,26 @@ const SECTION_DESCS_NL = {
     title: 'Passive Structure — de "objecten"',
     desc:  'Objecten die worden aangemaakt, gebruikt of verbruikt door gedrag. Vraag: wat wordt er verwerkt of geproduceerd?',
     ex:    'Documenten, gegevensrecords, bestanden, contracten, rapporten'
+  },
+  'Stakeholders': {
+    title: 'Stakeholders — de "betrokkenen"',
+    desc:  'Personen, teams of organisaties met een belang bij de uitkomsten van de architectuur.',
+    ex:    'Bestuur, klanten, toezichthouders, IT-afdeling, leveranciers'
+  },
+  'Motivations': {
+    title: 'Motivaties — het "waarom"',
+    desc:  'Drijfveren, doelen, vereisten en beperkingen die uitleggen waarom de architectuur zo is vormgegeven.',
+    ex:    'Regelgeving, kostendoelen, strategische doelen, ontwerpprincipes'
+  },
+  'Resources': {
+    title: 'Resources — de "assets"',
+    desc:  'Assets beschikbaar voor het uitvoeren van een strategie — mensen, budgetten, platformen of contracten.',
+    ex:    'Ontwikkelteam, cloudbudget, leverancierscontract, CRM-platform'
+  },
+  'Direction': {
+    title: 'Richting — "hoe we er komen"',
+    desc:  'Capabilities, waardestromen en handelingsplannen die bepalen hoe de organisatie haar doelen bereikt.',
+    ex:    'Klantanalyse-capability, order-to-cash waardestroom, cloudmigratie plan'
   }
 };
 
