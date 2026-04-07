@@ -888,6 +888,55 @@
     .mi-btn.danger:hover { background: rgba(239,68,68,.1); color: #ef4444; }
     .mi-sep { height: 1px; background: var(--border); margin: 3px 5px; }
     .mi-kbd { margin-left: auto; font-size: .67rem; color: rgba(148,150,184,.45); font-weight:400; }
+
+    /* ── Search overlay ──────────────────────────────────────── */
+    .search-overlay { position:fixed; inset:0; z-index:1200; background:rgba(0,0,0,.6); display:none; align-items:flex-start; justify-content:center; padding-top:80px; }
+    .search-overlay.open { display:flex; }
+    .search-box { background:var(--surface); border:1px solid var(--border); border-radius:10px; width:520px; max-width:95vw; box-shadow:0 20px 60px rgba(0,0,0,.5); overflow:hidden; }
+    .search-input-wrap { display:flex; align-items:center; gap:.6rem; padding:.75rem 1rem; border-bottom:1px solid var(--border); }
+    .search-icon-lbl { font-size:1rem; opacity:.5; flex-shrink:0; }
+    .search-input { background:none; border:none; outline:none; flex:1; font-size:.95rem; color:var(--white); font-family:inherit; }
+    .search-results { max-height:360px; overflow-y:auto; }
+    .search-result { display:flex; align-items:center; gap:.75rem; padding:.65rem 1rem; cursor:pointer; transition:background .12s; border-bottom:1px solid rgba(255,255,255,.04); }
+    .search-result:hover, .search-result.focused { background:rgba(201,163,85,.08); }
+    .search-result-info { flex:1; min-width:0; }
+    .search-result-name { font-size:.85rem; color:var(--white); font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .search-result-meta { font-size:.72rem; color:var(--muted); }
+    .search-result-badge { font-size:.62rem; padding:.12rem .45rem; border-radius:3px; font-weight:700; flex-shrink:0; }
+    .search-empty { padding:1.5rem 1rem; text-align:center; color:var(--muted); font-size:.84rem; }
+    .search-hint { padding:.4rem 1rem; text-align:right; font-size:.7rem; color:var(--muted); opacity:.6; border-top:1px solid var(--border); }
+    .search-trigger { background:none; border:none; cursor:pointer; color:var(--muted); font-size:.95rem; padding:4px 7px; border-radius:5px; transition:color .15s; }
+    .search-trigger:hover { color:var(--white); }
+    tr.elem-highlight { animation:rowflash .9s ease; }
+    @keyframes rowflash { 0%,100%{ background:transparent } 30%{ background:rgba(201,163,85,.18) } }
+
+    /* ── Views modal ─────────────────────────────────────────── */
+    .views-layout { display:grid; grid-template-columns:210px 1fr; gap:1.1rem; min-height:340px; }
+    .views-list-panel { border-right:1px solid var(--border); padding-right:1rem; display:flex; flex-direction:column; gap:.3rem; }
+    .view-item { display:flex; align-items:center; gap:.4rem; padding:.4rem .55rem; border-radius:5px; cursor:pointer; transition:background .14s; }
+    .view-item:hover { background:rgba(255,255,255,.05); }
+    .view-item.active { background:rgba(201,163,85,.12); border:1px solid rgba(201,163,85,.25); }
+    .view-item-name { flex:1; font-size:.82rem; color:var(--white); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .view-item-count { font-size:.68rem; color:var(--muted); flex-shrink:0; }
+    .view-del { background:none; border:none; cursor:pointer; color:var(--muted); font-size:.8rem; padding:1px 4px; border-radius:3px; flex-shrink:0; }
+    .view-del:hover { color:#e06c75; }
+    .views-elem-panel { overflow-y:auto; max-height:360px; }
+    .views-elem-layer { margin-bottom:.9rem; }
+    .views-elem-layer-hd { font-size:.67rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:.3rem; }
+    .views-elem-row { display:flex; align-items:center; gap:.5rem; padding:.18rem 0; cursor:pointer; }
+    .views-elem-row label { font-size:.8rem; color:var(--white); cursor:pointer; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .views-placeholder { color:var(--muted); font-size:.84rem; padding:.5rem 0; }
+
+    /* ── Snapshot / Version History modal ────────────────────── */
+    .snap-row { display:flex; align-items:center; gap:.7rem; padding:.55rem .75rem; border-radius:6px; border:1px solid var(--border); margin-bottom:.45rem; background:rgba(255,255,255,.025); }
+    .snap-name { flex:1; font-size:.85rem; color:var(--white); font-weight:600; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .snap-meta { font-size:.71rem; color:var(--muted); flex-shrink:0; white-space:nowrap; }
+    .snap-actions { display:flex; gap:.35rem; flex-shrink:0; }
+    .snap-restore { font-size:.73rem; padding:.22rem .6rem; border-radius:4px; border:1px solid rgba(201,163,85,.4); background:rgba(201,163,85,.1); color:var(--gold); cursor:pointer; transition:background .14s; }
+    .snap-restore:hover { background:rgba(201,163,85,.22); }
+    .snap-del { font-size:.73rem; padding:.22rem .6rem; border-radius:4px; border:1px solid rgba(224,108,117,.3); background:transparent; color:#e06c75; cursor:pointer; transition:background .14s; }
+    .snap-del:hover { background:rgba(224,108,117,.1); }
+    .snap-empty { text-align:center; padding:2.5rem 1rem; color:var(--muted); font-size:.84rem; }
   </style>
 </head>
 <body>
@@ -966,6 +1015,53 @@
   </div>
 </div>
 
+<!-- ── Search overlay ───────────────────────────────────────── -->
+<div id="searchOverlay" class="search-overlay" onclick="if(event.target===this)closeSearch()">
+  <div class="search-box">
+    <div class="search-input-wrap">
+      <span class="search-icon-lbl">🔍</span>
+      <input id="searchInput" class="search-input" type="text" autocomplete="off"
+             placeholder="Search elements…"
+             oninput="doSearch(this.value)"
+             onkeydown="handleSearchKey(event)">
+    </div>
+    <div class="search-results" id="searchResults">
+      <div class="search-empty" id="searchEmptyMsg">Start typing to search…</div>
+    </div>
+    <div class="search-hint" id="searchHint">↑↓ navigate · Enter select · Esc close · ⌘K toggle</div>
+  </div>
+</div>
+
+<!-- ── Views modal ───────────────────────────────────────────── -->
+<div id="viewsModal" class="modal-overlay" onclick="if(event.target===this)hideViews()">
+  <div class="modal-box" style="max-width:700px">
+    <div class="modal-header">
+      <div class="modal-title" id="views-title-el">📐 Views</div>
+      <button class="modal-close" onclick="hideViews()">×</button>
+    </div>
+    <p class="modal-sub" id="views-sub-el">Create named views to control which elements appear in each diagram when exporting to Archi. If no views are defined, a single "Default View" with all elements is exported.</p>
+    <div class="views-layout" id="viewsLayout">
+      <div class="views-list-panel" id="viewsListPanel"></div>
+      <div class="views-elem-panel" id="viewsElemPanel"><div class="views-placeholder" id="views-placeholder-el">Select a view to manage its elements.</div></div>
+    </div>
+    <div style="margin-top:1rem;display:flex;gap:.5rem">
+      <button class="btn btn-secondary" id="views-add-btn" onclick="addView()">+ Add View</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Version History modal ─────────────────────────────────── -->
+<div id="historyModal" class="modal-overlay" onclick="if(event.target===this)hideHistory()">
+  <div class="modal-box" style="max-width:540px">
+    <div class="modal-header">
+      <div class="modal-title" id="history-title-el">📜 Version History</div>
+      <button class="modal-close" onclick="hideHistory()">×</button>
+    </div>
+    <p class="modal-sub" id="history-sub-el">Snapshots capture the full state of your model. Max 10 snapshots are kept — oldest are removed automatically.</p>
+    <div id="historyList"></div>
+  </div>
+</div>
+
 <!-- Floating tooltip -->
 <div id="tipPopup"></div>
 
@@ -991,6 +1087,7 @@
            value="My Architecture Model" placeholder="Model name…"
            oninput="model.name = this.value">
   </div>
+  <button class="search-trigger" id="btn-search-global" onclick="showSearch()" title="Search elements (⌘K / Ctrl+K)">🔍</button>
   <div class="lang-toggle">
     <button class="lang-btn" data-lang="nl" onclick="setLanguage('nl')">NL</button>
     <span class="lang-sep">·</span>
@@ -1016,11 +1113,17 @@
         <div class="mi-sep"></div>
         <button class="mi-btn gold" onclick="exportArchimate();closeMenus()">⬇ Export .archimate</button>
         <button class="mi-btn" onclick="exportAMEFF();closeMenus()" title="Open Group AMEFF XML">⬇ Export AMEFF XML</button>
+        <div class="mi-sep"></div>
+        <button class="mi-btn" id="btn-snapshot-el" onclick="saveSnapshot();closeMenus()">📸 Save Snapshot…</button>
+        <button class="mi-btn" id="btn-history-el" onclick="showHistory();closeMenus()">📜 Version History…</button>
       </div>
     </div>
     <input type="file" id="loadFile" accept=".json" style="display:none" onchange="handleLoadFile(event)">
     <input type="file" id="importArchimateFile" accept=".archimate,.xml" style="display:none" onchange="handleImportArchimate(event)">
     <!-- ── Persistent controls ─────────────────────────────── -->
+    <button class="menu-trigger" id="btn-views-el" onclick="showViews()" style="gap:.35rem">
+      📐 <span id="btn-views-label">Views</span> <span style="font-size:.62rem;opacity:.65">▾</span>
+    </button>
     <button id="btn-autolayout" class="btn-layout-toggle" onclick="toggleAutoLayout(this)"
       title="Auto Layout uses Dagre/Sugiyama to minimise edge crossings in the Archi export">
       ⚡ Auto Layout: OFF
@@ -1113,7 +1216,9 @@ let model = {
   documentation: '',
   elements:      [],    // { id, layer, type, name, documentation, properties[] }
   relationships: [],    // { id, type, sourceId, targetId, name, documentation, directed, accessType, strength }
-  processes:     []     // { id, name, lanes:[{id,name,sourceId?}], steps:[{id,laneId,type,label}], flows:[{id,from,to,label}] }
+  processes:     [],    // { id, name, lanes:[{id,name}], steps:[{id,laneId,type,label}], flows:[{id,from,to,label}] }
+  views:         [],    // { id, name, elementIds: [] }  — named export views
+  snapshots:     []     // { id, name, timestamp, elements:[], relationships:[] }
 };
 
 // ══════════════════════════════════════════════════════════════
@@ -1520,9 +1625,32 @@ function applyTranslations() {
   // Swimlane header controls
   const swFileLabel = document.getElementById('proc-file-btn-label');
   if (swFileLabel) swFileLabel.textContent = L === 'nl' ? 'Bestand' : 'File';
-  // ArchiMate import button
+  // ArchiMate import / snapshot / history buttons
   const btnImpArch = document.getElementById('btn-import-archimate-el');
   if (btnImpArch) btnImpArch.textContent = L === 'nl' ? '📥 Importeer .archimate…' : '📥 Import .archimate…';
+  const btnSnap = document.getElementById('btn-snapshot-el');
+  if (btnSnap) btnSnap.textContent = L === 'nl' ? '📸 Snapshot opslaan…' : '📸 Save Snapshot…';
+  const btnHist = document.getElementById('btn-history-el');
+  if (btnHist) btnHist.textContent = L === 'nl' ? '📜 Versiegeschiedenis…' : '📜 Version History…';
+  // Views button
+  const viewsLabel = document.getElementById('btn-views-label');
+  if (viewsLabel) viewsLabel.textContent = L === 'nl' ? 'Weergaven' : 'Views';
+  // Views modal strings
+  const viewsTitle = document.getElementById('views-title-el');
+  if (viewsTitle) viewsTitle.textContent = L === 'nl' ? '📐 Weergaven' : '📐 Views';
+  const viewsSub = document.getElementById('views-sub-el');
+  if (viewsSub) viewsSub.textContent = L === 'nl'
+    ? 'Maak benoemde weergaven om te bepalen welke elementen in elk diagram verschijnen bij het exporteren naar Archi. Zonder weergaven wordt één "Standaardweergave" met alle elementen geëxporteerd.'
+    : 'Create named views to control which elements appear in each diagram when exporting to Archi. If no views are defined, a single "Default View" with all elements is exported.';
+  const viewsAddBtn = document.getElementById('views-add-btn');
+  if (viewsAddBtn) viewsAddBtn.textContent = L === 'nl' ? '+ Weergave toevoegen' : '+ Add View';
+  // History modal strings
+  const histTitle = document.getElementById('history-title-el');
+  if (histTitle) histTitle.textContent = L === 'nl' ? '📜 Versiegeschiedenis' : '📜 Version History';
+  const histSub = document.getElementById('history-sub-el');
+  if (histSub) histSub.textContent = L === 'nl'
+    ? 'Snapshots bewaren de volledige toestand van uw model. Max. 10 snapshots worden bewaard — oudste worden automatisch verwijderd.'
+    : 'Snapshots capture the full state of your model. Max 10 snapshots are kept — oldest are removed automatically.';
 
   const swMenuMap = {
     'proc-mi-templates':      L === 'nl' ? '📋 Sjablonen'               : '📋 Templates',
@@ -2240,7 +2368,7 @@ function renderLayer(layer) {
         <tbody>`;
       for (const el of elems) {
         html += `
-        <tr>
+        <tr data-elem-id="${el.id}">
           <td><span class="type-badge ${cc}">${TYPE_LABELS[el.type]}</span></td>
           <td>
             <input type="text" class="elem-input" data-eid="${el.id}"
@@ -2607,6 +2735,9 @@ function handleLoadFile(ev) {
   r.onload = e => {
     try {
       model = JSON.parse(e.target.result);
+      if (!model.views)     model.views     = [];
+      if (!model.snapshots) model.snapshots = [];
+      if (!model.processes) model.processes = [];
       document.getElementById('modelName').value = model.name || '';
       document.getElementById('modelDoc').value  = model.documentation || '';
       renderAll(); updateStats();
@@ -2919,39 +3050,66 @@ function generateArchimateXML(extLayout = null) {
     (tgtConns[td.diagId] = tgtConns[td.diagId]||[]).push(cid);
   }
 
-  xml += `  <folder name="Views" id="${vfId}" type="diagrams">\n`;
-  xml += `    <element xsi:type="archimate:ArchimateDiagramModel" name="Default View" id="${viewId}">\n`;
-
-  // ── Aspect column header notes (default layout only — not applicable to dagre) ──
-  if (!extLayout) {
-    const firstExt = Object.values(layerExtents)[0];
-    if (firstExt) {
-      const noteY = firstExt.startY - PAD - 22;
-      for (let asp = 0; asp < 3; asp++) {
-        const nx = OX + asp * (aspectW + ASPECT_GAP);
-        xml += `      <child xsi:type="archimate:Note" id="${genId()}">\n`;
-        xml += `        <bounds x="${nx}" y="${noteY}" width="${aspectW}" height="18"/>\n`;
-        xml += `        <content>${ASPECT_LABELS[asp]}</content>\n`;
-        xml += `        <fillColor r="0" g="0" b="0" a="0"/>\n`;
-        xml += `        <lineColor r="0" g="0" b="0" a="0"/>\n`;
-        xml += `      </child>\n`;
+  // ── Helper: render one ArchiMate diagram view ──────────────────
+  function buildDiagramView(viewName, viewId2, elemsInView) {
+    let vxml = `    <element xsi:type="archimate:ArchimateDiagramModel" name="${esc(viewName)}" id="${viewId2}">\n`;
+    if (!extLayout) {
+      const firstExt = Object.values(layerExtents)[0];
+      if (firstExt) {
+        const noteY = firstExt.startY - PAD - 22;
+        for (let asp = 0; asp < 3; asp++) {
+          const nx = OX + asp * (aspectW + ASPECT_GAP);
+          vxml += `      <child xsi:type="archimate:Note" id="${genId()}">\n`;
+          vxml += `        <bounds x="${nx}" y="${noteY}" width="${aspectW}" height="18"/>\n`;
+          vxml += `        <content>${ASPECT_LABELS[asp]}</content>\n`;
+          vxml += `        <fillColor r="0" g="0" b="0" a="0"/>\n`;
+          vxml += `        <lineColor r="0" g="0" b="0" a="0"/>\n`;
+          vxml += `      </child>\n`;
+        }
       }
     }
-  }
-
-
-  // ── Element diagram objects (rendered after groups = appear on top) ──
-  for (const el of model.elements) {
-    const d = diagMap[el.id]; if (!d) continue;
-    const tcAttr = (tgtConns[d.diagId]||[]).length ? ` targetConnections="${tgtConns[d.diagId].join(' ')}"` : '';
-    xml += `      <child xsi:type="archimate:DiagramObject" id="${d.diagId}" archimateElement="${el.id}"${tcAttr}>\n`;
-    xml += `        <bounds x="${d.x}" y="${d.y}" width="${EW}" height="${EH}"/>\n`;
-    for (const c of (srcConns[d.diagId]||[])) {
-      xml += `        <sourceConnection xsi:type="archimate:Connection" id="${c.connId}" source="${d.diagId}" target="${c.tgtDiagId}" archimateRelationship="${c.relId}"/>\n`;
+    const inViewIds = new Set(elemsInView.map(e => e.id));
+    for (const el of elemsInView) {
+      const d = diagMap[el.id]; if (!d) continue;
+      const myTgtConns = (tgtConns[d.diagId]||[]).filter(cid => {
+        // Only include connections whose source is also in this view
+        const srcEntry = Object.entries(srcConns).find(([,conns])=>conns.some(c=>c.connId===cid));
+        if (!srcEntry) return false;
+        // Find source elem
+        const srcDiagId = srcEntry[0];
+        const srcEl = model.elements.find(e2 => diagMap[e2.id]?.diagId === srcDiagId);
+        return srcEl && inViewIds.has(srcEl.id);
+      });
+      const tcAttr = myTgtConns.length ? ` targetConnections="${myTgtConns.join(' ')}"` : '';
+      vxml += `      <child xsi:type="archimate:DiagramObject" id="${d.diagId}" archimateElement="${el.id}"${tcAttr}>\n`;
+      vxml += `        <bounds x="${d.x}" y="${d.y}" width="${EW}" height="${EH}"/>\n`;
+      for (const c of (srcConns[d.diagId]||[])) {
+        if (!diagMap[model.elements.find(e2=>e2.id===model.relationships.find(r=>r.id===c.relId)?.targetId)?.id]) continue;
+        // Include connection only if target is also in view
+        const relTarget = model.relationships.find(r=>r.id===c.relId)?.targetId;
+        if (!inViewIds.has(relTarget)) continue;
+        vxml += `        <sourceConnection xsi:type="archimate:Connection" id="${c.connId}" source="${d.diagId}" target="${c.tgtDiagId}" archimateRelationship="${c.relId}"/>\n`;
+      }
+      vxml += `      </child>\n`;
     }
-    xml += `      </child>\n`;
+    vxml += `    </element>\n`;
+    return vxml;
   }
-  xml += `    </element>\n`;
+
+  xml += `  <folder name="Views" id="${vfId}" type="diagrams">\n`;
+
+  const namedViews = (model.views || []).filter(v => v.elementIds && v.elementIds.length > 0);
+  if (namedViews.length > 0) {
+    // Generate one diagram per named view
+    for (const v of namedViews) {
+      const elemsInView = model.elements.filter(e => v.elementIds.includes(e.id));
+      xml += buildDiagramView(v.name, genId(), elemsInView);
+    }
+  } else {
+    // Default: one view with all elements
+    xml += buildDiagramView('Default View', viewId, model.elements);
+  }
+
   xml += `  </folder>\n`;
   xml += `</archimate:model>\n`;
   return xml;
@@ -5190,6 +5348,278 @@ renderAll();
 renderHelp();
 updateStats();
 showOnboard();
+
+// ══════════════════════════════════════════════════════════════
+// SEARCH
+// ══════════════════════════════════════════════════════════════
+let _searchOpen = false;
+let _searchFocusIdx = -1;
+
+function showSearch() {
+  const NL = currentLang === 'nl';
+  document.getElementById('searchInput').placeholder = NL ? 'Zoek elementen…' : 'Search elements…';
+  document.getElementById('searchEmptyMsg').textContent = NL ? 'Begin te typen om te zoeken…' : 'Start typing to search…';
+  document.getElementById('searchHint').textContent = NL ? '↑↓ navigeren · Enter selecteren · Esc sluiten · ⌘K wisselen' : '↑↓ navigate · Enter select · Esc close · ⌘K toggle';
+  document.getElementById('searchOverlay').classList.add('open');
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchResults').innerHTML = `<div class="search-empty" id="searchEmptyMsg">${NL ? 'Begin te typen om te zoeken…' : 'Start typing to search…'}</div>`;
+  _searchOpen = true;
+  _searchFocusIdx = -1;
+  setTimeout(() => document.getElementById('searchInput').focus(), 40);
+}
+
+function closeSearch() {
+  document.getElementById('searchOverlay').classList.remove('open');
+  _searchOpen = false;
+}
+
+function doSearch(q) {
+  const NL = currentLang === 'nl';
+  const results = document.getElementById('searchResults');
+  _searchFocusIdx = -1;
+  if (!q.trim()) {
+    results.innerHTML = `<div class="search-empty">${NL ? 'Begin te typen om te zoeken…' : 'Start typing to search…'}</div>`;
+    return;
+  }
+  const lq = q.toLowerCase();
+  const matches = model.elements.filter(e =>
+    e.name.toLowerCase().includes(lq) ||
+    (e.documentation||'').toLowerCase().includes(lq) ||
+    (e.properties||[]).some(p => p.key.toLowerCase().includes(lq) || p.value.toLowerCase().includes(lq))
+  );
+  if (!matches.length) {
+    results.innerHTML = `<div class="search-empty">${NL ? 'Geen resultaten gevonden.' : 'No results found.'}</div>`;
+    return;
+  }
+  const CC = { business:'biz', application:'app', technology:'tech' };
+  results.innerHTML = matches.map((e,i) => `
+    <div class="search-result" data-idx="${i}" data-elem-id="${e.id}"
+         onclick="navigateToElement('${e.id}');closeSearch()">
+      <span class="search-result-badge ${CC[e.layer]||''}">${TYPE_LABELS[e.type]||e.type}</span>
+      <div class="search-result-info">
+        <div class="search-result-name">${esc(e.name||'(unnamed)')}</div>
+        <div class="search-result-meta">${e.layer} · ${e.type}</div>
+      </div>
+    </div>`).join('');
+}
+
+function handleSearchKey(ev) {
+  const items = document.querySelectorAll('#searchResults .search-result');
+  if (!items.length) return;
+  if (ev.key === 'ArrowDown') {
+    ev.preventDefault();
+    _searchFocusIdx = Math.min(_searchFocusIdx + 1, items.length - 1);
+  } else if (ev.key === 'ArrowUp') {
+    ev.preventDefault();
+    _searchFocusIdx = Math.max(_searchFocusIdx - 1, 0);
+  } else if (ev.key === 'Enter') {
+    const focused = items[_searchFocusIdx];
+    if (focused) { navigateToElement(focused.dataset.elemId); closeSearch(); }
+    return;
+  } else return;
+  items.forEach((el, i) => el.classList.toggle('focused', i === _searchFocusIdx));
+  items[_searchFocusIdx]?.scrollIntoView({ block:'nearest' });
+}
+
+function navigateToElement(elemId) {
+  const el = model.elements.find(e => e.id === elemId);
+  if (!el) return;
+  showTab(el.layer);
+  setTimeout(() => {
+    const row = document.querySelector(`tr[data-elem-id="${elemId}"]`);
+    if (row) {
+      row.scrollIntoView({ behavior:'smooth', block:'center' });
+      row.classList.add('elem-highlight');
+      setTimeout(() => row.classList.remove('elem-highlight'), 1000);
+    }
+  }, 120);
+}
+
+document.addEventListener('keydown', ev => {
+  if ((ev.metaKey || ev.ctrlKey) && ev.key === 'k') { ev.preventDefault(); _searchOpen ? closeSearch() : showSearch(); }
+  if (ev.key === 'Escape' && _searchOpen) closeSearch();
+});
+
+// ══════════════════════════════════════════════════════════════
+// VIEWS (Named Export Views)
+// ══════════════════════════════════════════════════════════════
+let _activeViewId = null;
+
+function showViews() {
+  if (!model.views) model.views = [];
+  renderViewsModal();
+  document.getElementById('viewsModal').classList.add('open');
+}
+function hideViews() { document.getElementById('viewsModal').classList.remove('open'); }
+
+function addView() {
+  const NL = currentLang === 'nl';
+  const name = prompt(NL ? 'Naam voor de nieuwe weergave:' : 'Name for the new view:', NL ? 'Nieuwe weergave' : 'New View');
+  if (!name) return;
+  if (!model.views) model.views = [];
+  const v = { id: genId(), name: name.trim(), elementIds: [] };
+  model.views.push(v);
+  _activeViewId = v.id;
+  renderViewsModal();
+}
+
+function deleteView(id) {
+  const NL = currentLang === 'nl';
+  if (!confirm(NL ? 'Verwijder deze weergave?' : 'Delete this view?')) return;
+  model.views = model.views.filter(v => v.id !== id);
+  if (_activeViewId === id) _activeViewId = model.views[0]?.id || null;
+  renderViewsModal();
+}
+
+function selectViewForEdit(id) {
+  _activeViewId = id;
+  renderViewsModal();
+}
+
+function toggleElemInView(viewId, elemId, checked) {
+  const v = (model.views||[]).find(x => x.id === viewId);
+  if (!v) return;
+  if (checked) { if (!v.elementIds.includes(elemId)) v.elementIds.push(elemId); }
+  else          { v.elementIds = v.elementIds.filter(i => i !== elemId); }
+  // Update count badge without full re-render
+  const countEl = document.querySelector(`.view-item[data-vid="${viewId}"] .view-item-count`);
+  if (countEl) countEl.textContent = v.elementIds.length + (currentLang==='nl' ? ' elem.' : ' elem.');
+}
+
+function renderViewsModal() {
+  const NL = currentLang === 'nl';
+  const views = model.views || [];
+
+  // List panel
+  const listPanel = document.getElementById('viewsListPanel');
+  listPanel.innerHTML = views.length === 0
+    ? `<div class="views-placeholder">${NL ? 'Nog geen weergaven. Klik "Toevoegen".' : 'No views yet. Click "Add View".'}</div>`
+    : views.map(v => `
+      <div class="view-item${v.id === _activeViewId ? ' active' : ''}" data-vid="${v.id}"
+           onclick="selectViewForEdit('${v.id}')">
+        <span class="view-item-name">${esc(v.name)}</span>
+        <span class="view-item-count">${v.elementIds.length} ${NL?'elem.':'elem.'}</span>
+        <button class="view-del" onclick="event.stopPropagation();deleteView('${v.id}')" title="${NL?'Verwijder':'Delete'}">×</button>
+      </div>`).join('');
+
+  // Element selection panel
+  const elemPanel = document.getElementById('viewsElemPanel');
+  const activeView = views.find(v => v.id === _activeViewId);
+  if (!activeView) {
+    elemPanel.innerHTML = `<div class="views-placeholder" id="views-placeholder-el">${NL ? 'Selecteer een weergave om elementen te beheren.' : 'Select a view to manage its elements.'}</div>`;
+    return;
+  }
+  const selIds = new Set(activeView.elementIds);
+
+  // "Select All / None" buttons
+  const allIds = model.elements.map(e => e.id);
+  let html = `<div style="display:flex;gap:.5rem;margin-bottom:.75rem">
+    <button class="snap-restore" onclick="setAllInView('${activeView.id}',true)" style="font-size:.72rem">${NL?'Alles selecteren':'Select all'}</button>
+    <button class="snap-restore" onclick="setAllInView('${activeView.id}',false)" style="font-size:.72rem;border-color:rgba(255,255,255,.2);color:var(--muted);background:transparent">${NL?'Alles deselecteren':'Deselect all'}</button>
+  </div>`;
+
+  const CC = { business:'biz', application:'app', technology:'tech' };
+  for (const [layer, config] of Object.entries(LAYER_CONFIG)) {
+    const layerElems = model.elements.filter(e => e.layer === layer);
+    if (!layerElems.length) continue;
+    html += `<div class="views-elem-layer">
+      <div class="views-elem-layer-hd">${config.label} Layer</div>`;
+    for (const el of layerElems) {
+      const checked = selIds.has(el.id) ? 'checked' : '';
+      html += `<div class="views-elem-row">
+        <input type="checkbox" id="vce-${el.id}" ${checked}
+               onchange="toggleElemInView('${activeView.id}','${el.id}',this.checked)">
+        <span class="search-result-badge ${CC[layer]||''}" style="font-size:.58rem;padding:.08rem .35rem">${TYPE_LABELS[el.type]||el.type}</span>
+        <label for="vce-${el.id}">${esc(el.name||'(unnamed)')}</label>
+      </div>`;
+    }
+    html += `</div>`;
+  }
+  if (!model.elements.length) html += `<div class="views-placeholder">${NL ? 'Voeg eerst elementen toe.' : 'Add elements to the model first.'}</div>`;
+  elemPanel.innerHTML = html;
+}
+
+function setAllInView(viewId, include) {
+  const v = (model.views||[]).find(x => x.id === viewId);
+  if (!v) return;
+  v.elementIds = include ? model.elements.map(e => e.id) : [];
+  renderViewsModal();
+}
+
+// ══════════════════════════════════════════════════════════════
+// VERSION HISTORY (Snapshots)
+// ══════════════════════════════════════════════════════════════
+const MAX_SNAPSHOTS = 10;
+
+function saveSnapshot() {
+  const NL = currentLang === 'nl';
+  const ts = new Date();
+  const defaultName = ts.toLocaleDateString(NL?'nl-NL':'en-GB') + ' ' + ts.toLocaleTimeString(NL?'nl-NL':'en-GB',{hour:'2-digit',minute:'2-digit'});
+  const name = prompt(NL ? 'Naam voor dit snapshot (optioneel):' : 'Snapshot name (optional):', defaultName);
+  if (name === null) return; // cancelled
+  if (!model.snapshots) model.snapshots = [];
+  model.snapshots.unshift({
+    id:            genId(),
+    name:          name.trim() || defaultName,
+    timestamp:     ts.toISOString(),
+    elements:      JSON.parse(JSON.stringify(model.elements)),
+    relationships: JSON.parse(JSON.stringify(model.relationships))
+  });
+  if (model.snapshots.length > MAX_SNAPSHOTS) model.snapshots = model.snapshots.slice(0, MAX_SNAPSHOTS);
+  const NL2 = currentLang === 'nl';
+  alert(NL2 ? '✓ Snapshot opgeslagen.' : '✓ Snapshot saved.');
+}
+
+function showHistory() {
+  renderHistoryModal();
+  document.getElementById('historyModal').classList.add('open');
+}
+function hideHistory() { document.getElementById('historyModal').classList.remove('open'); }
+
+function renderHistoryModal() {
+  const NL = currentLang === 'nl';
+  const snaps = model.snapshots || [];
+  const list = document.getElementById('historyList');
+  if (!snaps.length) {
+    list.innerHTML = `<div class="snap-empty">${NL ? 'Nog geen snapshots opgeslagen. Gebruik "📸 Snapshot opslaan…" in het bestandsmenu.' : 'No snapshots saved yet. Use "📸 Save Snapshot…" in the File menu.'}</div>`;
+    return;
+  }
+  list.innerHTML = snaps.map(s => {
+    const dt = new Date(s.timestamp);
+    const dateStr = dt.toLocaleDateString(NL?'nl-NL':'en-GB') + ' ' + dt.toLocaleTimeString(NL?'nl-NL':'en-GB',{hour:'2-digit',minute:'2-digit'});
+    return `<div class="snap-row">
+      <div style="flex:1;min-width:0">
+        <div class="snap-name">${esc(s.name)}</div>
+        <div class="snap-meta">${dateStr} · ${s.elements.length} ${NL?'elementen':'elements'} · ${s.relationships.length} ${NL?'relaties':'relationships'}</div>
+      </div>
+      <div class="snap-actions">
+        <button class="snap-restore" onclick="restoreSnapshot('${s.id}')">${NL?'Herstellen':'Restore'}</button>
+        <button class="snap-del" onclick="deleteSnapshot('${s.id}')">${NL?'Verw.':'Del'}</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function restoreSnapshot(id) {
+  const NL = currentLang === 'nl';
+  const s = (model.snapshots||[]).find(x => x.id === id);
+  if (!s) return;
+  const msg = NL
+    ? `Herstellen naar "${s.name}"?\nDit overschrijft de huidige elementen en relaties. Uw snapshots blijven bewaard.`
+    : `Restore to "${s.name}"?\nThis will overwrite current elements and relationships. Your snapshots are preserved.`;
+  if (!confirm(msg)) return;
+  model.elements      = JSON.parse(JSON.stringify(s.elements));
+  model.relationships = JSON.parse(JSON.stringify(s.relationships));
+  renderAll(); updateStats();
+  hideHistory();
+}
+
+function deleteSnapshot(id) {
+  const NL = currentLang === 'nl';
+  if (!confirm(NL ? 'Dit snapshot verwijderen?' : 'Delete this snapshot?')) return;
+  model.snapshots = (model.snapshots||[]).filter(s => s.id !== id);
+  renderHistoryModal();
+}
 </script>
 </body>
 </html>
