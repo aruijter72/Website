@@ -1773,23 +1773,23 @@ function applyTranslations() {
   if (btnHist) btnHist.textContent = L === 'nl' ? '📜 Versiegeschiedenis…' : '📜 Version History…';
   // Views button
   const viewsLabel = document.getElementById('btn-views-label');
-  if (viewsLabel) viewsLabel.textContent = L === 'nl' ? 'Weergaven' : 'Views';
+  if (viewsLabel) viewsLabel.textContent = 'Views';
   // Views modal strings
   const viewsTitle = document.getElementById('views-title-el');
-  if (viewsTitle) viewsTitle.textContent = L === 'nl' ? '📐 Weergaven' : '📐 Views';
+  if (viewsTitle) viewsTitle.textContent = '📐 Views';
   const viewsSub = document.getElementById('views-sub-el');
   if (viewsSub) viewsSub.textContent = L === 'nl'
-    ? 'Maak benoemde weergaven om te bepalen welke elementen in elk diagram verschijnen bij het exporteren naar Archi. Zonder weergaven wordt één "Standaardweergave" met alle elementen geëxporteerd.'
+    ? 'Maak benoemde views om te bepalen welke elementen in elk diagram verschijnen bij het exporteren naar Archi. Zonder views wordt één "Default View" met alle elementen geëxporteerd.'
     : 'Create named views to control which elements appear in each diagram when exporting to Archi. If no views are defined, a single "Default View" with all elements is exported.';
   const viewsAddBtn = document.getElementById('views-add-btn');
-  if (viewsAddBtn) viewsAddBtn.textContent = L === 'nl' ? '+ Weergave toevoegen' : '+ Add View';
+  if (viewsAddBtn) viewsAddBtn.textContent = L === 'nl' ? '+ View toevoegen' : '+ Add View';
   // Views example label + SVG text
   const vExLbl = document.getElementById('views-example-lbl');
   if (vExLbl) vExLbl.textContent = L === 'nl' ? 'Voorbeeld' : 'Example';
   const vExVa = document.getElementById('views-ex-va');
-  if (vExVa) vExVa.textContent = L === 'nl' ? 'WEERGAVE A — Business' : 'VIEW A — Business';
+  if (vExVa) vExVa.textContent = 'VIEW A — Business';
   const vExVb = document.getElementById('views-ex-vb');
-  if (vExVb) vExVb.textContent = L === 'nl' ? 'WEERGAVE B — Applicatie' : 'VIEW B — Application';
+  if (vExVb) vExVb.textContent = L === 'nl' ? 'VIEW B — Applicatie' : 'VIEW B — Application';
   const vExD1 = document.getElementById('views-ex-d1');
   if (vExD1) vExD1.textContent = L === 'nl' ? '→ diagram 1 in Archi' : '→ diagram 1 in Archi';
   const vExD2 = document.getElementById('views-ex-d2');
@@ -5765,8 +5765,8 @@ function addView() {
   const dlg = document.getElementById('viewAddDialog');
   const lbl = document.getElementById('view-add-dlg-lbl');
   const inp = document.getElementById('viewNameInput');
-  if (lbl) lbl.textContent = NL ? 'Naam voor de nieuwe weergave:' : 'Name for the new view:';
-  if (inp)  inp.value = NL ? 'Nieuwe weergave' : 'New View';
+  if (lbl) lbl.textContent = NL ? 'Naam voor de nieuwe view:' : 'Name for the new view:';
+  if (inp)  inp.value = NL ? 'Nieuwe view' : 'New View';
   if (dlg)  dlg.style.display = '';
   setTimeout(() => { if (inp) { inp.focus(); inp.select(); } }, 40);
 }
@@ -5796,7 +5796,7 @@ function deleteView(id) {
   const dlg  = document.getElementById('viewDelDialog');
   const lbl  = document.getElementById('view-del-dlg-lbl');
   const nm   = document.getElementById('view-del-name-span');
-  if (lbl) lbl.textContent = NL ? 'Deze weergave verwijderen?' : 'Delete this view?';
+  if (lbl) lbl.textContent = NL ? 'Deze view verwijderen?' : 'Delete this view?';
   if (nm)  nm.textContent  = v.name;
   if (dlg) dlg.style.display = '';
 }
@@ -5837,7 +5837,7 @@ function renderViewsModal() {
   // List panel
   const listPanel = document.getElementById('viewsListPanel');
   listPanel.innerHTML = views.length === 0
-    ? `<div class="views-placeholder">${NL ? 'Nog geen weergaven. Klik "Toevoegen".' : 'No views yet. Click "Add View".'}</div>`
+    ? `<div class="views-placeholder">${NL ? 'Nog geen views. Klik "View toevoegen".' : 'No views yet. Click "Add View".'}</div>`
     : views.map(v => `
       <div class="view-item${v.id === _activeViewId ? ' active' : ''}" data-vid="${v.id}"
            onclick="selectViewForEdit('${v.id}')">
@@ -5850,7 +5850,7 @@ function renderViewsModal() {
   const elemPanel = document.getElementById('viewsElemPanel');
   const activeView = views.find(v => v.id === _activeViewId);
   if (!activeView) {
-    elemPanel.innerHTML = `<div class="views-placeholder" id="views-placeholder-el">${NL ? 'Selecteer een weergave om elementen te beheren.' : 'Select a view to manage its elements.'}</div>`;
+    elemPanel.innerHTML = `<div class="views-placeholder" id="views-placeholder-el">${NL ? 'Selecteer een view om elementen te beheren.' : 'Select a view to manage its elements.'}</div>`;
     return;
   }
   const selIds = new Set(activeView.elementIds);
