@@ -166,7 +166,7 @@ const i18n = {
     'ppr.processes': 'Processen',
     'ppr.result': 'Resultaat',
     'explore.card6.title': 'Architise',
-    'explore.card6.desc': 'Gratis ArchiMate 3 modelleertool — standalone, offline bruikbaar, zonder installatie.',
+    'explore.card6.desc': 'Modeleer enterprise-architectuur en processtromen — ArchiMate 3 met Archi-export, en een visuele swimlane-editor met draw.io-export.',
     /* ── Architise page ── */
     'arch.tagline': 'Gratis ArchiMate 3 Modelleertool',
     'arch.desc': 'Een standalone architectuurmodelleertool — gebouwd op de ArchiMate 3-standaard. Geen installatie, geen account, geen abonnement. Download één keer en gebruik overal, ook volledig offline.',
@@ -367,7 +367,7 @@ const i18n = {
     'ppr.processes': 'Processes',
     'ppr.result': 'Result',
     'explore.card6.title': 'Architise',
-    'explore.card6.desc': 'Free ArchiMate 3 modelling tool — standalone, offline-capable, no installation needed.',
+    'explore.card6.desc': 'Model enterprise architecture and process flows — ArchiMate 3 with Archi export, and a visual swimlane editor with draw.io export.',
     /* ── Architise page ── */
     'arch.tagline': 'Free ArchiMate 3 Modelling Tool',
     'arch.desc': 'A standalone architecture modelling tool — built on the ArchiMate 3 standard. No installation, no account, no subscription. Download once and it works anywhere, including fully offline.',

@@ -1010,6 +1010,7 @@
         <button class="mi-btn danger" onclick="newModel();closeMenus()">🆕 New Model</button>
         <div class="mi-sep"></div>
         <button class="mi-btn" onclick="triggerLoad();closeMenus()">📂 Open JSON…</button>
+        <button class="mi-btn" id="btn-import-archimate-el" onclick="triggerImportArchimate();closeMenus()">📥 Import .archimate…</button>
         <button class="mi-btn" onclick="saveModel();closeMenus()">💾 Save JSON</button>
         <button class="mi-btn" onclick="saveModelAs();closeMenus()">💾 Save As…</button>
         <div class="mi-sep"></div>
@@ -1018,6 +1019,7 @@
       </div>
     </div>
     <input type="file" id="loadFile" accept=".json" style="display:none" onchange="handleLoadFile(event)">
+    <input type="file" id="importArchimateFile" accept=".archimate,.xml" style="display:none" onchange="handleImportArchimate(event)">
     <!-- ── Persistent controls ─────────────────────────────── -->
     <button id="btn-autolayout" class="btn-layout-toggle" onclick="toggleAutoLayout(this)"
       title="Auto Layout uses Dagre/Sugiyama to minimise edge crossings in the Archi export">
@@ -1037,6 +1039,7 @@
         <button class="mi-btn" id="proc-mi-templates" onclick="showProcTemplates();closeMenus()">📋 Templates</button>
         <div class="mi-sep"></div>
         <button class="mi-btn" id="proc-mi-open" onclick="triggerLoadProc();closeMenus()">📂 Open…</button>
+        <button class="mi-btn" id="proc-mi-import-drawio" onclick="triggerImportDrawio();closeMenus()">📥 Import draw.io XML…</button>
         <button class="mi-btn" id="proc-mi-save" onclick="saveProcJSON();closeMenus()">💾 Save</button>
         <button class="mi-btn" id="proc-mi-saveas" onclick="saveProcJSONAs();closeMenus()">💾 Save As…</button>
         <div class="mi-sep"></div>
@@ -1092,6 +1095,7 @@
   <div id="tab-process" class="tab-panel active"></div>
 </div>
 <input type="file" id="procLoadFile" accept=".json,.swimlane.json" style="display:none" onchange="handleLoadProcFile(event)">
+<input type="file" id="importDrawioFile" accept=".xml,.drawio" style="display:none" onchange="handleImportDrawio(event)">
 
 <footer class="app-footer">
   <img src="Logo Huisstijl geel.png" alt="Arnold Ruijter IT" class="ar-logo ar-logo-footer">
@@ -1516,13 +1520,18 @@ function applyTranslations() {
   // Swimlane header controls
   const swFileLabel = document.getElementById('proc-file-btn-label');
   if (swFileLabel) swFileLabel.textContent = L === 'nl' ? 'Bestand' : 'File';
+  // ArchiMate import button
+  const btnImpArch = document.getElementById('btn-import-archimate-el');
+  if (btnImpArch) btnImpArch.textContent = L === 'nl' ? '📥 Importeer .archimate…' : '📥 Import .archimate…';
+
   const swMenuMap = {
-    'proc-mi-templates':  L === 'nl' ? '📋 Sjablonen'           : '📋 Templates',
-    'proc-mi-open':       L === 'nl' ? '📂 Openen…'             : '📂 Open…',
-    'proc-mi-save':       L === 'nl' ? '💾 Opslaan'             : '💾 Save',
-    'proc-mi-saveas':     L === 'nl' ? '💾 Opslaan als…'        : '💾 Save As…',
-    'proc-mi-drawio':     L === 'nl' ? '⬇ Exporteer draw.io XML': '⬇ Export draw.io XML',
-    'btn-export-drawio-el': L === 'nl' ? '⬇ Exporteer draw.io XML': '⬇ Export draw.io XML',
+    'proc-mi-templates':      L === 'nl' ? '📋 Sjablonen'               : '📋 Templates',
+    'proc-mi-open':           L === 'nl' ? '📂 Openen…'                 : '📂 Open…',
+    'proc-mi-import-drawio':  L === 'nl' ? '📥 Importeer draw.io XML…'  : '📥 Import draw.io XML…',
+    'proc-mi-save':           L === 'nl' ? '💾 Opslaan'                 : '💾 Save',
+    'proc-mi-saveas':         L === 'nl' ? '💾 Opslaan als…'            : '💾 Save As…',
+    'proc-mi-drawio':         L === 'nl' ? '⬇ Exporteer draw.io XML'    : '⬇ Export draw.io XML',
+    'btn-export-drawio-el':   L === 'nl' ? '⬇ Exporteer draw.io XML'    : '⬇ Export draw.io XML',
   };
   for (const [id, txt] of Object.entries(swMenuMap)) {
     const el = document.getElementById(id);
@@ -2602,6 +2611,119 @@ function handleLoadFile(ev) {
       document.getElementById('modelDoc').value  = model.documentation || '';
       renderAll(); updateStats();
     } catch(err) { alert('Could not load file: ' + err.message); }
+  };
+  r.readAsText(f);
+  ev.target.value = '';
+}
+
+// ══════════════════════════════════════════════════════════════
+// IMPORT .archimate (Archi 4.x XML)
+// ══════════════════════════════════════════════════════════════
+function triggerImportArchimate() { document.getElementById('importArchimateFile').click(); }
+
+function handleImportArchimate(ev) {
+  const f = ev.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = e => {
+    try {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(e.target.result, 'application/xml');
+
+      // Support both Archi 4 (archimate:model) and AMEFF/Open Group format
+      const root = xmlDoc.querySelector('model');
+      if (!root) throw new Error('Not a valid ArchiMate file — no <model> root element found.');
+
+      const TYPE_TO_LAYER = {
+        BusinessActor:'business', BusinessRole:'business', BusinessCollaboration:'business',
+        BusinessInterface:'business', BusinessProcess:'business', BusinessFunction:'business',
+        BusinessInteraction:'business', BusinessEvent:'business', BusinessService:'business',
+        BusinessObject:'business', Contract:'business', Representation:'business', Product:'business',
+        ApplicationComponent:'application', ApplicationCollaboration:'application',
+        ApplicationInterface:'application', ApplicationFunction:'application',
+        ApplicationInteraction:'application', ApplicationProcess:'application',
+        ApplicationEvent:'application', ApplicationService:'application', DataObject:'application',
+        Node:'technology', Device:'technology', SystemSoftware:'technology',
+        TechnologyCollaboration:'technology', TechnologyInterface:'technology',
+        Path:'technology', CommunicationNetwork:'technology',
+        TechnologyFunction:'technology', TechnologyProcess:'technology',
+        TechnologyInteraction:'technology', TechnologyEvent:'technology',
+        TechnologyService:'technology', Artifact:'technology', TechnologyObject:'technology'
+      };
+
+      const newModel = {
+        name: root.getAttribute('name') || f.name.replace(/\.archimate$/i,''),
+        documentation: '',
+        elements: [],
+        relationships: []
+      };
+
+      const docEl = root.querySelector(':scope > documentation');
+      if (docEl) newModel.documentation = docEl.textContent || '';
+
+      // Parse elements from layer folders
+      for (const folder of root.querySelectorAll(':scope > folder')) {
+        if (folder.getAttribute('type') === 'relations') continue;
+        for (const el of folder.querySelectorAll('element')) {
+          const rawType = el.getAttributeNS('http://www.w3.org/2001/XMLSchema-instance','type')
+                       || el.getAttribute('xsi:type') || '';
+          const type = rawType.replace(/^archimate:/,'');
+          if (!TYPE_TO_LAYER[type]) continue;
+          const docChild = el.querySelector('documentation');
+          newModel.elements.push({
+            id:            el.getAttribute('id') || genId(),
+            type,
+            layer:         TYPE_TO_LAYER[type],
+            name:          el.getAttribute('name') || '',
+            documentation: docChild ? docChild.textContent : '',
+            properties:    Array.from(el.querySelectorAll('property')).map(p=>({
+              key: p.getAttribute('key')||'', value: p.getAttribute('value')||''
+            }))
+          });
+        }
+      }
+
+      // Parse relationships
+      const relFolder = root.querySelector('folder[type="relations"]');
+      if (relFolder) {
+        for (const el of relFolder.querySelectorAll('element')) {
+          const rawType = el.getAttributeNS('http://www.w3.org/2001/XMLSchema-instance','type')
+                       || el.getAttribute('xsi:type') || '';
+          const type = rawType.replace(/^archimate:/,'');
+          if (!type.endsWith('Relationship')) continue;
+          const docChild = el.querySelector('documentation');
+          newModel.relationships.push({
+            id:            el.getAttribute('id') || genId(),
+            type,
+            sourceId:      el.getAttribute('source') || '',
+            targetId:      el.getAttribute('target') || '',
+            name:          el.getAttribute('name') || '',
+            directed:      el.getAttribute('directed') === 'true',
+            accessType:    el.getAttribute('accessType') || 'ReadWrite',
+            strength:      el.getAttribute('influenceStrength') || '',
+            documentation: docChild ? docChild.textContent : ''
+          });
+        }
+      }
+
+      if (!newModel.elements.length) {
+        alert(currentLang === 'nl'
+          ? 'Geen ondersteunde elementen gevonden in dit .archimate bestand.'
+          : 'No supported elements found in this .archimate file.');
+        return;
+      }
+
+      const msg = currentLang === 'nl'
+        ? `Importeer "${newModel.name}"?\n${newModel.elements.length} elementen en ${newModel.relationships.length} relaties gevonden.\n\nDit vervangt het huidige model.`
+        : `Import "${newModel.name}"?\n${newModel.elements.length} elements and ${newModel.relationships.length} relationships found.\n\nThis will replace your current model.`;
+      if (!confirm(msg)) return;
+
+      model = newModel;
+      document.getElementById('modelName').value = model.name || '';
+      document.getElementById('modelDoc').value  = model.documentation || '';
+      renderAll(); updateStats();
+    } catch(err) {
+      alert((currentLang==='nl' ? 'Kan .archimate bestand niet laden: ' : 'Could not import .archimate file: ') + err.message);
+    }
   };
   r.readAsText(f);
   ev.target.value = '';
@@ -3823,16 +3945,47 @@ function renderHelp() {
   // ═══════════════════════════════════════════════════════════
   html += `<div>`;
 
-  // Layer legend
-  const legendLayerTitle  = 'Layer Colour Coding';
-  const legendAspectTitle = 'Aspect Indicators (left border colour on section headers)';
-  const legendElemTitle   = 'Element Type Reference';
-  const legendRelTitle    = 'Relationship Type Reference';
-  const relColType        = 'Type';
-  const relColSym         = 'Symbol';
-  const relColDesc        = 'Description';
-  const relColUsage       = 'Typical usage';
-  const layerLayerSuffix  = 'Layer';
+  // Layer legend — NL-aware labels
+  const legendLayerTitle  = NL ? 'Laagkleurcodering'                                              : 'Layer Colour Coding';
+  const legendAspectTitle = NL ? 'Aspectindicatoren (linkse randkleur op sectiekoppen)'            : 'Aspect Indicators (left border colour on section headers)';
+  const legendElemTitle   = NL ? 'Elementtype Referentie'                                          : 'Element Type Reference';
+  const legendRelTitle    = NL ? 'Relatietype Referentie'                                          : 'Relationship Type Reference';
+  const relColType        = NL ? 'Type'          : 'Type';
+  const relColSym         = NL ? 'Symbool'       : 'Symbol';
+  const relColDesc        = NL ? 'Beschrijving'  : 'Description';
+  const relColUsage       = NL ? 'Typisch gebruik': 'Typical usage';
+  const layerLayerSuffix  = NL ? 'Laag'          : 'Layer';
+
+  // Relationship descriptions in Dutch
+  const REL_DESC_NL = {
+    AssociationRelationship:    'Niet-gespecificeerde (of gerichte) relatie tussen twee willekeurige concepten.',
+    RealizationRelationship:    'Concept A wordt gerealiseerd door concept B. Bijv. een process realiseert een service.',
+    AssignmentRelationship:     'Een Active Structure-element is verantwoordelijk voor een Behaviour-element, of andersom.',
+    AggregationRelationship:    'Structurele geheel-deel-relatie (niet-exclusief): een element groepeert gerelateerde onderdelen.',
+    CompositionRelationship:    'Structurele geheel-deel-relatie (exclusief/sterk): onderdelen behoren tot precies één geheel.',
+    ServingRelationship:        'Een element levert services aan of ondersteunt een ander element.',
+    AccessRelationship:         'Een Behaviour-element leest uit of schrijft naar een Passive Structure-element.',
+    InfluenceRelationship:      'Een element beïnvloedt zwak een ander element of eigenschap.',
+    TriggeringRelationship:     'Één Behaviour-element veroorzaakt of triggert de uitvoering van een ander.',
+    FlowRelationship:           'Overdracht van informatie, goederen of besturing tussen Behaviour-elementen.',
+    SpecializationRelationship: 'Eén concept is een type/subtype van een ander (generalisatie/specialisatie).'
+  };
+  const REL_RULES_NL = {
+    AssociationRelationship:    'Elk concept → elk concept',
+    RealizationRelationship:    'Behaviour / object → behaviour / object (zelfde of lagere laag)',
+    AssignmentRelationship:     'Active structure ↔ Behaviour (zelfde laag)',
+    AggregationRelationship:    'Elk concept → elk concept (zelfde type familie)',
+    CompositionRelationship:    'Elk concept → elk concept (zelfde type familie)',
+    ServingRelationship:        'Elk element → active structure of behaviour',
+    AccessRelationship:         'Behaviour → passive structure',
+    InfluenceRelationship:      'Elk concept → elk concept (motivatie / strategie aanbevolen)',
+    TriggeringRelationship:     'Behaviour → behaviour',
+    FlowRelationship:           'Behaviour → behaviour',
+    SpecializationRelationship: 'Elk concept → zelfde type'
+  };
+  const elemDescs  = NL ? ELEM_DESCS_NL  : ELEM_DESCS;
+  const relDescMap = NL ? REL_DESC_NL    : null;
+  const relRuleMap = NL ? REL_RULES_NL   : REL_RULES;
 
   html += `
     <div class="ml-card" style="margin-bottom:1.25rem">
@@ -3882,7 +4035,7 @@ function renderHelp() {
                 <div class="legend-elem-item">
                   <div>
                     <div class="legend-elem-name"><span class="legend-elem-badge ${cc}">${TYPE_LABELS[t]}</span></div>
-                    <div class="legend-elem-desc" style="margin-top:.25rem">${ELEM_DESCS[t]||''}</div>
+                    <div class="legend-elem-desc" style="margin-top:.25rem">${elemDescs[t]||''}</div>
                   </div>
                 </div>`;
       }
@@ -3910,8 +4063,8 @@ function renderHelp() {
             <tr>
               <td style="font-weight:700;color:var(--white);white-space:nowrap">${rt.label}</td>
               <td class="rel-sym-cell">${rt.sym}</td>
-              <td style="color:var(--muted)">${rt.desc}</td>
-              <td><span class="rel-rule">${REL_RULES[rt.id]||''}</span></td>
+              <td style="color:var(--muted)">${(relDescMap && relDescMap[rt.id]) || rt.desc}</td>
+              <td><span class="rel-rule">${relRuleMap[rt.id]||''}</span></td>
             </tr>`;
   }
   html += `</tbody></table>
@@ -4086,6 +4239,129 @@ function deleteFlow(flowId) {
 }
 
 // ── Save / Load swimlane ──────────────────────────────────────
+// ── Import draw.io XML into Swimlane ───────────────────────────
+function triggerImportDrawio() { document.getElementById('importDrawioFile').click(); }
+
+function handleImportDrawio(ev) {
+  const f = ev.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = e => {
+    try {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(e.target.result, 'application/xml');
+
+      // draw.io files can wrap mxGraphModel in <mxfile><diagram>...</diagram></mxfile>
+      // or the content may be URL-encoded. Try to find mxGraphModel directly or decoded.
+      let graphModel = xmlDoc.querySelector('mxGraphModel');
+      if (!graphModel) {
+        // Try decoding from <diagram> element
+        const diagramEl = xmlDoc.querySelector('diagram');
+        if (diagramEl) {
+          const inner = parser.parseFromString(diagramEl.textContent, 'application/xml');
+          graphModel = inner.querySelector('mxGraphModel');
+        }
+      }
+      if (!graphModel) throw new Error('No mxGraphModel found — not a valid draw.io XML file.');
+
+      const cells = Array.from(graphModel.querySelectorAll('mxCell'));
+      const cellById = {};
+      cells.forEach(c => { cellById[c.getAttribute('id')] = c; });
+
+      // Find the process pool container
+      const poolCell = cells.find(c => {
+        const s = c.getAttribute('style') || '';
+        return s.includes('shape=pool') || s.includes('shape=table');
+      });
+      const procName = poolCell ? (poolCell.getAttribute('value') || f.name.replace(/\.(xml|drawio)$/i,'')) : f.name.replace(/\.(xml|drawio)$/i,'');
+      const poolId   = poolCell ? poolCell.getAttribute('id') : null;
+
+      // Find swimlane rows (direct children of pool, or any swimlane-style cell)
+      const laneCells = cells.filter(c => {
+        const s = c.getAttribute('style') || '';
+        const parent = c.getAttribute('parent');
+        return s.includes('swimlane') && (!poolId || parent === poolId);
+      });
+
+      const lanes = laneCells.map((l, i) => ({ id: genId(), name: l.getAttribute('value') || `Lane ${i+1}` }));
+      const laneIdMap = {};
+      laneCells.forEach((l, i) => { laneIdMap[l.getAttribute('id')] = lanes[i]?.id; });
+
+      // Determine step type from draw.io style string
+      function guessType(style) {
+        if (!style) return 'task';
+        const s = style.toLowerCase();
+        if (s.includes('rhombus') || s.includes('diamond')) return 'decision';
+        if (s.includes('ellipse') || s.includes('circle')) {
+          // Distinguish start (green) vs end (red) by fill colour hints
+          if (s.includes('dc3545') || s.includes('f8d7da')) return 'end';
+          return 'start';
+        }
+        return 'task';
+      }
+
+      // Find step cells: vertex, not pool/swimlane, not root
+      const laneIdSet = new Set(laneCells.map(l => l.getAttribute('id')));
+      const stepCells = cells.filter(c => {
+        const id = c.getAttribute('id');
+        if (id === '0' || id === '1') return false;
+        if (c.getAttribute('vertex') !== '1') return false;
+        const s = c.getAttribute('style') || '';
+        if (s.includes('swimlane') || s.includes('shape=pool')) return false;
+        if (s.includes('text;') && !c.getAttribute('value')) return false;
+        if (poolId && c.getAttribute('parent') === poolId) return false;
+        return true;
+      });
+
+      const stepIdMap = {};
+      const steps = stepCells.map(c => {
+        const newId = genId();
+        stepIdMap[c.getAttribute('id')] = newId;
+        const parent = c.getAttribute('parent');
+        return {
+          id:       newId,
+          type:     guessType(c.getAttribute('style') || ''),
+          label:    c.getAttribute('value') || '',
+          laneId:   laneIdMap[parent] || (lanes[0]?.id || ''),
+          columnId: null
+        };
+      });
+
+      // Find flows (edges)
+      const flows = cells
+        .filter(c => c.getAttribute('edge') === '1')
+        .map(c => ({
+          id:    genId(),
+          from:  stepIdMap[c.getAttribute('source')] || null,
+          to:    stepIdMap[c.getAttribute('target')]  || null,
+          label: c.getAttribute('value') || ''
+        }))
+        .filter(fl => fl.from && fl.to);
+
+      if (!steps.length && !lanes.length) {
+        alert(currentLang === 'nl'
+          ? 'Geen swimlane-inhoud gevonden in dit draw.io bestand.'
+          : 'No swimlane content found in this draw.io file.');
+        return;
+      }
+
+      const msg = currentLang === 'nl'
+        ? `Importeer "${procName}" uit draw.io?\n${lanes.length} lanes, ${steps.length} stappen, ${flows.length} verbindingen gevonden.\n\nDit voegt een nieuw proces toe aan het huidige model.`
+        : `Import "${procName}" from draw.io?\n${lanes.length} lanes, ${steps.length} steps, ${flows.length} flows found.\n\nThis will add a new process to the current model.`;
+      if (!confirm(msg)) return;
+
+      if (!model.processes) model.processes = [];
+      const newProc = { id: genId(), name: procName, columns: [], lanes, steps, flows };
+      model.processes.push(newProc);
+      _activeProcId = newProc.id;
+      renderProcTab();
+    } catch(err) {
+      alert((currentLang==='nl' ? 'Kan draw.io bestand niet laden: ' : 'Could not import draw.io file: ') + err.message);
+    }
+  };
+  r.readAsText(f);
+  ev.target.value = '';
+}
+
 function saveProcJSON() {
   const proc = getActiveProc();
   if (!proc) { alert('Select a process first.'); return; }
