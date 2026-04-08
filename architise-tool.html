@@ -3846,7 +3846,12 @@ const TEMPLATES = [
         {id:'tr1-06',type:'ServingRelationship',sourceId:'t1-10',targetId:'t1-07',name:'',documentation:''},
         {id:'tr1-07',type:'RealizationRelationship',sourceId:'t1-08',targetId:'t1-10',name:'',documentation:''},
         {id:'tr1-08',type:'RealizationRelationship',sourceId:'t1-11',targetId:'t1-08',name:'',documentation:''},
-        {id:'tr1-09',type:'ServingRelationship',sourceId:'t1-08',targetId:'t1-02',name:'self-service access',documentation:''}
+        {id:'tr1-09',type:'ServingRelationship',sourceId:'t1-08',targetId:'t1-02',name:'self-service access',documentation:''},
+        {id:'tr1-10',type:'RealizationRelationship',sourceId:'t1-11',targetId:'t1-09',name:'',documentation:''},
+        {id:'tr1-11',type:'ServingRelationship',sourceId:'t1-09',targetId:'t1-02',name:'order & delivery portal',documentation:''},
+        {id:'tr1-12',type:'RealizationRelationship',sourceId:'t1-11',targetId:'t1-12',name:'',documentation:''},
+        {id:'tr1-13',type:'RealizationRelationship',sourceId:'t1-05',targetId:'t1-07',name:'',documentation:''},
+        {id:'tr1-14',type:'RealizationRelationship',sourceId:'t1-06',targetId:'t1-07',name:'',documentation:''}
       ]
     }
   },
@@ -3878,7 +3883,10 @@ const TEMPLATES = [
         {id:'tr2-05',type:'RealizationRelationship',sourceId:'t2-04',targetId:'t2-06',name:'',documentation:''},
         {id:'tr2-06',type:'RealizationRelationship',sourceId:'t2-07',targetId:'t2-09',name:'',documentation:''},
         {id:'tr2-07',type:'ServingRelationship',sourceId:'t2-09',targetId:'t2-06',name:'',documentation:''},
-        {id:'tr2-08',type:'RealizationRelationship',sourceId:'t2-10',targetId:'t2-07',name:'',documentation:''}
+        {id:'tr2-08',type:'RealizationRelationship',sourceId:'t2-10',targetId:'t2-07',name:'',documentation:''},
+        {id:'tr2-09',type:'ServingRelationship',sourceId:'t2-06',targetId:'t2-01',name:'',documentation:''},
+        {id:'tr2-10',type:'AccessRelationship',sourceId:'t2-05',targetId:'t2-08',name:'',documentation:'',accessType:'Read'},
+        {id:'tr2-11',type:'RealizationRelationship',sourceId:'t2-10',targetId:'t2-11',name:'',documentation:''}
       ]
     }
   },
@@ -3917,7 +3925,11 @@ const TEMPLATES = [
         {id:'tr3-08',type:'ServingRelationship',sourceId:'t3-12',targetId:'t3-08',name:'',documentation:''},
         {id:'tr3-09',type:'RealizationRelationship',sourceId:'t3-11',targetId:'t3-12',name:'',documentation:''},
         {id:'tr3-10',type:'RealizationRelationship',sourceId:'t3-11',targetId:'t3-13',name:'',documentation:''},
-        {id:'tr3-11',type:'RealizationRelationship',sourceId:'t3-14',targetId:'t3-11',name:'',documentation:''}
+        {id:'tr3-11',type:'RealizationRelationship',sourceId:'t3-14',targetId:'t3-11',name:'',documentation:''},
+        {id:'tr3-12',type:'ServingRelationship',sourceId:'t3-08',targetId:'t3-01',name:'',documentation:''},
+        {id:'tr3-13',type:'AssignmentRelationship',sourceId:'t3-03',targetId:'t3-07',name:'',documentation:''},
+        {id:'tr3-14',type:'ServingRelationship',sourceId:'t3-13',targetId:'t3-07',name:'',documentation:''},
+        {id:'tr3-15',type:'RealizationRelationship',sourceId:'t3-14',targetId:'t3-15',name:'',documentation:''}
       ]
     }
   },
@@ -3955,7 +3967,10 @@ const TEMPLATES = [
         {id:'tr4-08',type:'AccessRelationship',sourceId:'t4-05',targetId:'t4-09',name:'',documentation:'',accessType:'Write'},
         {id:'tr4-09',type:'RealizationRelationship',sourceId:'t4-10',targetId:'t4-12',name:'',documentation:''},
         {id:'tr4-10',type:'ServingRelationship',sourceId:'t4-12',targetId:'t4-08',name:'',documentation:''},
-        {id:'tr4-11',type:'RealizationRelationship',sourceId:'t4-13',targetId:'t4-10',name:'',documentation:''}
+        {id:'tr4-11',type:'RealizationRelationship',sourceId:'t4-13',targetId:'t4-10',name:'',documentation:''},
+        {id:'tr4-12',type:'ServingRelationship',sourceId:'t4-08',targetId:'t4-01',name:'',documentation:''},
+        {id:'tr4-13',type:'ServingRelationship',sourceId:'t4-11',targetId:'t4-06',name:'',documentation:''},
+        {id:'tr4-14',type:'RealizationRelationship',sourceId:'t4-13',targetId:'t4-14',name:'',documentation:''}
       ]
     }
   },
@@ -3995,7 +4010,10 @@ const TEMPLATES = [
         {id:'tr5-09',type:'RealizationRelationship',sourceId:'t5-10',targetId:'t5-12',name:'',documentation:''},
         {id:'tr5-10',type:'ServingRelationship',sourceId:'t5-11',targetId:'t5-08',name:'',documentation:''},
         {id:'tr5-11',type:'RealizationRelationship',sourceId:'t5-13',targetId:'t5-10',name:'',documentation:''},
-        {id:'tr5-12',type:'RealizationRelationship',sourceId:'t5-14',targetId:'t5-15',name:'',documentation:''}
+        {id:'tr5-12',type:'RealizationRelationship',sourceId:'t5-14',targetId:'t5-15',name:'',documentation:''},
+        {id:'tr5-13',type:'ServingRelationship',sourceId:'t5-08',targetId:'t5-02',name:'',documentation:''},
+        {id:'tr5-14',type:'ServingRelationship',sourceId:'t5-09',targetId:'t5-05',name:'version control',documentation:''},
+        {id:'tr5-15',type:'ServingRelationship',sourceId:'t5-12',targetId:'t5-07',name:'',documentation:''}
       ]
     }
   }
@@ -4033,7 +4051,9 @@ const TEMPLATES = [
         {id:'thr1-09',type:'ServingRelationship',sourceId:'th1-10',targetId:'th1-05',name:'self-service booking',documentation:''},
         {id:'thr1-10',type:'RealizationRelationship',sourceId:'th1-12',targetId:'th1-09',name:'',documentation:''},
         {id:'thr1-11',type:'RealizationRelationship',sourceId:'th1-12',targetId:'th1-10',name:'',documentation:''},
-        {id:'thr1-12',type:'ServingRelationship',sourceId:'th1-12',targetId:'th1-13',name:'hosts',documentation:''}
+        {id:'thr1-12',type:'ServingRelationship',sourceId:'th1-12',targetId:'th1-13',name:'hosts',documentation:''},
+        {id:'thr1-13',type:'ServingRelationship',sourceId:'th1-08',targetId:'th1-01',name:'',documentation:''},
+        {id:'thr1-14',type:'RealizationRelationship',sourceId:'th1-07',targetId:'th1-08',name:'',documentation:''}
       ]
     }
   }
@@ -4072,7 +4092,10 @@ const TEMPLATES = [
         {id:'tbr1-09',type:'RealizationRelationship',sourceId:'tb1-11',targetId:'tb1-07',name:'automated scoring',documentation:''},
         {id:'tbr1-10',type:'RealizationRelationship',sourceId:'tb1-13',targetId:'tb1-09',name:'',documentation:''},
         {id:'tbr1-11',type:'RealizationRelationship',sourceId:'tb1-13',targetId:'tb1-11',name:'',documentation:''},
-        {id:'tbr1-12',type:'ServingRelationship',sourceId:'tb1-13',targetId:'tb1-14',name:'hosts',documentation:''}
+        {id:'tbr1-12',type:'ServingRelationship',sourceId:'tb1-13',targetId:'tb1-14',name:'hosts',documentation:''},
+        {id:'tbr1-13',type:'ServingRelationship',sourceId:'tb1-08',targetId:'tb1-01',name:'',documentation:''},
+        {id:'tbr1-14',type:'AssignmentRelationship',sourceId:'tb1-02',targetId:'tb1-07',name:'final approval',documentation:''},
+        {id:'tbr1-15',type:'RealizationRelationship',sourceId:'tb1-07',targetId:'tb1-08',name:'',documentation:''}
       ]
     }
   }
@@ -4110,7 +4133,9 @@ const TEMPLATES = [
         {id:'tmr1-09',type:'ServingRelationship',sourceId:'tm1-10',targetId:'tm1-06',name:'stock visibility',documentation:''},
         {id:'tmr1-10',type:'RealizationRelationship',sourceId:'tm1-12',targetId:'tm1-09',name:'',documentation:''},
         {id:'tmr1-11',type:'RealizationRelationship',sourceId:'tm1-12',targetId:'tm1-10',name:'',documentation:''},
-        {id:'tmr1-12',type:'ServingRelationship',sourceId:'tm1-12',targetId:'tm1-13',name:'hosts',documentation:''}
+        {id:'tmr1-12',type:'ServingRelationship',sourceId:'tm1-12',targetId:'tm1-13',name:'hosts',documentation:''},
+        {id:'tmr1-13',type:'AssociationRelationship',sourceId:'tm1-03',targetId:'tm1-05',name:'delivers to',documentation:''},
+        {id:'tmr1-14',type:'RealizationRelationship',sourceId:'tm1-07',targetId:'tm1-08',name:'',documentation:''}
       ]
     }
   }
