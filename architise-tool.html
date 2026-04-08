@@ -1094,6 +1094,21 @@
   </div>
 </div>
 
+<!-- ── Reusable Confirm Modal ─────────────────────────────────── -->
+<div id="confirmModal" class="modal-overlay" onclick="if(event.target===this)cancelConfirm()">
+  <div class="modal-box" style="max-width:400px">
+    <div class="modal-header">
+      <div class="modal-title" id="confirm-title">Confirm</div>
+      <button class="modal-close" onclick="cancelConfirm()">×</button>
+    </div>
+    <p id="confirm-msg" style="font-size:.85rem;color:var(--muted);margin:.2rem 0 1.25rem"></p>
+    <div style="display:flex;justify-content:flex-end;gap:.5rem">
+      <button class="btn btn-secondary" id="confirm-cancel-btn" onclick="cancelConfirm()">Cancel</button>
+      <button class="btn" id="confirm-ok-btn" onclick="executeConfirm()">OK</button>
+    </div>
+  </div>
+</div>
+
 <!-- ── Guided Wizard Modal ─────────────────────────────── -->
 <div id="wizModal" class="modal-overlay">
   <div class="modal-box" style="max-width:580px">
@@ -2430,13 +2445,23 @@ function renderWizStep() {
 }
 
 function wizGenerate() {
+  const NL2 = currentLang === 'nl';
+  if (model.elements.length > 0) {
+    showConfirm(
+      NL2 ? '🪄 Model genereren' : '🪄 Generate Model',
+      NL2 ? 'Uw huidige model wordt vervangen. Wilt u doorgaan?' : 'Your current model will be replaced. Continue?',
+      NL2 ? 'Genereren' : 'Generate', true,
+      _doWizGenerate
+    );
+    return;
+  }
+  _doWizGenerate();
+}
+function _doWizGenerate() {
   const name    = _wiz.name || 'My Architecture Model';
   const actors  = _splitLines(_wiz.actors);
   const procs   = _splitLines(_wiz.processes);
   const systems = _splitLines(_wiz.systems);
-
-  if (model.elements.length > 0 && !confirm('Generate new model? Your current model will be replaced.')) return;
-
   const elements = [], relationships = [];
 
   const actorIds = actors.map(a => {
@@ -2459,7 +2484,7 @@ function wizGenerate() {
     for (const pId of procIds)
       relationships.push({id:genId(),type:'ServingRelationship',sourceId:sId,targetId:pId,name:'',documentation:'',directed:false,accessType:'ReadWrite',strength:''});
 
-  model = { name, documentation:'', elements, relationships };
+  model = { name, documentation:'', elements, relationships, views:[], snapshots:[] };
   document.getElementById('modelName').value = name;
   document.getElementById('modelDoc').value  = '';
   renderAll(); updateStats();
@@ -2474,23 +2499,36 @@ function renderTemplateGrid() {
     const blank = tmpl.isBlank ? ' tmpl-blank' : '';
     const elCount = tmpl.isBlank ? '' : `<span class="tmpl-meta-tag">${tmpl.model.elements.length} ${NL?'elem.':'elements'}</span>`;
     const phaseBadge = (_togafVisible && tmpl.togafPhase)
-      ? `<span class="tmpl-phase-badge" title="TOGAF ADM ${tmpl.togafPhase}">◈ ${tmpl.togafPhase}</span>`
+      ? `<div style="margin:.18rem 0 .28rem"><span class="tmpl-phase-badge" title="TOGAF ADM ${tmpl.togafPhase}">◈ ${tmpl.togafPhase}</span></div>`
       : '';
     return `
       <button class="tmpl-card${blank}" onclick="loadTemplate(${i})">
         <div class="tmpl-card-icon">${tmpl.icon}</div>
-        <div class="tmpl-card-name">${tmpl.name}${phaseBadge ? ' ' : ''}${phaseBadge}</div>
+        <div class="tmpl-card-name">${tmpl.name}</div>
+        ${phaseBadge}
         <div class="tmpl-card-desc">${tmpl.desc}</div>
         <div class="tmpl-card-meta">${tags}${elCount}</div>
       </button>`;
   }).join('');
 }
 function loadTemplate(idx) {
-  const t = TEMPLATES[idx];
-  if (!t.isBlank && model.elements.length > 0) {
-    if (!confirm('Load "' + t.name + '"? Your current model will be replaced.')) return;
+  const tmpl = TEMPLATES[idx];
+  const NL   = currentLang === 'nl';
+  if (!tmpl.isBlank && model.elements.length > 0) {
+    const title = NL ? `Sjabloon laden: ${tmpl.name}` : `Load template: ${tmpl.name}`;
+    const msg   = NL ? 'Uw huidige model wordt vervangen. Sla uw werk eerst op als dat nodig is.'
+                     : 'Your current model will be replaced. Save your work first if needed.';
+    const ok    = NL ? 'Laden' : 'Load';
+    showConfirm(title, msg, ok, true, () => _doLoadTemplate(idx));
+    return;
   }
-  model = JSON.parse(JSON.stringify(t.model));
+  _doLoadTemplate(idx);
+}
+function _doLoadTemplate(idx) {
+  const tmpl = TEMPLATES[idx];
+  model = JSON.parse(JSON.stringify(tmpl.model));
+  model.views     = model.views     || [];
+  model.snapshots = model.snapshots || [];
   document.getElementById('modelName').value = model.name || '';
   document.getElementById('modelDoc').value  = model.documentation || '';
   renderAll(); updateStats();
@@ -2998,13 +3036,15 @@ function navigateToRelationship(relId) {
 function showToast(msg, type) {
   const t = document.createElement('div');
   t.innerHTML = msg;
-  const border = type === 'gold' ? 'var(--gold)'
-               : type === 'proc' ? 'var(--proc-border)'
-               : type === 'err'  ? 'rgba(239,68,68,.6)'
+  const border = type === 'gold'  ? 'var(--gold)'
+               : type === 'proc'  ? 'var(--proc-border)'
+               : type === 'err'   ? 'rgba(239,68,68,.6)'
+               : type === 'togaf' ? 'var(--togaf-border)'
                : 'var(--border)';
-  const color  = type === 'gold' ? 'var(--gold)'
-               : type === 'proc' ? 'var(--proc-text)'
-               : type === 'err'  ? '#ef8888'
+  const color  = type === 'gold'  ? 'var(--gold)'
+               : type === 'proc'  ? 'var(--proc-text)'
+               : type === 'err'   ? '#ef8888'
+               : type === 'togaf' ? 'var(--togaf)'
                : 'var(--white)';
   Object.assign(t.style, {
     position:'fixed', bottom:'1.5rem', left:'50%', transform:'translateX(-50%)',
@@ -3014,8 +3054,29 @@ function showToast(msg, type) {
     whiteSpace:'nowrap', transition:'opacity .3s'
   });
   document.body.appendChild(t);
-  setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 320); }, 2700);
+  const dur = type === 'togaf' ? 4500 : 2700;
+  setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 320); }, dur);
 }
+
+// ══════════════════════════════════════════════════════════════
+// REUSABLE CONFIRM DIALOG
+// ══════════════════════════════════════════════════════════════
+let _confirmCb = null;
+function showConfirm(title, msg, okLabel, okDanger, callback) {
+  const NL = currentLang === 'nl';
+  _confirmCb = callback;
+  const titleEl   = document.getElementById('confirm-title');
+  const msgEl     = document.getElementById('confirm-msg');
+  const okBtn     = document.getElementById('confirm-ok-btn');
+  const cancelBtn = document.getElementById('confirm-cancel-btn');
+  if (titleEl)   titleEl.textContent  = title;
+  if (msgEl)     msgEl.textContent    = msg;
+  if (okBtn)     { okBtn.textContent  = okLabel; okBtn.style.background = okDanger ? '#c0444e' : 'var(--gold)'; okBtn.style.color = '#fff'; okBtn.style.border = 'none'; }
+  if (cancelBtn) cancelBtn.textContent = NL ? 'Annuleren' : 'Cancel';
+  document.getElementById('confirmModal').classList.add('open');
+}
+function cancelConfirm()  { document.getElementById('confirmModal').classList.remove('open'); _confirmCb = null; }
+function executeConfirm() { document.getElementById('confirmModal').classList.remove('open'); if (_confirmCb) { const cb = _confirmCb; _confirmCb = null; cb(); } }
 
 // ══════════════════════════════════════════════════════════════
 // MENU BAR
@@ -3039,13 +3100,22 @@ document.addEventListener('click', e => { if (!e.target.closest('.menu-item')) c
 // ══════════════════════════════════════════════════════════════
 function newModel() {
   const NL = currentLang === 'nl';
-  const msg = NL
-    ? 'Nieuw model aanmaken? Niet-opgeslagen wijzigingen gaan verloren.'
-    : 'Start a new model? Unsaved changes will be lost.';
-  if (!confirm(msg)) return;
-  model = { name: NL ? 'Nieuw Model' : 'New Model', documentation: '', elements: [], relationships: [] };
+  if (model.elements.length === 0 && model.relationships.length === 0) { _doNewModel(); return; }
+  showConfirm(
+    NL ? '🆕 Nieuw model' : '🆕 New Model',
+    NL ? 'Niet-opgeslagen wijzigingen gaan verloren. Wilt u doorgaan?'
+       : 'Unsaved changes will be lost. Continue?',
+    NL ? 'Nieuw model' : 'New Model',
+    true,
+    _doNewModel
+  );
+}
+function _doNewModel() {
+  const NL = currentLang === 'nl';
+  model = { name: NL ? 'Nieuw Model' : 'New Model', documentation: '', elements: [], relationships: [], views: [], snapshots: [] };
   document.getElementById('modelName').value = model.name;
   document.getElementById('modelDoc').value  = '';
+  _modelSaveHandle = null; _modelSavedOnce = false;
   renderAll(); updateStats();
   showToast(NL ? '🆕 Nieuw model aangemaakt' : '🆕 New model created');
 }
@@ -3122,24 +3192,56 @@ function showTab(tab) {
 }
 
 let _advLayersVisible = false;
-let _togafVisible = false;
+let _togafVisible = (function(){ try { return localStorage.getItem('architise-togaf') === '1'; } catch(e){ return false; } })();
 
 function toggleTogaf() {
   _togafVisible = !_togafVisible;
+  try { localStorage.setItem('architise-togaf', _togafVisible ? '1' : '0'); } catch(e) {}
+  _applyTogaf();
+  // Toast feedback
+  const NL = currentLang === 'nl';
+  if (_togafVisible) {
+    showToast(NL
+      ? '◈ TOGAF modus aan — Viewpoints in Views · Principes in Motivatie · Fase-labels op Sjablonen'
+      : '◈ TOGAF mode on — Viewpoints in Views · Principles in Motivation · Phase labels on Templates',
+      'togaf');
+  } else {
+    showToast(NL ? '◈ TOGAF modus uit' : '◈ TOGAF mode off');
+  }
+}
+
+function _applyTogaf() {
   const arrow = _togafVisible ? '▾' : '▸';
   const lbl = document.getElementById('togaf-toggle-label');
   const btn = document.getElementById('togaf-toggle-btn');
   if (btn) btn.innerHTML = `◈ <span id="togaf-toggle-label">${lbl ? lbl.textContent : 'TOGAF'}</span> ${arrow}`;
-  // Show/hide viewpoints section in the Views modal
+
+  // Auto-enable Advanced layers when TOGAF is turned on (Motivation tab houses the guide)
+  if (_togafVisible && !_advLayersVisible) {
+    _advLayersVisible = true;
+    const motBtn = document.getElementById('tab-btn-motivation');
+    const strBtn = document.getElementById('tab-btn-strategy');
+    const advBtn = document.getElementById('adv-toggle-btn');
+    if (motBtn) motBtn.style.display = '';
+    if (strBtn) strBtn.style.display = '';
+    if (advBtn) {
+      const advLbl = document.getElementById('adv-toggle-label');
+      advBtn.innerHTML = `⋯ <span id="adv-toggle-label">${advLbl ? advLbl.textContent : 'Advanced'}</span> ▾`;
+    }
+  }
+
+  // Viewpoints section inside Views modal — always in DOM, just show/hide
   const vpSection = document.getElementById('viewpoints-section');
-  if (vpSection) { vpSection.style.display = _togafVisible ? '' : 'none'; if (_togafVisible) renderViewpointsGrid(); }
-  // Show/hide principles guide in motivation tab
-  const pgEl = document.getElementById('principles-guide-wrap');
-  if (pgEl) pgEl.style.display = _togafVisible ? '' : 'none';
-  // Re-render templates to show/hide phase badges
+  if (vpSection) {
+    vpSection.style.display = _togafVisible ? '' : 'none';
+    if (_togafVisible) renderViewpointsGrid();
+  }
+
+  // Re-render motivation tab so the principles guide appears/disappears
+  renderLayer('motivation');
+
+  // Re-render templates grid so phase badges appear/disappear
   if (document.getElementById('tmplGrid')) renderTemplateGrid();
-  // Re-render motivation/strategy to inject guide if just enabled
-  renderLayer('motivation'); renderLayer('strategy');
 }
 
 function toggleAdvancedLayers() {
@@ -4896,6 +4998,63 @@ function renderHelp() {
     </div>`;
   }
 
+  // ── TOGAF features section ─────────────────────────────────
+  if (NL) {
+    html += `
+    <div class="ml-card" style="margin-bottom:1.25rem;border-color:var(--togaf-border)">
+      <div class="ml-card-head" style="color:var(--togaf)"><span class="ml-card-head-icon">◈</span> TOGAF-geïnspireerde functies</div>
+      <div class="ml-card-body">
+        <p style="font-size:.8rem;color:var(--muted);margin-bottom:.9rem;line-height:1.55">
+          Klik op <strong style="color:var(--togaf)">◈ TOGAF ▸</strong> in de tabbalk om drie optionele functies te activeren voor Enterprise Architects. Ze zijn volledig verborgen voor gebruikers die ze niet nodig hebben.
+        </p>
+        <div class="manual-steps">
+          <div class="step"><div class="step-num" style="background:var(--togaf-bg);color:var(--togaf);border-color:var(--togaf-border)">1</div><div class="step-body">
+            <div class="step-title">Viewpoints <span style="font-size:.68rem;color:var(--muted);font-weight:400">— in het Views-venster</span></div>
+            <div class="step-desc">Zes vooraf gedefinieerde viewpoint-sjablonen op basis van TOGAF ADM. Open het <strong>Views</strong>-venster (via Bestand → Views) met TOGAF aan en zie het Viewpoints-paneel bovenaan. Klik op <em>+ View aanmaken</em> om direct een benoemde view aan te maken, gevuld met alle elementen uit uw model die overeenkomen met dat viewpoint.</div>
+            <div class="step-tip">📐 Business Capability Map · Application Landscape · Infrastructure &amp; Cloud · Stakeholder Communication · Security &amp; Risk · Migration Roadmap</div>
+          </div></div>
+          <div class="step"><div class="step-num" style="background:var(--togaf-bg);color:var(--togaf);border-color:var(--togaf-border)">2</div><div class="step-body">
+            <div class="step-title">Architecture Principles Workflow <span style="font-size:.68rem;color:var(--muted);font-weight:400">— bovenaan het Motivatietabblad</span></div>
+            <div class="step-desc">Een geleide vierstappe redenering bovenaan het <strong>Motivatie</strong>-tabblad (zichtbaar via <em>⋯ Geavanceerd ▸</em>). De stappen volgen de TOGAF ADM Fase A-aanpak: <strong>Driver → Goal → Principle → Constraint</strong>. Elk element in de Motivatielaag kan worden gekoppeld aan één van deze stappen. Branche-voorbeelden voor Zorg, Bankieren en Productie zijn inbegrepen.</div>
+            <div class="step-tip">💡 Gebruik <em>Driver</em>-elementen voor externe druk (bijv. regelgeving), <em>Goal</em> voor gewenste uitkomsten, <em>Principle</em> voor ontwerprichtlijnen, en <em>Constraint</em> voor onveranderlijke beperkingen.</div>
+          </div></div>
+          <div class="step"><div class="step-num" style="background:var(--togaf-bg);color:var(--togaf);border-color:var(--togaf-border)">3</div><div class="step-body">
+            <div class="step-title">ADM Fase-labels op Sjablonen <span style="font-size:.68rem;color:var(--muted);font-weight:400">— in het Sjablonenvenster</span></div>
+            <div class="step-desc">Elke ArchiMate-sjabloon toont een <span class="tmpl-phase-badge" style="font-size:.6rem">◈ Phase B</span>-badge wanneer TOGAF actief is. Dit geeft aan in welke TOGAF ADM-fase het sjabloon het best past — van Fase B (Business Architecture) tot Fase D (Technology Architecture) en verder.</div>
+            <div class="step-tip">📋 Fase B = Business Architecture · Fase C = Application Architecture · Fase D = Technology Architecture · Fase E/F = Implementatie</div>
+          </div></div>
+        </div>
+      </div>
+    </div>`;
+  } else {
+    html += `
+    <div class="ml-card" style="margin-bottom:1.25rem;border-color:var(--togaf-border)">
+      <div class="ml-card-head" style="color:var(--togaf)"><span class="ml-card-head-icon">◈</span> TOGAF-Inspired Features</div>
+      <div class="ml-card-body">
+        <p style="font-size:.8rem;color:var(--muted);margin-bottom:.9rem;line-height:1.55">
+          Click <strong style="color:var(--togaf)">◈ TOGAF ▸</strong> in the tab bar to activate three optional features for Enterprise Architects. Completely invisible to users who don't need them.
+        </p>
+        <div class="manual-steps">
+          <div class="step"><div class="step-num" style="background:var(--togaf-bg);color:var(--togaf);border-color:var(--togaf-border)">1</div><div class="step-body">
+            <div class="step-title">Viewpoints <span style="font-size:.68rem;color:var(--muted);font-weight:400">— inside the Views modal</span></div>
+            <div class="step-desc">Six pre-defined viewpoint templates based on TOGAF ADM. Open the <strong>Views</strong> modal (via File → Views) with TOGAF on and you'll see a Viewpoints panel at the top. Click <em>+ Create View</em> to instantly create a named view pre-filled with all matching elements from your current model.</div>
+            <div class="step-tip">📐 Business Capability Map · Application Landscape · Infrastructure &amp; Cloud · Stakeholder Communication · Security &amp; Risk · Migration Roadmap</div>
+          </div></div>
+          <div class="step"><div class="step-num" style="background:var(--togaf-bg);color:var(--togaf);border-color:var(--togaf-border)">2</div><div class="step-body">
+            <div class="step-title">Architecture Principles Workflow <span style="font-size:.68rem;color:var(--muted);font-weight:400">— top of the Motivation tab</span></div>
+            <div class="step-desc">A guided four-step reasoning chain at the top of the <strong>Motivation</strong> tab (visible via <em>⋯ Advanced ▸</em>). The steps follow the TOGAF ADM Phase A approach: <strong>Driver → Goal → Principle → Constraint</strong>. Each element type in the Motivation layer maps to one of these steps. Industry examples for Healthcare, Banking, and Manufacturing are included.</div>
+            <div class="step-tip">💡 Use <em>Driver</em> for external pressures (e.g. regulation), <em>Goal</em> for desired outcomes, <em>Principle</em> for design guidelines, and <em>Constraint</em> for immovable limits.</div>
+          </div></div>
+          <div class="step"><div class="step-num" style="background:var(--togaf-bg);color:var(--togaf);border-color:var(--togaf-border)">3</div><div class="step-body">
+            <div class="step-title">ADM Phase Labels on Templates <span style="font-size:.68rem;color:var(--muted);font-weight:400">— in the Templates modal</span></div>
+            <div class="step-desc">Every ArchiMate template shows a <span class="tmpl-phase-badge" style="font-size:.6rem">◈ Phase B</span> badge when TOGAF is active, indicating which TOGAF ADM phase it best supports — from Phase B (Business Architecture) through Phase D (Technology Architecture) and beyond.</div>
+            <div class="step-tip">📋 Phase B = Business Architecture · Phase C = Application Architecture · Phase D = Technology Architecture · Phase E/F = Implementation</div>
+          </div></div>
+        </div>
+      </div>
+    </div>`;
+  }
+
   html += `</div>`; // close left column
 
   // ═══════════════════════════════════════════════════════════
@@ -6172,6 +6331,8 @@ renderAll();
 renderHelp();
 updateStats();
 showOnboard();
+// Restore TOGAF state (must run after renderAll so Motivation tab panel exists)
+if (_togafVisible) _applyTogaf();
 
 // ══════════════════════════════════════════════════════════════
 // SEARCH
