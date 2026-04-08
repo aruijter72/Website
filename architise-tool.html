@@ -761,6 +761,42 @@
     .tab-adv-toggle:hover { color:var(--white); }
     .tab-adv-sep { width:1px; height:20px; background:var(--border); margin:0 4px; flex-shrink:0; }
 
+    /* ── TOGAF toggle ───────────────────────────────────────────── */
+    .tab-togaf-toggle { background:none; border:none; cursor:pointer; font-size:.8rem; color:var(--togaf-text,#60a8dc); padding:4px 10px; border-radius:5px; transition:color .15s; white-space:nowrap; margin-left:2px; }
+    .tab-togaf-toggle:hover { color:var(--white); }
+    :root { --togaf:#60a8dc; --togaf-bg:rgba(96,168,220,.1); --togaf-border:rgba(96,168,220,.3); --togaf-text:#60a8dc; }
+
+    /* ── TOGAF phase badge on template cards ───────────────────── */
+    .tmpl-phase-badge { display:inline-flex;align-items:center;gap:.25rem;font-size:.65rem;font-weight:700;padding:.1rem .45rem;border-radius:99px;background:var(--togaf-bg);color:var(--togaf);border:1px solid var(--togaf-border);letter-spacing:.04em; }
+
+    /* ── Architecture Principles Workflow guide ─────────────────── */
+    .principles-guide { margin-bottom:1.25rem;background:var(--togaf-bg);border:1px solid var(--togaf-border);border-radius:var(--radius);padding:1rem 1.1rem; }
+    .principles-guide-hd { display:flex;align-items:center;gap:.5rem;font-size:.8rem;font-weight:700;color:var(--togaf);margin-bottom:.75rem;letter-spacing:.04em; }
+    .principles-steps { display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.75rem; }
+    .principles-step { flex:1;min-width:120px;background:var(--surface);border:1px solid var(--togaf-border);border-radius:var(--radius);padding:.55rem .65rem;text-align:center; }
+    .principles-step-num { font-size:.6rem;font-weight:700;color:var(--togaf);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.2rem; }
+    .principles-step-type { font-size:.72rem;font-weight:700;color:var(--white);margin-bottom:.2rem; }
+    .principles-step-q { font-size:.65rem;color:var(--muted);font-style:italic;line-height:1.3; }
+    .principles-arrow { display:flex;align-items:center;color:var(--togaf);font-size:.9rem;padding-top:.3rem;flex-shrink:0; }
+    .principles-examples { border-top:1px solid var(--togaf-border);padding-top:.65rem;margin-top:.1rem; }
+    .principles-examples-lbl { font-size:.67rem;font-weight:700;color:var(--togaf);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.4rem; }
+    .principles-ex-row { display:flex;gap:.5rem;margin-bottom:.3rem;flex-wrap:wrap; }
+    .principles-ex-item { font-size:.65rem;color:var(--muted);background:var(--surface2);border-radius:4px;padding:.15rem .45rem;line-height:1.4; }
+    .principles-ex-item strong { color:var(--white); }
+
+    /* ── Viewpoints panel inside Views modal ────────────────────── */
+    .viewpoints-section { margin-bottom:1.2rem;background:var(--togaf-bg);border:1px solid var(--togaf-border);border-radius:var(--radius);padding:1rem 1.1rem; }
+    .viewpoints-section-hd { display:flex;align-items:center;gap:.5rem;font-size:.8rem;font-weight:700;color:var(--togaf);margin-bottom:.75rem;letter-spacing:.04em; }
+    .viewpoints-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:.6rem; }
+    .vp-card { background:var(--surface);border:1px solid var(--togaf-border);border-radius:var(--radius);padding:.7rem .8rem;cursor:pointer;transition:all .16s; }
+    .vp-card:hover { border-color:var(--togaf);background:rgba(96,168,220,.07); }
+    .vp-card-title { font-size:.77rem;font-weight:700;color:var(--white);margin-bottom:.2rem; }
+    .vp-card-desc { font-size:.67rem;color:var(--muted);line-height:1.4;margin-bottom:.5rem; }
+    .vp-card-examples { display:flex;gap:.25rem;flex-wrap:wrap;margin-bottom:.5rem; }
+    .vp-ex-tag { font-size:.58rem;padding:.08rem .35rem;border-radius:99px;background:var(--togaf-bg);color:var(--togaf);border:1px solid var(--togaf-border); }
+    .vp-card-btn { font-size:.68rem;font-weight:600;color:var(--togaf);background:none;border:1px solid var(--togaf-border);border-radius:4px;padding:.25rem .6rem;cursor:pointer;width:100%;transition:background .15s; }
+    .vp-card-btn:hover { background:var(--togaf-bg); }
+
     .ml-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
     @media (max-width: 900px) { .ml-grid { grid-template-columns: 1fr; } }
 
@@ -1140,6 +1176,12 @@
       </svg>
     </div>
 
+    <!-- Viewpoints section (TOGAF mode only) -->
+    <div id="viewpoints-section" class="viewpoints-section" style="display:none">
+      <div class="viewpoints-section-hd">◈ <span id="vp-section-title">Viewpoints</span> <span style="font-size:.7rem;font-weight:400;color:var(--muted);margin-left:.5rem" id="vp-section-sub">— click a viewpoint to create a named view pre-filled with matching elements</span></div>
+      <div class="viewpoints-grid" id="viewpointsGrid"></div>
+    </div>
+
     <div class="views-layout" id="viewsLayout">
       <div class="views-list-panel" id="viewsListPanel"></div>
       <div class="views-elem-panel" id="viewsElemPanel"><div class="views-placeholder" id="views-placeholder-el">Select a view to manage its elements.</div></div>
@@ -1312,6 +1354,7 @@
     <span class="tab-icon mot">M</span> <span id="tab-mot-label">Motivation</span></button>
   <button class="tab-btn str" id="tab-btn-strategy"   onclick="showTab('strategy')" style="display:none">
     <span class="tab-icon str">S</span> <span id="tab-str-label">Strategy</span></button>
+  <button class="tab-togaf-toggle" id="togaf-toggle-btn" onclick="toggleTogaf()" title="TOGAF-inspired features: Viewpoints, Architecture Principles &amp; ADM phase labels on templates">◈ <span id="togaf-toggle-label">TOGAF</span> ▸</button>
 </nav>
 
 <!-- ── Tab Panels (ArchiMate mode) ─────────────────────────── -->
@@ -1417,6 +1460,11 @@ const STRINGS = {
     'tab-mot':    'Motivation',
     'tab-str':    'Strategy',
     'adv-toggle': 'Advanced',
+    'togaf-toggle': 'TOGAF',
+    // TOGAF viewpoints / principles
+    'vp-section-title': 'Viewpoints',
+    'vp-section-sub':   '— click a viewpoint to create a named view pre-filled with matching elements',
+    'togaf-help': 'TOGAF-inspired features: Viewpoints, Architecture Principles, and ADM phase labels on templates. These are optional context layers for Enterprise Architects.',
     // Table columns (renderLayer)
     'col-type':    'Type',
     'col-name':    'Name *',
@@ -1552,6 +1600,11 @@ const STRINGS = {
     'tab-mot':    'Motivatie',
     'tab-str':    'Strategie',
     'adv-toggle': 'Geavanceerd',
+    'togaf-toggle': 'TOGAF',
+    // TOGAF viewpoints / principles
+    'vp-section-title': 'Viewpoints',
+    'vp-section-sub':   '— klik op een viewpoint om een view aan te maken met overeenkomende elementen',
+    'togaf-help': 'TOGAF-geïnspireerde functies: Viewpoints, Architecture Principles en ADM-faseLabels op sjablonen. Optionele contextlagen voor Enterprise Architects.',
     // Table columns
     'col-type':    'Type',
     'col-name':    'Naam *',
@@ -1734,6 +1787,9 @@ function applyTranslations() {
   // Advanced layers toggle label
   const advLabel = document.getElementById('adv-toggle-label');
   if (advLabel) advLabel.textContent = t('adv-toggle');
+  // TOGAF toggle label (always stays 'TOGAF' in both languages)
+  const togafLbl = document.getElementById('togaf-toggle-label');
+  if (togafLbl) togafLbl.textContent = 'TOGAF';
   const tabMotLbl = document.getElementById('tab-mot-label');
   if (tabMotLbl) tabMotLbl.textContent = t('tab-mot');
   const tabStrLbl = document.getElementById('tab-str-label');
@@ -2411,16 +2467,20 @@ function wizGenerate() {
   showTab('business');
 }
 function renderTemplateGrid() {
+  const NL = currentLang === 'nl';
   const grid = document.getElementById('tmplGrid');
-  grid.innerHTML = TEMPLATES.map((t, i) => {
-    const tags = t.tags.map(tag => `<span class="tmpl-meta-tag">${tag}</span>`).join('');
-    const blank = t.isBlank ? ' tmpl-blank' : '';
-    const elCount = t.isBlank ? '' : `<span class="tmpl-meta-tag">${t.model.elements.length} elements</span>`;
+  grid.innerHTML = TEMPLATES.map((tmpl, i) => {
+    const tags = tmpl.tags.map(tag => `<span class="tmpl-meta-tag">${tag}</span>`).join('');
+    const blank = tmpl.isBlank ? ' tmpl-blank' : '';
+    const elCount = tmpl.isBlank ? '' : `<span class="tmpl-meta-tag">${tmpl.model.elements.length} ${NL?'elem.':'elements'}</span>`;
+    const phaseBadge = (_togafVisible && tmpl.togafPhase)
+      ? `<span class="tmpl-phase-badge" title="TOGAF ADM ${tmpl.togafPhase}">◈ ${tmpl.togafPhase}</span>`
+      : '';
     return `
       <button class="tmpl-card${blank}" onclick="loadTemplate(${i})">
-        <div class="tmpl-card-icon">${t.icon}</div>
-        <div class="tmpl-card-name">${t.name}</div>
-        <div class="tmpl-card-desc">${t.desc}</div>
+        <div class="tmpl-card-icon">${tmpl.icon}</div>
+        <div class="tmpl-card-name">${tmpl.name}${phaseBadge ? ' ' : ''}${phaseBadge}</div>
+        <div class="tmpl-card-desc">${tmpl.desc}</div>
         <div class="tmpl-card-meta">${tags}${elCount}</div>
       </button>`;
   }).join('');
@@ -2553,6 +2613,10 @@ function renderLayer(layer) {
   const bridgeBtn = layer === 'business'
     ? `<button class="btn-open-swimlane" onclick="openAsSwimlane()" title="${bridgeTip}">${bridgeLabel}</button>`
     : '';
+
+  // TOGAF Architecture Principles Workflow guide (Motivation layer only)
+  const principlesGuide = (layer === 'motivation' && _togafVisible) ? buildPrinciplesGuide(NL) : '';
+
   let html     = `
     <div class="layer-intro" style="justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem">
       <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
@@ -2560,7 +2624,8 @@ function renderLayer(layer) {
         <span class="layer-desc">${t(LAYER_DESC_KEY[layer])}</span>
       </div>
       ${bridgeBtn}
-    </div>`;
+    </div>
+    ${principlesGuide}`;
 
   for (const [secName, types] of Object.entries(config.sections)) {
     const elems = model.elements.filter(e => e.layer === layer && types.includes(e.type));
@@ -3057,6 +3122,26 @@ function showTab(tab) {
 }
 
 let _advLayersVisible = false;
+let _togafVisible = false;
+
+function toggleTogaf() {
+  _togafVisible = !_togafVisible;
+  const arrow = _togafVisible ? '▾' : '▸';
+  const lbl = document.getElementById('togaf-toggle-label');
+  const btn = document.getElementById('togaf-toggle-btn');
+  if (btn) btn.innerHTML = `◈ <span id="togaf-toggle-label">${lbl ? lbl.textContent : 'TOGAF'}</span> ${arrow}`;
+  // Show/hide viewpoints section in the Views modal
+  const vpSection = document.getElementById('viewpoints-section');
+  if (vpSection) { vpSection.style.display = _togafVisible ? '' : 'none'; if (_togafVisible) renderViewpointsGrid(); }
+  // Show/hide principles guide in motivation tab
+  const pgEl = document.getElementById('principles-guide-wrap');
+  if (pgEl) pgEl.style.display = _togafVisible ? '' : 'none';
+  // Re-render templates to show/hide phase badges
+  if (document.getElementById('tmplGrid')) renderTemplateGrid();
+  // Re-render motivation/strategy to inject guide if just enabled
+  renderLayer('motivation'); renderLayer('strategy');
+}
+
 function toggleAdvancedLayers() {
   _advLayersVisible = !_advLayersVisible;
   const motBtn = document.getElementById('tab-btn-motivation');
@@ -3988,13 +4073,13 @@ const SECTION_DESCS_NL = {
 const TEMPLATES = [
   {
     icon:'✨', name:'Blank Model', desc:'Start with a clean slate and build your model from scratch.',
-    tags:[], isBlank:true,
+    tags:[], isBlank:true, togafPhase:null,
     model:{ name:'New Architecture Model', documentation:'', elements:[], relationships:[] }
   },
   {
     icon:'🛎', name:'Customer Service — Retail',
     desc:'Order management, delivery tracking and invoice queries handled by a CS team.',
-    tags:['Business','Application','Technology'],
+    tags:['Business','Application','Technology'], togafPhase:'Phase B',
     model:{
       name:'Customer Service — Retail Brand',
       documentation:'Retail brand customer service operations covering order management, delivery tracking, and invoice query handling.',
@@ -4033,7 +4118,7 @@ const TEMPLATES = [
   {
     icon:'🖥', name:'IT Help Desk',
     desc:'Incident registration and resolution process supported by a ticketing system.',
-    tags:['Business','Application','Technology'],
+    tags:['Business','Application','Technology'], togafPhase:'Phase B',
     model:{
       name:'IT Help Desk',
       documentation:'Standard IT help desk model covering incident registration and resolution.',
@@ -4068,7 +4153,7 @@ const TEMPLATES = [
   {
     icon:'🛒', name:'Order-to-Cash',
     desc:'End-to-end flow from customer order intake through fulfilment and invoicing.',
-    tags:['Business','Application','Technology'],
+    tags:['Business','Application','Technology'], togafPhase:'Phase B',
     model:{
       name:'Order-to-Cash Process',
       documentation:'Core order-to-cash process from purchase order receipt through delivery and invoice payment.',
@@ -4111,7 +4196,7 @@ const TEMPLATES = [
   {
     icon:'🧑‍💼', name:'HR Onboarding',
     desc:'Employee onboarding from contract preparation through IT setup and induction.',
-    tags:['Business','Application','Technology'],
+    tags:['Business','Application','Technology'], togafPhase:'Phase B',
     model:{
       name:'HR Employee Onboarding',
       documentation:'Employee onboarding process covering contract preparation, IT account setup and first-day induction.',
@@ -4152,7 +4237,7 @@ const TEMPLATES = [
   {
     icon:'🚀', name:'Software Delivery',
     desc:'Development pipeline from coding through automated testing to production deployment.',
-    tags:['Business','Application','Technology'],
+    tags:['Business','Application','Technology'], togafPhase:'Phase C',
     model:{
       name:'Software Development & Delivery',
       documentation:'Software delivery pipeline covering development, automated testing and production deployment.',
@@ -4195,7 +4280,7 @@ const TEMPLATES = [
   ,{
     icon:'🏥', name:'Healthcare — Patient Management',
     desc:'Patient intake, clinical consultation and discharge supported by EHR and appointment systems.',
-    tags:['Business','Application','Technology'],
+    tags:['Business','Application','Technology'], togafPhase:'Phase B',
     model:{
       name:'Healthcare — Patient Management',
       documentation:'End-to-end patient management model covering registration, clinical care and discharge.',
@@ -4233,7 +4318,7 @@ const TEMPLATES = [
     }
   }
   ,{
-    icon:'🏦', name:'Retail Banking — Account Services',
+    icon:'🏦', name:'Retail Banking — Account Services', togafPhase:'Phase B/C',
     desc:'Account opening, daily transactions and loan applications in a retail bank.',
     tags:['Business','Application','Technology'],
     model:{
@@ -4275,7 +4360,7 @@ const TEMPLATES = [
     }
   }
   ,{
-    icon:'🏭', name:'Manufacturing — Supply Chain',
+    icon:'🏭', name:'Manufacturing — Supply Chain', togafPhase:'Phase C/D',
     desc:'Procurement, production planning and quality control backed by an ERP and WMS.',
     tags:['Business','Application','Technology'],
     model:{
@@ -6196,6 +6281,10 @@ let _activeViewId = null;
 
 function showViews() {
   if (!model.views) model.views = [];
+  // Show/hide viewpoints section based on TOGAF toggle state
+  const vpSection = document.getElementById('viewpoints-section');
+  if (vpSection) vpSection.style.display = _togafVisible ? '' : 'none';
+  if (_togafVisible) renderViewpointsGrid();
   renderViewsModal();
   document.getElementById('viewsModal').classList.add('open');
 }
@@ -6329,6 +6418,204 @@ function setAllInView(viewId, include) {
   if (!v) return;
   v.elementIds = include ? model.elements.map(e => e.id) : [];
   renderViewsModal();
+}
+
+// ══════════════════════════════════════════════════════════════
+// TOGAF VIEWPOINTS
+// ══════════════════════════════════════════════════════════════
+
+const VIEWPOINTS = [
+  {
+    id:'vp-biz-cap',
+    icon:'🏢',
+    key:'vp-biz-cap',
+    nameEn:'Business Capability Map',
+    nameNl:'Business Capability Map',
+    descEn:'High-level map of what the organisation does — roles, functions and services, independent of how they are implemented.',
+    descNl:'Overzicht van wat de organisatie doet — rollen, functies en services, onafhankelijk van de uitvoering.',
+    layers:['business'],
+    types:['BusinessActor','BusinessRole','BusinessFunction','BusinessService','Capability'],
+    examplesEn:['Healthcare: Clinical capability map','Retail: Channel capability overview','Banking: Product capability landscape'],
+    examplesNl:['Zorg: Klinische capability map','Retail: Kanaal capability overzicht','Bankieren: Product capability landschap'],
+    admPhase:'Phase B'
+  },
+  {
+    id:'vp-app-landscape',
+    icon:'🗺',
+    key:'vp-app-landscape',
+    nameEn:'Application Landscape',
+    nameNl:'Application Landscape',
+    descEn:'All application components and their services — who uses what and how systems connect.',
+    descNl:'Alle applicatiecomponenten en hun services — wie gebruikt wat en hoe systemen zijn verbonden.',
+    layers:['application'],
+    types:['ApplicationComponent','ApplicationCollaboration','ApplicationInterface','ApplicationService','DataObject'],
+    examplesEn:['Retail: E-commerce & ERP landscape','Manufacturing: MES + ERP integration map','Banking: Core banking application overview'],
+    examplesNl:['Retail: E-commerce & ERP landschap','Productie: MES + ERP integratie','Bankieren: Core banking applicatieoverzicht'],
+    admPhase:'Phase C'
+  },
+  {
+    id:'vp-infra',
+    icon:'☁',
+    key:'vp-infra',
+    nameEn:'Infrastructure & Cloud',
+    nameNl:'Infrastructure & Cloud',
+    descEn:'Physical and virtual infrastructure — nodes, networks, cloud platforms and deployment artefacts.',
+    descNl:'Fysieke en virtuele infrastructuur — nodes, netwerken, cloudplatforms en deployment artefacten.',
+    layers:['technology'],
+    types:['Node','SystemSoftware','TechnologyInterface','Path','CommunicationNetwork','Artifact','Device'],
+    examplesEn:['Healthcare: On-prem vs cloud split','Retail: CDN + checkout infrastructure','Manufacturing: OT/IT network boundary'],
+    examplesNl:['Zorg: On-premise vs cloud verdeling','Retail: CDN + checkout infrastructuur','Productie: OT/IT netwerk grens'],
+    admPhase:'Phase D'
+  },
+  {
+    id:'vp-stakeholder',
+    icon:'🤝',
+    key:'vp-stakeholder',
+    nameEn:'Stakeholder Communication',
+    nameNl:'Stakeholder Communication',
+    descEn:'Focus on who cares and why — stakeholders, their concerns, goals and the drivers behind the architecture.',
+    descNl:'Focus op wie betrokken zijn en waarom — stakeholders, belangen, doelen en drijfveren achter de architectuur.',
+    layers:['business','motivation'],
+    types:['BusinessActor','BusinessRole','Stakeholder','Driver','Assessment','Goal','Principle'],
+    examplesEn:['Healthcare: Patient safety stakeholder view','Banking: Regulator communication view','Manufacturing: Board-level strategy view'],
+    examplesNl:['Zorg: Patiëntveiligheid stakeholder view','Bankieren: Toezichthouder communicatie view','Productie: Bestuursniveau strategie view'],
+    admPhase:'Phase A/B'
+  },
+  {
+    id:'vp-security',
+    icon:'🔒',
+    key:'vp-security',
+    nameEn:'Security & Risk Overview',
+    nameNl:'Security & Risk Overview',
+    descEn:'Combines constraints, requirements and technology elements to show risk areas and security controls.',
+    descNl:'Combineert beperkingen, vereisten en technologie-elementen om risicogebieden en beveiligingsmaatregelen zichtbaar te maken.',
+    layers:['motivation','technology'],
+    types:['Constraint','Requirement','Principle','Node','SystemSoftware','Artifact'],
+    examplesEn:['Healthcare: GDPR data access controls','Banking: PSD2 API security perimeter','Manufacturing: OT network segmentation'],
+    examplesNl:['Zorg: AVG gegevenstoegangscontroles','Bankieren: PSD2 API beveiligingsperimeter','Productie: OT netwerksegmentatie'],
+    admPhase:'Phase C/D'
+  },
+  {
+    id:'vp-migration',
+    icon:'🚀',
+    key:'vp-migration',
+    nameEn:'Migration Roadmap',
+    nameNl:'Migration Roadmap',
+    descEn:'Current vs target architecture — courses of action, capabilities and technology changes on the path to the future state.',
+    descNl:'Huidige vs doelarchitectuur — handelingsplannen, capabilities en technologiewijzigingen op weg naar de toekomstige staat.',
+    layers:['strategy','technology'],
+    types:['CourseOfAction','Capability','Resource','Node','Artifact','SystemSoftware'],
+    examplesEn:['Retail: Legacy ERP to cloud migration','Banking: Branch digitisation roadmap','Healthcare: EHR consolidation plan'],
+    examplesNl:['Retail: Legacy ERP naar cloud migratie','Bankieren: Filiaal digitalisering roadmap','Zorg: EPD consolidatie plan'],
+    admPhase:'Phase E/F'
+  }
+];
+
+function buildPrinciplesGuide(NL) {
+  const hd = NL
+    ? '◈ Architecture Principles Workflow — Fase A: Architecture Vision'
+    : '◈ Architecture Principles Workflow — Phase A: Architecture Vision';
+  const sub = NL
+    ? 'Gebruik de Motivatielaag om de redenering achter uw architectuur vast te leggen in vier stappen:'
+    : 'Use the Motivation layer to capture the reasoning behind your architecture in four steps:';
+
+  const steps = NL ? [
+    { num:'01', type:'Driver',     q:'"Welke krachten bepalen onze architectuur?"',    tip:'Gebruik Driver-elementen om externe of interne druk vast te leggen.' },
+    { num:'02', type:'Goal',       q:'"Welke uitkomsten willen we bereiken?"',          tip:'Voeg Goal-elementen toe die aansluiten op elke Driver.' },
+    { num:'03', type:'Principle',  q:'"Welke regels sturen onze beslissingen?"',        tip:'Principle-elementen vertalen doelen in richtlijnen voor het ontwerp.' },
+    { num:'04', type:'Constraint', q:'"Welke harde grenzen gelden er?"',               tip:'Constraint-elementen leggen onveranderlijke beperkingen vast (wet, budget, tech).' }
+  ] : [
+    { num:'01', type:'Driver',     q:'"What forces shape our architecture?"',           tip:'Use Driver elements to capture external or internal pressures.' },
+    { num:'02', type:'Goal',       q:'"What outcomes do we want to achieve?"',          tip:'Add Goal elements that align to each Driver.' },
+    { num:'03', type:'Principle',  q:'"What rules guide our decisions?"',              tip:'Principle elements translate goals into design guidelines.' },
+    { num:'04', type:'Constraint', q:'"What hard limits do we face?"',                 tip:'Constraint elements capture immovable limits (regulation, budget, tech).' }
+  ];
+
+  const stepsHtml = steps.map((s, i) => {
+    const arrow = i < steps.length - 1 ? `<div class="principles-arrow">→</div>` : '';
+    return `<div class="principles-step" title="${s.tip}">
+      <div class="principles-step-num">Step ${s.num}</div>
+      <div class="principles-step-type">${s.type}</div>
+      <div class="principles-step-q">${s.q}</div>
+    </div>${arrow}`;
+  }).join('');
+
+  const exLabel = NL ? 'Industry voorbeelden:' : 'Industry examples:';
+  const examples = NL ? [
+    { industry:'🏥 Zorg',        chain:'Driver: Privacywetgeving → Goal: Nul datalekken → Principle: Dataminimalisatie → Constraint: AVG Art. 9' },
+    { industry:'🏦 Bankieren',   chain:'Driver: Toezichthoudersvereisten → Goal: Audit zonder bevindingen → Principle: Auditspoor per transactie → Constraint: PSD2 API-verplichting' },
+    { industry:'🏭 Productie',   chain:'Driver: Ketenweerbaarheid → Goal: < 4u productieuitval → Principle: Dubbele bronnen → Constraint: ISO 9001 certificering vereist' }
+  ] : [
+    { industry:'🏥 Healthcare',  chain:'Driver: Patient data privacy → Goal: Zero data breach → Principle: Data minimisation → Constraint: GDPR Article 9' },
+    { industry:'🏦 Banking',     chain:'Driver: Regulatory compliance → Goal: Pass audits with zero findings → Principle: Audit trail for all transactions → Constraint: PSD2 API mandate' },
+    { industry:'🏭 Manufacturing',chain:'Driver: Supply chain resilience → Goal: < 4hr production stoppage → Principle: Dual-source critical components → Constraint: ISO 9001 certification required' }
+  ];
+
+  const examplesHtml = examples.map(ex =>
+    `<div class="principles-ex-row"><span class="principles-ex-item"><strong>${ex.industry}:</strong> ${ex.chain}</span></div>`
+  ).join('');
+
+  return `<div class="principles-guide" id="principles-guide-wrap">
+    <div class="principles-guide-hd">${hd}</div>
+    <p style="font-size:.72rem;color:var(--muted);margin-bottom:.75rem">${sub}</p>
+    <div class="principles-steps">${stepsHtml}</div>
+    <div class="principles-examples">
+      <div class="principles-examples-lbl">${exLabel}</div>
+      ${examplesHtml}
+    </div>
+  </div>`;
+}
+
+function renderViewpointsGrid() {
+  const NL = currentLang === 'nl';
+  const grid = document.getElementById('viewpointsGrid');
+  if (!grid) return;
+  const titleEl = document.getElementById('vp-section-title');
+  if (titleEl) titleEl.textContent = NL ? 'Viewpoints' : 'Viewpoints';
+  const subEl = document.getElementById('vp-section-sub');
+  if (subEl) subEl.textContent = NL
+    ? '— klik op een viewpoint om een view aan te maken met overeenkomende elementen'
+    : '— click a viewpoint to create a named view pre-filled with matching elements';
+
+  grid.innerHTML = VIEWPOINTS.map(vp => {
+    const name = NL ? vp.nameNl : vp.nameEn;
+    const desc = NL ? vp.descNl : vp.descEn;
+    const examples = NL ? vp.examplesNl : vp.examplesEn;
+    const exTags = examples.map(e => `<span class="vp-ex-tag">${e}</span>`).join('');
+    const phaseBadge = `<span class="tmpl-phase-badge" style="margin-left:.35rem">◈ ${vp.admPhase}</span>`;
+    const btnLabel = NL ? `+ View aanmaken` : `+ Create View`;
+    return `<div class="vp-card">
+      <div class="vp-card-title">${vp.icon} ${name} ${phaseBadge}</div>
+      <div class="vp-card-desc">${desc}</div>
+      <div class="vp-card-examples">${exTags}</div>
+      <button class="vp-card-btn" onclick="createViewpointView('${vp.id}')">${btnLabel}</button>
+    </div>`;
+  }).join('');
+}
+
+function createViewpointView(vpId) {
+  const NL = currentLang === 'nl';
+  const vp = VIEWPOINTS.find(v => v.id === vpId);
+  if (!vp) return;
+  if (!model.views) model.views = [];
+  // Find matching elements by layer + type
+  const matchingIds = model.elements
+    .filter(e => vp.layers.includes(e.layer) && vp.types.includes(e.type))
+    .map(e => e.id);
+  const name = (NL ? vp.nameNl : vp.nameEn);
+  const v = { id: genId(), name, elementIds: matchingIds };
+  model.views.push(v);
+  _activeViewId = v.id;
+  renderViewsModal();
+  // Show helpful feedback
+  const countMsg = matchingIds.length > 0
+    ? (NL ? `${matchingIds.length} element(en) toegevoegd.` : `${matchingIds.length} element(s) added.`)
+    : (NL ? 'Geen overeenkomende elementen gevonden — voeg elementen toe en probeer opnieuw.' : 'No matching elements found — add elements to the model and try again.');
+  // Briefly flash the new view item
+  setTimeout(() => {
+    const el = document.querySelector(`.view-item[data-vid="${v.id}"]`);
+    if (el) { el.style.transition='background .4s'; el.style.background='rgba(96,168,220,.18)'; setTimeout(()=>el.style.background='',800); }
+  }, 50);
 }
 
 // ══════════════════════════════════════════════════════════════
