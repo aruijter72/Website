@@ -787,7 +787,7 @@
     /* ── Viewpoints panel inside Views modal ────────────────────── */
     .viewpoints-section { margin-bottom:1.2rem;background:var(--togaf-bg);border:1px solid var(--togaf-border);border-radius:var(--radius);padding:1rem 1.1rem; }
     .viewpoints-section-hd { display:flex;align-items:center;gap:.5rem;font-size:.8rem;font-weight:700;color:var(--togaf);margin-bottom:.75rem;letter-spacing:.04em; }
-    .viewpoints-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:.6rem; }
+    .viewpoints-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.55rem; }
     .vp-card { background:var(--surface);border:1px solid var(--togaf-border);border-radius:var(--radius);padding:.7rem .8rem;cursor:pointer;transition:all .16s; }
     .vp-card:hover { border-color:var(--togaf);background:rgba(96,168,220,.07); }
     .vp-card-title { font-size:.77rem;font-weight:700;color:var(--white);margin-bottom:.2rem; }
@@ -1140,7 +1140,7 @@
 
 <!-- ── Views modal ───────────────────────────────────────────── -->
 <div id="viewsModal" class="modal-overlay" onclick="if(event.target===this)hideViews()">
-  <div class="modal-box" style="max-width:700px">
+  <div class="modal-box" style="max-width:740px;max-height:88vh;overflow-y:auto">
     <div class="modal-header">
       <div class="modal-title" id="views-title-el">📐 Views</div>
       <button class="modal-close" onclick="hideViews()">×</button>
@@ -1211,15 +1211,6 @@
             onkeydown="if(event.key==='Enter')confirmAddView();else if(event.key==='Escape')cancelAddView()">
           <button class="btn btn-secondary" style="padding:.28rem .75rem;font-size:.8rem" onclick="cancelAddView()">✕</button>
           <button class="btn btn-primary" style="padding:.28rem .85rem;font-size:.8rem" onclick="confirmAddView()">OK</button>
-        </div>
-      </div>
-      <!-- Inline: delete confirm dialog -->
-      <div class="view-inline-dlg danger" id="viewDelDialog" style="display:none">
-        <div class="view-inline-dlg-lbl" id="view-del-dlg-lbl">Delete this view?</div>
-        <div class="view-inline-dlg-row">
-          <span class="view-del-name" id="view-del-name-span"></span>
-          <button class="btn btn-secondary" style="padding:.28rem .75rem;font-size:.8rem" onclick="cancelDeleteView()">✕</button>
-          <button class="btn" style="padding:.28rem .85rem;font-size:.8rem;background:#c0444e;color:#fff;border:none;border-radius:5px;cursor:pointer" onclick="confirmDeleteView()">🗑</button>
         </div>
       </div>
     </div>
@@ -6478,32 +6469,21 @@ function cancelAddView() {
   if (dlg) dlg.style.display = 'none';
 }
 
-let _pendingDeleteViewId = null;
 function deleteView(id) {
   const NL = currentLang === 'nl';
   const v = (model.views||[]).find(x => x.id === id);
   if (!v) return;
-  _pendingDeleteViewId = id;
-  const dlg  = document.getElementById('viewDelDialog');
-  const lbl  = document.getElementById('view-del-dlg-lbl');
-  const nm   = document.getElementById('view-del-name-span');
-  if (lbl) lbl.textContent = NL ? 'Deze view verwijderen?' : 'Delete this view?';
-  if (nm)  nm.textContent  = v.name;
-  if (dlg) dlg.style.display = '';
-}
-function confirmDeleteView() {
-  if (!_pendingDeleteViewId) return;
-  model.views = model.views.filter(v => v.id !== _pendingDeleteViewId);
-  if (_activeViewId === _pendingDeleteViewId) _activeViewId = model.views[0]?.id || null;
-  _pendingDeleteViewId = null;
-  const dlg = document.getElementById('viewDelDialog');
-  if (dlg) dlg.style.display = 'none';
-  renderViewsModal();
-}
-function cancelDeleteView() {
-  _pendingDeleteViewId = null;
-  const dlg = document.getElementById('viewDelDialog');
-  if (dlg) dlg.style.display = 'none';
+  showConfirm(
+    NL ? 'View verwijderen' : 'Delete View',
+    (NL ? 'View verwijderen: ' : 'Delete view: ') + '"' + v.name + '"?',
+    NL ? 'Verwijderen' : 'Delete',
+    true,
+    () => {
+      model.views = model.views.filter(x => x.id !== id);
+      if (_activeViewId === id) _activeViewId = model.views[0]?.id || null;
+      renderViewsModal();
+    }
+  );
 }
 
 function selectViewForEdit(id) {
