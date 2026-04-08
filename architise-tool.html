@@ -192,6 +192,15 @@
     .stat-dot.str { background: var(--str); }
     .stat-count { font-weight: 700; color: var(--white); }
 
+    /* ── Health bar ──────────────────────────────────────────────── */
+    .health-bar { display:flex; align-items:center; gap:.55rem; flex-wrap:wrap; padding:.3rem 1.25rem .3rem; background:rgba(255,255,255,.018); border-bottom:1px solid var(--border); font-size:.72rem; min-height:28px; }
+    .health-ok { color:#6dbf7e; font-size:.72rem; }
+    .health-label { color:var(--muted); font-size:.72rem; }
+    .health-pill { display:inline-flex; align-items:center; gap:.22rem; padding:.1rem .52rem; border-radius:99px; font-size:.69rem; font-weight:600; cursor:default; }
+    .health-pill.error { background:rgba(224,108,117,.18); color:#e06c75; border:1px solid rgba(224,108,117,.3); }
+    .health-pill.warn  { background:rgba(229,192,123,.15); color:#e5c07b; border:1px solid rgba(229,192,123,.28); }
+    .health-pill.info  { background:rgba(130,170,220,.13); color:#82aadc; border:1px solid rgba(130,170,220,.22); }
+
     /* ── Tab navigation ──────────────────────────────────────── */
     .tab-nav {
       display: flex; background: var(--surface);
@@ -1269,6 +1278,9 @@
   <span class="stat-item" style="margin-left:auto"><span id="stat-total-lbl">Total elements</span>: <span class="stat-count" id="statTotal">0</span></span>
 </div>
 
+<!-- ── Health Bar ──────────────────────────────────────────── -->
+<div class="health-bar" id="health-bar" style="display:none"></div>
+
 <!-- ── Tab Navigation (ArchiMate mode) ─────────────────────── -->
 <nav class="tab-nav" id="archimate-tab-nav">
   <button class="tab-btn active biz" id="tab-btn-business"     onclick="showTab('business')">
@@ -1308,8 +1320,10 @@
 <input type="file" id="importDrawioFile" accept=".xml,.drawio" style="display:none" onchange="handleImportDrawio(event)">
 
 <footer class="app-footer">
-  <img src="Logo Huisstijl geel.png" alt="Arnold Ruijter IT" class="ar-logo ar-logo-footer">
-  &nbsp;<span class="logo-name">Arnold</span> <strong class="logo-gold">Ruijter IT</strong>
+  <a href="https://arnoldruijterit.nl" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+    <img src="Logo Huisstijl geel.png" alt="Arnold Ruijter IT" class="ar-logo ar-logo-footer">
+    &nbsp;<span class="logo-name">Arnold</span> <strong class="logo-gold">Ruijter IT</strong>
+  </a>
   &nbsp;·&nbsp;
   <a href="https://www.archimatetool.com" target="_blank" rel="noopener">Archi 5.x</a> <span id="footer-compat">compatible export</span>
 </footer>
@@ -1815,6 +1829,7 @@ function applyTranslations() {
     const el = document.getElementById(id);
     if (el) el.textContent = txt;
   }
+  updateHealth();
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -2730,6 +2745,35 @@ function updateStats() {
   document.getElementById('statTech').textContent  = model.elements.filter(e=>e.layer==='technology').length;
   document.getElementById('statRel').textContent   = model.relationships.length;
   document.getElementById('statTotal').textContent = model.elements.length;
+  updateHealth();
+}
+
+function updateHealth() {
+  const bar = document.getElementById('health-bar');
+  if (!bar) return;
+  const NL = currentLang === 'nl';
+  const elems = model.elements || [];
+  const rels   = model.relationships || [];
+  if (elems.length === 0) { bar.style.display = 'none'; return; }
+
+  const connectedIds = new Set();
+  for (const r of rels) { if (r.sourceId) connectedIds.add(r.sourceId); if (r.targetId) connectedIds.add(r.targetId); }
+
+  const orphaned     = elems.filter(e => !connectedIds.has(e.id)).length;
+  const undocumented = elems.filter(e => !(e.documentation||'').trim()).length;
+  const incomplete   = rels.filter(r  => !r.sourceId || !r.targetId).length;
+
+  const pills = [];
+  if (incomplete   > 0) pills.push(`<span class="health-pill error" title="${NL ? 'Relaties zonder bron of doel' : 'Relationships missing source or target'}">⚠ ${incomplete} ${NL ? 'incomplete rel.' : 'incomplete rel.'}</span>`);
+  if (orphaned     > 0) pills.push(`<span class="health-pill warn"  title="${NL ? 'Elementen zonder relaties' : 'Elements with no relationships'}">◎ ${orphaned} ${NL ? 'onverbonden' : 'unconnected'}</span>`);
+  if (undocumented > 0) pills.push(`<span class="health-pill info"  title="${NL ? 'Elementen zonder documentatie' : 'Elements without documentation'}">✎ ${undocumented} ${NL ? 'zonder documentatie' : 'undocumented'}</span>`);
+
+  bar.style.display = '';
+  if (pills.length === 0) {
+    bar.innerHTML = `<span class="health-ok">✓ ${NL ? 'Model ziet er goed uit' : 'Model looks good'}</span>`;
+  } else {
+    bar.innerHTML = `<span class="health-label">${NL ? 'Aandachtspunten:' : 'Attention:'}</span>` + pills.join('');
+  }
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -3954,6 +3998,121 @@ const TEMPLATES = [
       ]
     }
   }
+  ,{
+    icon:'🏥', name:'Healthcare — Patient Management',
+    desc:'Patient intake, clinical consultation and discharge supported by EHR and appointment systems.',
+    tags:['Business','Application','Technology'],
+    model:{
+      name:'Healthcare — Patient Management',
+      documentation:'End-to-end patient management model covering registration, clinical care and discharge.',
+      elements:[
+        {id:'th1-01',layer:'business',type:'BusinessActor',name:'Patient',documentation:'Individual seeking medical care, either walk-in or referred.',properties:[]},
+        {id:'th1-02',layer:'business',type:'BusinessActor',name:'Clinical Staff',documentation:'Nurses and physicians responsible for direct patient care.',properties:[]},
+        {id:'th1-03',layer:'business',type:'BusinessActor',name:'Receptionist',documentation:'Administrative staff managing appointments, registration and discharge paperwork.',properties:[]},
+        {id:'th1-04',layer:'business',type:'BusinessRole',name:'Treating Physician',documentation:'',properties:[]},
+        {id:'th1-05',layer:'business',type:'BusinessProcess',name:'Patient Registration',documentation:'Capturing patient identity, insurance details and presenting complaint on arrival.',properties:[]},
+        {id:'th1-06',layer:'business',type:'BusinessProcess',name:'Clinical Consultation',documentation:'Assessment, diagnosis and treatment planning by the treating physician.',properties:[]},
+        {id:'th1-07',layer:'business',type:'BusinessProcess',name:'Discharge & Follow-up',documentation:'Completing discharge documentation, scheduling follow-up appointments and issuing prescriptions.',properties:[]},
+        {id:'th1-08',layer:'business',type:'BusinessService',name:'Patient Care Service',documentation:'',properties:[]},
+        {id:'th1-09',layer:'application',type:'ApplicationComponent',name:'EHR System',documentation:'Electronic Health Record platform storing patient history, diagnoses, medications and care plans.',properties:[{key:'Example',value:'Epic, Meditech, ChipSoft HiX'}]},
+        {id:'th1-10',layer:'application',type:'ApplicationComponent',name:'Appointment Portal',documentation:'Online and kiosk-based portal for booking, rescheduling and cancelling appointments.',properties:[]},
+        {id:'th1-11',layer:'application',type:'ApplicationService',name:'Clinical Decision Support',documentation:'Rule-based service providing drug interaction alerts, diagnostic suggestions and care pathway guidance.',properties:[]},
+        {id:'th1-12',layer:'technology',type:'Node',name:'Hospital Application Server',documentation:'On-premise or private cloud server hosting clinical applications.',properties:[]},
+        {id:'th1-13',layer:'technology',type:'Artifact',name:'Patient Records Database',documentation:'Encrypted database storing all patient clinical and administrative data.',properties:[]}
+      ],
+      relationships:[
+        {id:'thr1-01',type:'AssignmentRelationship',sourceId:'th1-02',targetId:'th1-04',name:'',documentation:''},
+        {id:'thr1-02',type:'AssignmentRelationship',sourceId:'th1-04',targetId:'th1-06',name:'',documentation:''},
+        {id:'thr1-03',type:'AssignmentRelationship',sourceId:'th1-03',targetId:'th1-05',name:'',documentation:''},
+        {id:'thr1-04',type:'TriggeringRelationship',sourceId:'th1-05',targetId:'th1-06',name:'',documentation:''},
+        {id:'thr1-05',type:'TriggeringRelationship',sourceId:'th1-06',targetId:'th1-07',name:'',documentation:''},
+        {id:'thr1-06',type:'RealizationRelationship',sourceId:'th1-06',targetId:'th1-08',name:'',documentation:''},
+        {id:'thr1-07',type:'ServingRelationship',sourceId:'th1-11',targetId:'th1-08',name:'',documentation:''},
+        {id:'thr1-08',type:'RealizationRelationship',sourceId:'th1-09',targetId:'th1-11',name:'',documentation:''},
+        {id:'thr1-09',type:'ServingRelationship',sourceId:'th1-10',targetId:'th1-05',name:'self-service booking',documentation:''},
+        {id:'thr1-10',type:'RealizationRelationship',sourceId:'th1-12',targetId:'th1-09',name:'',documentation:''},
+        {id:'thr1-11',type:'RealizationRelationship',sourceId:'th1-12',targetId:'th1-10',name:'',documentation:''},
+        {id:'thr1-12',type:'ServingRelationship',sourceId:'th1-12',targetId:'th1-13',name:'hosts',documentation:''}
+      ]
+    }
+  }
+  ,{
+    icon:'🏦', name:'Retail Banking — Account Services',
+    desc:'Account opening, daily transactions and loan applications in a retail bank.',
+    tags:['Business','Application','Technology'],
+    model:{
+      name:'Retail Banking — Account Services',
+      documentation:'Core retail banking model covering customer onboarding, transactional banking and lending.',
+      elements:[
+        {id:'tb1-01',layer:'business',type:'BusinessActor',name:'Retail Customer',documentation:'Individual or SME customer holding one or more products with the bank.',properties:[]},
+        {id:'tb1-02',layer:'business',type:'BusinessActor',name:'Branch Manager',documentation:'Accountable for branch performance and authorises non-standard customer requests.',properties:[]},
+        {id:'tb1-03',layer:'business',type:'BusinessActor',name:'Relationship Manager',documentation:'Manages the ongoing relationship for priority or business customers.',properties:[]},
+        {id:'tb1-04',layer:'business',type:'BusinessRole',name:'KYC Officer',documentation:'',properties:[]},
+        {id:'tb1-05',layer:'business',type:'BusinessProcess',name:'Account Opening',documentation:'Collecting customer identification, running KYC checks and provisioning a new current or savings account.',properties:[]},
+        {id:'tb1-06',layer:'business',type:'BusinessProcess',name:'Daily Transaction Processing',documentation:'Handling payments, transfers, direct debits and standing orders on customer accounts.',properties:[]},
+        {id:'tb1-07',layer:'business',type:'BusinessProcess',name:'Loan Application',documentation:'Receiving, credit-scoring and approving or declining retail loan and mortgage applications.',properties:[]},
+        {id:'tb1-08',layer:'business',type:'BusinessService',name:'Retail Banking Service',documentation:'',properties:[]},
+        {id:'tb1-09',layer:'application',type:'ApplicationComponent',name:'Core Banking System',documentation:'Central ledger and product engine managing accounts, balances and transactions.',properties:[{key:'Example',value:'Temenos T24, Finastra Fusion, Mambu'}]},
+        {id:'tb1-10',layer:'application',type:'ApplicationComponent',name:'Mobile Banking App',documentation:'Customer-facing mobile application for account overview, payments and card management.',properties:[]},
+        {id:'tb1-11',layer:'application',type:'ApplicationComponent',name:'Credit Risk Engine',documentation:'Automated scoring and decision engine for loan and overdraft applications.',properties:[]},
+        {id:'tb1-12',layer:'application',type:'ApplicationService',name:'Payment Processing Service',documentation:'Service executing SEPA, SWIFT and domestic payment instructions.',properties:[]},
+        {id:'tb1-13',layer:'technology',type:'Node',name:'Banking Platform Server',documentation:'Hardened server cluster running core banking and payment workloads.',properties:[{key:'Example',value:'On-premise data centre or private cloud'}]},
+        {id:'tb1-14',layer:'technology',type:'Artifact',name:'Customer & Accounts Database',documentation:'Authoritative store of customer records, account balances and transaction history.',properties:[]}
+      ],
+      relationships:[
+        {id:'tbr1-01',type:'AssignmentRelationship',sourceId:'tb1-03',targetId:'tb1-04',name:'',documentation:''},
+        {id:'tbr1-02',type:'AssignmentRelationship',sourceId:'tb1-04',targetId:'tb1-05',name:'',documentation:''},
+        {id:'tbr1-03',type:'TriggeringRelationship',sourceId:'tb1-05',targetId:'tb1-06',name:'',documentation:''},
+        {id:'tbr1-04',type:'AssignmentRelationship',sourceId:'tb1-03',targetId:'tb1-07',name:'',documentation:''},
+        {id:'tbr1-05',type:'RealizationRelationship',sourceId:'tb1-06',targetId:'tb1-08',name:'',documentation:''},
+        {id:'tbr1-06',type:'ServingRelationship',sourceId:'tb1-12',targetId:'tb1-08',name:'',documentation:''},
+        {id:'tbr1-07',type:'RealizationRelationship',sourceId:'tb1-09',targetId:'tb1-12',name:'',documentation:''},
+        {id:'tbr1-08',type:'ServingRelationship',sourceId:'tb1-10',targetId:'tb1-06',name:'self-service payments',documentation:''},
+        {id:'tbr1-09',type:'RealizationRelationship',sourceId:'tb1-11',targetId:'tb1-07',name:'automated scoring',documentation:''},
+        {id:'tbr1-10',type:'RealizationRelationship',sourceId:'tb1-13',targetId:'tb1-09',name:'',documentation:''},
+        {id:'tbr1-11',type:'RealizationRelationship',sourceId:'tb1-13',targetId:'tb1-11',name:'',documentation:''},
+        {id:'tbr1-12',type:'ServingRelationship',sourceId:'tb1-13',targetId:'tb1-14',name:'hosts',documentation:''}
+      ]
+    }
+  }
+  ,{
+    icon:'🏭', name:'Manufacturing — Supply Chain',
+    desc:'Procurement, production planning and quality control backed by an ERP and WMS.',
+    tags:['Business','Application','Technology'],
+    model:{
+      name:'Manufacturing — Supply Chain',
+      documentation:'Supply chain model for a discrete manufacturer covering procurement, production and quality assurance.',
+      elements:[
+        {id:'tm1-01',layer:'business',type:'BusinessActor',name:'Procurement Manager',documentation:'Responsible for supplier selection, purchase orders and contract management.',properties:[]},
+        {id:'tm1-02',layer:'business',type:'BusinessActor',name:'Production Team',documentation:'Shop-floor operators executing the manufacturing and assembly work orders.',properties:[]},
+        {id:'tm1-03',layer:'business',type:'BusinessActor',name:'External Supplier',documentation:'Third-party vendor delivering raw materials or sub-assemblies.',properties:[]},
+        {id:'tm1-04',layer:'business',type:'BusinessRole',name:'Quality Inspector',documentation:'',properties:[]},
+        {id:'tm1-05',layer:'business',type:'BusinessProcess',name:'Material Procurement',documentation:'Raising purchase requisitions, issuing POs to suppliers and receiving goods.',properties:[]},
+        {id:'tm1-06',layer:'business',type:'BusinessProcess',name:'Production Planning',documentation:'Scheduling work orders, allocating resources and managing the production calendar.',properties:[]},
+        {id:'tm1-07',layer:'business',type:'BusinessProcess',name:'Quality Control',documentation:'Incoming goods inspection and in-process checks against product specifications.',properties:[]},
+        {id:'tm1-08',layer:'business',type:'BusinessService',name:'Manufacturing Service',documentation:'',properties:[]},
+        {id:'tm1-09',layer:'application',type:'ApplicationComponent',name:'ERP System',documentation:'Enterprise resource planning platform managing finance, procurement and production.',properties:[{key:'Example',value:'SAP S/4HANA, Microsoft Dynamics, Infor LN'}]},
+        {id:'tm1-10',layer:'application',type:'ApplicationComponent',name:'Warehouse Management System',documentation:'Tracks stock locations, movements and replenishment within the warehouse.',properties:[{key:'Example',value:'Manhattan, Blue Yonder, Korber'}]},
+        {id:'tm1-11',layer:'application',type:'ApplicationService',name:'Procurement Service',documentation:'Service automating PO creation, supplier communication and goods receipt.',properties:[]},
+        {id:'tm1-12',layer:'technology',type:'Node',name:'Manufacturing Platform Server',documentation:'On-premise server cluster hosting ERP and WMS workloads.',properties:[]},
+        {id:'tm1-13',layer:'technology',type:'Artifact',name:'Inventory & Production Database',documentation:'Central store for stock levels, work orders, BOM and quality records.',properties:[]}
+      ],
+      relationships:[
+        {id:'tmr1-01',type:'AssignmentRelationship',sourceId:'tm1-01',targetId:'tm1-05',name:'',documentation:''},
+        {id:'tmr1-02',type:'AssignmentRelationship',sourceId:'tm1-02',targetId:'tm1-06',name:'',documentation:''},
+        {id:'tmr1-03',type:'AssignmentRelationship',sourceId:'tm1-04',targetId:'tm1-07',name:'',documentation:''},
+        {id:'tmr1-04',type:'TriggeringRelationship',sourceId:'tm1-05',targetId:'tm1-06',name:'',documentation:''},
+        {id:'tmr1-05',type:'TriggeringRelationship',sourceId:'tm1-06',targetId:'tm1-07',name:'',documentation:''},
+        {id:'tmr1-06',type:'RealizationRelationship',sourceId:'tm1-06',targetId:'tm1-08',name:'',documentation:''},
+        {id:'tmr1-07',type:'ServingRelationship',sourceId:'tm1-11',targetId:'tm1-08',name:'',documentation:''},
+        {id:'tmr1-08',type:'RealizationRelationship',sourceId:'tm1-09',targetId:'tm1-11',name:'',documentation:''},
+        {id:'tmr1-09',type:'ServingRelationship',sourceId:'tm1-10',targetId:'tm1-06',name:'stock visibility',documentation:''},
+        {id:'tmr1-10',type:'RealizationRelationship',sourceId:'tm1-12',targetId:'tm1-09',name:'',documentation:''},
+        {id:'tmr1-11',type:'RealizationRelationship',sourceId:'tm1-12',targetId:'tm1-10',name:'',documentation:''},
+        {id:'tmr1-12',type:'ServingRelationship',sourceId:'tm1-12',targetId:'tm1-13',name:'hosts',documentation:''}
+      ]
+    }
+  }
 ];
 
 // ── Process / Swimlane Templates ─────────────────────────────
@@ -4071,6 +4230,52 @@ const PROC_TEMPLATES = [
         { id: 'pt3-s11', laneId: 'pt3-l4', columnId: 'pt3-c3', type: 'task', label: 'Apply Role Knowledge' },
         { id: 'pt3-s12', laneId: 'pt3-l3', columnId: 'pt3-c4', type: 'task', label: '30-day Review' },
         { id: 'pt3-s13', laneId: 'pt3-l1', columnId: 'pt3-c4', type: 'end',  label: 'Confirm Probation Status' }
+      ],
+      flows: []
+    }
+  }
+  ,{
+    icon: '💳', name: 'Purchase-to-Pay',
+    desc: 'Requisition through supplier payment — procurement, approvals and accounts payable.',
+    tags: ['Finance','Procurement'],
+    process: {
+      name: 'Purchase-to-Pay',
+      columns: ['Requester','Manager','Procurement','Accounts Payable','Supplier'],
+      lanes: [],
+      steps: [
+        {id:'pp-01',col:0,row:0,type:'start',  label:'Purchase need identified',description:'Business user identifies a need for goods or services.',flows:[]},
+        {id:'pp-02',col:0,row:1,type:'task',   label:'Create purchase requisition',description:'Requester raises a formal PR in the system.',flows:['pp-03']},
+        {id:'pp-03',col:1,row:2,type:'decision',label:'Approve requisition?',description:'Manager reviews and approves or rejects the PR.',flows:['pp-04','pp-02']},
+        {id:'pp-04',col:2,row:3,type:'task',   label:'Issue purchase order',description:'Procurement issues a PO to the selected supplier.',flows:['pp-05']},
+        {id:'pp-05',col:4,row:4,type:'task',   label:'Deliver goods / services',description:'Supplier fulfils the order and delivers.',flows:['pp-06']},
+        {id:'pp-06',col:0,row:5,type:'task',   label:'Confirm goods receipt',description:'Requester confirms delivery in the system.',flows:['pp-07']},
+        {id:'pp-07',col:4,row:6,type:'task',   label:'Submit invoice',description:'Supplier submits invoice for the delivered goods.',flows:['pp-08']},
+        {id:'pp-08',col:3,row:7,type:'task',   label:'3-way match & approval',description:'AP team matches PO, goods receipt and invoice.',flows:['pp-09']},
+        {id:'pp-09',col:3,row:8,type:'task',   label:'Process payment',description:'AP executes the payment run to the supplier.',flows:['pp-10']},
+        {id:'pp-10',col:3,row:9,type:'end',    label:'Payment complete',description:'',flows:[]}
+      ],
+      flows: []
+    }
+  }
+  ,{
+    icon: '📣', name: 'Customer Complaint Handling',
+    desc: 'From complaint submission through investigation and resolution to case closure.',
+    tags: ['Customer Service','Operations'],
+    process: {
+      name: 'Customer Complaint Handling',
+      columns: ['Customer','Customer Service','Technical Team','Management'],
+      lanes: [],
+      steps: [
+        {id:'cc-01',col:0,row:0,type:'start',   label:'Customer submits complaint',description:'Customer contacts support via phone, email or portal.',flows:[]},
+        {id:'cc-02',col:1,row:1,type:'task',    label:'Log & categorise case',description:'Agent logs the complaint and assigns a priority category.',flows:['cc-03']},
+        {id:'cc-03',col:1,row:2,type:'decision',label:'Within CS scope?',description:'Determine whether the issue requires technical escalation.',flows:['cc-04','cc-05']},
+        {id:'cc-04',col:1,row:3,type:'task',    label:'Resolve directly',description:'CS agent resolves the issue and contacts the customer.',flows:['cc-08']},
+        {id:'cc-05',col:2,row:3,type:'task',    label:'Investigate root cause',description:'Technical team analyses logs and reproduces the issue.',flows:['cc-06']},
+        {id:'cc-06',col:2,row:4,type:'decision',label:'Escalate to management?',description:'High-impact or unresolved issues escalate.',flows:['cc-07','cc-08']},
+        {id:'cc-07',col:3,row:5,type:'task',    label:'Management review & decision',description:'Management authorises remedy, compensation or policy change.',flows:['cc-08']},
+        {id:'cc-08',col:1,row:6,type:'task',    label:'Communicate resolution',description:'Agent contacts customer with resolution details.',flows:['cc-09']},
+        {id:'cc-09',col:0,row:7,type:'task',    label:'Customer confirms resolution',description:'Customer accepts or reopens the case.',flows:['cc-10']},
+        {id:'cc-10',col:1,row:8,type:'end',     label:'Case closed',description:'',flows:[]}
       ],
       flows: []
     }
