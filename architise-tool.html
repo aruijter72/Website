@@ -21,6 +21,7 @@
       --blue:     #5aabdd;
       --white:    #ecedf2;
       --muted:    #9496b8;
+      --text2:    #b6b8d4;   /* readable secondary text — brighter than --muted */
       --radius:   7px;
       /* Layer colours */
       --biz:        #f5e67a;
@@ -165,7 +166,7 @@
       padding: .5rem 1.5rem; background: var(--surface2);
       border-bottom: 1px solid var(--border);
     }
-    .model-doc-bar label { font-size: .75rem; color: var(--muted); white-space: nowrap; }
+    .model-doc-bar label { font-size: .78rem; color: var(--text2); white-space: nowrap; }
     .model-doc-input {
       flex: 1; background: transparent; border: none;
       border-bottom: 1px solid transparent; color: var(--white);
@@ -177,7 +178,7 @@
     .stats-bar {
       display: flex; gap: 2rem; padding: .45rem 1.5rem;
       background: var(--bg); border-bottom: 1px solid var(--border);
-      font-size: .74rem; color: var(--muted); flex-wrap: wrap;
+      font-size: .77rem; color: var(--text2); flex-wrap: wrap;
     }
     .stat-item { display: flex; align-items: center; gap: .4rem; }
     .stat-dot {
@@ -195,7 +196,7 @@
     /* ── Health bar ──────────────────────────────────────────────── */
     .health-bar { display:flex; align-items:center; gap:.55rem; flex-wrap:wrap; padding:.3rem 1.25rem .3rem; background:rgba(255,255,255,.018); border-bottom:1px solid var(--border); font-size:.72rem; min-height:28px; }
     .health-ok { color:#6dbf7e; font-size:.72rem; }
-    .health-label { color:var(--muted); font-size:.72rem; }
+    .health-label { color:var(--text2); font-size:.73rem; }
     .health-pill { display:inline-flex; align-items:center; gap:.22rem; padding:.1rem .52rem; border-radius:99px; font-size:.69rem; font-weight:600; cursor:pointer; border:1px solid transparent; background:none; font-family:inherit; transition:filter .15s; }
     .health-pill:hover { filter:brightness(1.2); }
     .health-pill.error { background:rgba(224,108,117,.18); color:#e06c75; border-color:rgba(224,108,117,.3); }
@@ -204,12 +205,12 @@
     .health-pill.active { filter:brightness(1.25); outline:2px solid rgba(255,255,255,.15); }
     /* Health dropdown */
     .health-drop { position:fixed; z-index:9100; background:var(--surface); border:1px solid var(--border); border-radius:8px; box-shadow:0 8px 32px rgba(0,0,0,.5); min-width:270px; max-width:360px; max-height:300px; display:flex; flex-direction:column; overflow:hidden; }
-    .health-drop-hd { padding:.5rem .85rem .38rem; font-size:.68rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); border-bottom:1px solid var(--border); flex-shrink:0; }
+    .health-drop-hd { padding:.5rem .85rem .38rem; font-size:.69rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--text2); border-bottom:1px solid var(--border); flex-shrink:0; }
     .health-drop-list { overflow-y:auto; padding:.3rem 0; }
     .health-drop-item { display:flex; align-items:center; gap:.5rem; padding:.32rem .85rem; cursor:pointer; transition:background .12s; }
     .health-drop-item:hover { background:rgba(255,255,255,.055); }
     .health-drop-name { flex:1; font-size:.8rem; color:var(--white); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    .health-drop-type { font-size:.67rem; color:var(--muted); flex-shrink:0; max-width:110px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .health-drop-type { font-size:.69rem; color:var(--text2); flex-shrink:0; max-width:110px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .health-drop-arrow { font-size:.72rem; color:var(--gold); flex-shrink:0; }
 
     /* ── Tab navigation ──────────────────────────────────────── */
@@ -337,7 +338,7 @@
     }
     .btn-export-proc:hover { background: rgba(167,138,245,.22); border-color: var(--proc); }
     .btn-export-proc:disabled { opacity: .38; cursor: not-allowed; }
-    .layer-desc { font-size: .82rem; color: var(--muted); }
+    .layer-desc { font-size: .84rem; color: var(--text2); }
 
     /* ── Section (Active Structure / Behaviour / Passive) ─────── */
     .layer-section {
@@ -384,7 +385,7 @@
     .section-count {
       display: inline-block; padding: .05rem .45rem;
       background: rgba(255,255,255,.06); border-radius: 20px;
-      font-size: .68rem; color: var(--muted); margin-left: .25rem;
+      font-size: .69rem; color: var(--text2); margin-left: .25rem;
     }
     .add-buttons { display: flex; flex-wrap: wrap; gap: .35rem; }
     .btn-add {
@@ -406,20 +407,20 @@
     .elem-table { width: 100%; border-collapse: collapse; }
     .elem-table th {
       text-align: left; padding: .45rem .65rem;
-      font-size: .7rem; font-weight: 700;
+      font-size: .72rem; font-weight: 700;
       text-transform: uppercase; letter-spacing: .08em;
-      color: var(--muted); border-bottom: 1px solid var(--border);
+      color: #c0c2d8; border-bottom: 1px solid var(--border);
       white-space: nowrap;
     }
     .elem-table td {
-      padding: .45rem .65rem; border-bottom: 1px solid rgba(255,255,255,.035);
-      vertical-align: top;
+      padding: .5rem .65rem; border-bottom: 1px solid rgba(255,255,255,.035);
+      vertical-align: top; font-size: .88rem;
     }
     .elem-table tr:hover td { background: rgba(255,255,255,.018); }
 
     .type-badge {
       display: inline-block; padding: .13rem .5rem;
-      border-radius: 4px; font-size: .7rem; font-weight: 600;
+      border-radius: 4px; font-size: .73rem; font-weight: 600;
       white-space: nowrap; line-height: 1.4;
     }
     .type-badge.biz  { background: var(--biz-bg);  color: var(--biz-text);  border: 1px solid var(--biz-border); }
@@ -440,13 +441,13 @@
 
     .elem-textarea {
       background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09);
-      border-radius: 5px; color: var(--muted); font-size: .8rem;
-      padding: .25rem .5rem; width: 100%; resize: vertical;
-      min-height: 34px; outline: none; font-family: inherit; line-height: 1.45;
+      border-radius: 5px; color: var(--text2); font-size: .84rem;
+      padding: .3rem .5rem; width: 100%; resize: vertical;
+      min-height: 36px; outline: none; font-family: inherit; line-height: 1.5;
       transition: border-color .15s, background .15s;
     }
     .elem-textarea:focus { border-color: rgba(201,163,85,.45); background: rgba(255,255,255,.07); color: var(--white); }
-    .elem-textarea::placeholder { color: rgba(138,154,181,.35); }
+    .elem-textarea::placeholder { color: rgba(138,154,181,.4); }
 
     /* ── Properties ──────────────────────────────────────────── */
     .props-list { display: flex; flex-direction: column; gap: .28rem; margin-bottom: .28rem; }
@@ -455,13 +456,13 @@
       display: flex; gap: .3rem; margin-bottom: .18rem; padding: 0 .1rem;
     }
     .prop-field-label {
-      flex: 1; font-size: .63rem; color: var(--muted);
+      flex: 1; font-size: .67rem; color: var(--text2);
       display: flex; align-items: center; gap: .2rem;
     }
     .prop-key, .prop-val {
       background: rgba(255,255,255,.04); border: 1px solid var(--border);
-      border-radius: 4px; color: var(--white); font-size: .75rem;
-      padding: .18rem .45rem; outline: none; flex: 1;
+      border-radius: 4px; color: var(--white); font-size: .78rem;
+      padding: .2rem .45rem; outline: none; flex: 1;
     }
     .prop-key:focus, .prop-val:focus { border-color: var(--gold); }
     .prop-key { max-width: 110px; }
@@ -504,7 +505,7 @@
       background: var(--rel-bg); color: var(--rel-text);
       border: 1px solid var(--rel-border); white-space: nowrap;
     }
-    .rel-desc { font-size: .68rem; color: var(--muted); margin-top: .2rem; line-height: 1.35; }
+    .rel-desc { font-size: .72rem; color: var(--text2); margin-top: .2rem; line-height: 1.4; }
     .rel-warning {
       font-size: .68rem; color: #f5a050; margin-top: .25rem; line-height: 1.35;
       background: rgba(245,160,80,.1); border: 1px solid rgba(245,160,80,.35);
@@ -513,7 +514,7 @@
     .rel-extras { display: flex; flex-direction: column; gap: .35rem; margin-top: .4rem; }
     .rel-extra-row {
       display: flex; align-items: center; gap: .4rem;
-      font-size: .76rem; color: var(--muted);
+      font-size: .77rem; color: var(--text2);
     }
     .rel-extra-row label { white-space: nowrap; }
     .rel-extra-row input[type="checkbox"] { accent-color: var(--gold); cursor: pointer; }
@@ -532,7 +533,7 @@
     /* ── Empty state ─────────────────────────────────────────── */
     .empty-state {
       padding: 1.8rem 1rem; text-align: center;
-      color: var(--muted); font-size: .82rem; line-height: 1.7;
+      color: var(--text2); font-size: .84rem; line-height: 1.7;
       border: 1px dashed rgba(138,154,181,.18); border-radius: var(--radius);
     }
 
@@ -545,7 +546,7 @@
       display: flex; align-items: flex-start; gap: .5rem;
       background: var(--surface2); border: 1px solid var(--border);
       border-radius: 5px; padding: .45rem .75rem;
-      font-size: .74rem; color: var(--muted); max-width: 240px;
+      font-size: .76rem; color: var(--text2); max-width: 240px;
     }
     .help-item-icon { font-size: 1rem; flex-shrink: 0; }
 
@@ -567,7 +568,7 @@
       color: var(--rel-text); background: var(--rel-bg);
       padding: .08rem .35rem; border-radius: 3px; white-space: nowrap;
     }
-    .ref-desc { font-size: .7rem; color: var(--muted); line-height: 1.4; }
+    .ref-desc { font-size: .73rem; color: var(--text2); line-height: 1.4; }
 
     /* ── Export section ──────────────────────────────────────── */
     .export-panel {
@@ -576,7 +577,7 @@
       margin-top: 1.5rem;
     }
     .export-panel h3 { font-size: .88rem; font-weight: 700; margin-bottom: .5rem; color: var(--white); }
-    .export-panel p { font-size: .8rem; color: var(--muted); line-height: 1.6; }
+    .export-panel p { font-size: .82rem; color: var(--text2); line-height: 1.6; }
 
     /* ── Tooltip system ─────────────────────────────────────── */
     .tip-icon {
@@ -593,7 +594,7 @@
       display: none; position: fixed; z-index: 9999;
       background: #1c2d44; border: 1px solid rgba(201,163,85,.45);
       border-radius: 9px; padding: .8rem 1rem;
-      max-width: 275px; font-size: .76rem; color: var(--muted);
+      max-width: 275px; font-size: .78rem; color: var(--text2);
       line-height: 1.5; box-shadow: 0 8px 28px rgba(0,0,0,.5);
       pointer-events: none;
     }
@@ -628,7 +629,7 @@
       border-radius: 5px; transition: all .15s; line-height: 1;
     }
     .modal-close:hover { color: var(--white); background: rgba(255,255,255,.08); }
-    .modal-sub { font-size: .82rem; color: var(--muted); margin-bottom: 1.25rem; line-height: 1.65; }
+    .modal-sub { font-size: .85rem; color: var(--text2); margin-bottom: 1.25rem; line-height: 1.65; }
 
     /* ── Onboarding layers visual ────────────────────────────── */
     .onboard-layers { display: flex; flex-direction: column; gap: .5rem; margin: 1.1rem 0 1.25rem; }
@@ -645,7 +646,7 @@
     .onboard-layer.biz  .onboard-layer-q { color: var(--biz-text); }
     .onboard-layer.app  .onboard-layer-q { color: var(--app-text); }
     .onboard-layer.tech .onboard-layer-q { color: var(--tech-text); }
-    .onboard-layer-ex   { font-size: .73rem; color: var(--muted); }
+    .onboard-layer-ex   { font-size: .75rem; color: var(--text2); }
     .onboard-actions    { display: flex; gap: .75rem; justify-content: flex-end; margin-top: 1.6rem; flex-wrap: wrap; align-items: center; }
 
     /* ── Template gallery ────────────────────────────────────── */
@@ -662,9 +663,9 @@
     .tmpl-card:hover { border-color: var(--gold); background: rgba(201,163,85,.07); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,.2); }
     .tmpl-card-icon { font-size: 1.75rem; margin-bottom: .55rem; line-height: 1; }
     .tmpl-card-name { font-size: .88rem; font-weight: 700; color: var(--white); margin-bottom: .28rem; }
-    .tmpl-card-desc { font-size: .74rem; color: var(--muted); line-height: 1.45; flex: 1; }
+    .tmpl-card-desc { font-size: .79rem; color: var(--text2); line-height: 1.5; flex: 1; }
     .tmpl-card-meta { margin-top: .6rem; display: flex; gap: .3rem; flex-wrap: wrap; }
-    .tmpl-meta-tag  { font-size: .65rem; padding: .1rem .35rem; background: rgba(255,255,255,.06); border-radius: 3px; color: var(--muted); border: 1px solid var(--border); }
+    .tmpl-meta-tag  { font-size: .68rem; padding: .1rem .38rem; background: rgba(255,255,255,.06); border-radius: 3px; color: var(--text2); border: 1px solid var(--border); }
     .tmpl-blank { border-style: dashed; }
 
     /* ── Guided Wizard ─────────────────────────────────────── */
@@ -675,14 +676,14 @@
     }
     .wiz-step-dot {
       flex: 1; padding: .4rem .3rem; text-align: center;
-      font-size: .65rem; font-weight: 700; color: var(--muted);
+      font-size: .67rem; font-weight: 700; color: var(--text2);
       border-right: 1px solid var(--border); transition: all .2s; line-height: 1.3;
     }
     .wiz-step-dot:last-child { border-right: none; }
     .wiz-step-dot.active { background: rgba(201,163,85,.15); color: var(--gold); }
     .wiz-step-dot.done   { background: rgba(201,163,85,.06); color: rgba(201,163,85,.6); }
     .wiz-q { font-size: 1rem; font-weight: 800; color: var(--white); margin-bottom: .3rem; }
-    .wiz-hint { font-size: .8rem; color: var(--muted); margin-bottom: .85rem; line-height: 1.55; }
+    .wiz-hint { font-size: .82rem; color: var(--text2); margin-bottom: .85rem; line-height: 1.55; }
     .wiz-textarea {
       width: 100%; background: rgba(255,255,255,.05);
       border: 1px solid rgba(255,255,255,.12); border-radius: 8px;
@@ -725,6 +726,49 @@
     }
     .wiz-back:hover { border-color: var(--muted); color: var(--white); }
     .wiz-err { color: #ef4444; font-size: .78rem; margin-top: .35rem; }
+
+    /* ── Wizard mode toggle ──────────────────────────────────── */
+    .wiz-mode-toggle {
+      display: flex; gap: 0; margin-bottom: 1.2rem;
+      border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+      background: rgba(255,255,255,.03);
+    }
+    .wiz-mode-btn {
+      flex: 1; padding: .42rem .6rem; border: none; background: none;
+      color: var(--text2); cursor: pointer; font-size: .82rem; font-weight: 600;
+      font-family: 'Catamaran', system-ui, sans-serif;
+      transition: all .2s; border-right: 1px solid var(--border);
+    }
+    .wiz-mode-btn:last-child { border-right: none; }
+    .wiz-mode-btn.active { background: rgba(201,163,85,.15); color: var(--gold); }
+    .wiz-mode-btn:not(.active):hover { color: var(--white); }
+    /* AI mode textarea */
+    .wiz-ai-textarea {
+      width: 100%; background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.12); border-radius: 8px;
+      color: var(--white); font-size: .88rem; padding: .75rem .9rem;
+      outline: none; resize: vertical; min-height: 140px; line-height: 1.6;
+      font-family: 'Catamaran', system-ui, sans-serif; transition: border-color .15s;
+    }
+    .wiz-ai-textarea:focus { border-color: var(--gold); background: rgba(255,255,255,.08); }
+    /* Spinner */
+    .wiz-spinner {
+      display: none; align-items: center; gap: .65rem; padding: .8rem 0;
+      font-size: .84rem; color: var(--text2);
+    }
+    .wiz-spinner.active { display: flex; }
+    .wiz-spin-ring {
+      width: 18px; height: 18px; border: 2px solid rgba(201,163,85,.3);
+      border-top-color: var(--gold); border-radius: 50%;
+      animation: wiz-spin .7s linear infinite; flex-shrink: 0;
+    }
+    @keyframes wiz-spin { to { transform: rotate(360deg); } }
+    .wiz-apikey-warn {
+      font-size: .8rem; color: #f5a050; background: rgba(245,160,80,.1);
+      border: 1px solid rgba(245,160,80,.35); border-radius: 6px;
+      padding: .55rem .85rem; line-height: 1.5;
+    }
+    .wiz-apikey-warn a { color: var(--gold); cursor: pointer; text-decoration: underline; }
 
     /* ── AR Logo ─────────────────────────────────────────────── */
     .ar-logo {
@@ -776,12 +820,12 @@
     .principles-step { flex:1;min-width:120px;background:var(--surface);border:1px solid var(--togaf-border);border-radius:var(--radius);padding:.55rem .65rem;text-align:center; }
     .principles-step-num { font-size:.6rem;font-weight:700;color:var(--togaf);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.2rem; }
     .principles-step-type { font-size:.72rem;font-weight:700;color:var(--white);margin-bottom:.2rem; }
-    .principles-step-q { font-size:.65rem;color:var(--muted);font-style:italic;line-height:1.3; }
+    .principles-step-q { font-size:.69rem;color:var(--text2);font-style:italic;line-height:1.35; }
     .principles-arrow { display:flex;align-items:center;color:var(--togaf);font-size:.9rem;padding-top:.3rem;flex-shrink:0; }
     .principles-examples { border-top:1px solid var(--togaf-border);padding-top:.65rem;margin-top:.1rem; }
     .principles-examples-lbl { font-size:.67rem;font-weight:700;color:var(--togaf);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.4rem; }
     .principles-ex-row { display:flex;gap:.5rem;margin-bottom:.3rem;flex-wrap:wrap; }
-    .principles-ex-item { font-size:.65rem;color:var(--muted);background:var(--surface2);border-radius:4px;padding:.15rem .45rem;line-height:1.4; }
+    .principles-ex-item { font-size:.69rem;color:var(--text2);background:var(--surface2);border-radius:4px;padding:.15rem .45rem;line-height:1.4; }
     .principles-ex-item strong { color:var(--white); }
 
     /* ── Viewpoints panel inside Views modal ────────────────────── */
@@ -791,7 +835,7 @@
     .vp-card { background:var(--surface);border:1px solid var(--togaf-border);border-radius:var(--radius);padding:.7rem .8rem;cursor:pointer;transition:all .16s; }
     .vp-card:hover { border-color:var(--togaf);background:rgba(96,168,220,.07); }
     .vp-card-title { font-size:.77rem;font-weight:700;color:var(--white);margin-bottom:.2rem; }
-    .vp-card-desc { font-size:.67rem;color:var(--muted);line-height:1.4;margin-bottom:.5rem; }
+    .vp-card-desc { font-size:.71rem;color:var(--text2);line-height:1.4;margin-bottom:.5rem; }
     .vp-card-examples { display:flex;gap:.25rem;flex-wrap:wrap;margin-bottom:.5rem; }
     .vp-ex-tag { font-size:.58rem;padding:.08rem .35rem;border-radius:99px;background:var(--togaf-bg);color:var(--togaf);border:1px solid var(--togaf-border); }
     .vp-card-btn { font-size:.68rem;font-weight:600;color:var(--togaf);background:none;border:1px solid var(--togaf-border);border-radius:4px;padding:.25rem .6rem;cursor:pointer;width:100%;transition:background .15s; }
@@ -831,7 +875,7 @@
     }
     .step-body { flex: 1; }
     .step-title { font-size: .84rem; font-weight: 700; color: var(--white); margin-bottom: .15rem; }
-    .step-desc  { font-size: .78rem; color: var(--muted); line-height: 1.55; }
+    .step-desc  { font-size: .8rem; color: var(--text2); line-height: 1.55; }
     .step-desc code {
       background: rgba(255,255,255,.07); border-radius: 3px;
       padding: .05rem .35rem; font-size: .75rem; color: var(--white);
@@ -839,7 +883,7 @@
     .step-tip {
       margin-top: .3rem; padding: .3rem .6rem;
       background: rgba(201,163,85,.07); border-left: 2px solid var(--gold);
-      border-radius: 0 4px 4px 0; font-size: .75rem; color: var(--muted); line-height: 1.5;
+      border-radius: 0 4px 4px 0; font-size: .76rem; color: var(--text2); line-height: 1.5;
     }
 
     /* Legend — layers */
@@ -859,13 +903,13 @@
     .legend-layer.biz  .legend-layer-badge { background: var(--biz-bg);  color: var(--biz-text);  border: 1px solid var(--biz-border); }
     .legend-layer.app  .legend-layer-badge { background: var(--app-bg);  color: var(--app-text);  border: 1px solid var(--app-border); }
     .legend-layer.tech .legend-layer-badge { background: var(--tech-bg); color: var(--tech-text); border: 1px solid var(--tech-border); }
-    .legend-layer-desc { font-size: .77rem; color: var(--muted); line-height: 1.45; }
+    .legend-layer-desc { font-size: .8rem; color: var(--text2); line-height: 1.45; }
 
     /* Legend — element types grid */
     .legend-elem-group { margin-bottom: 1rem; }
     .legend-group-title {
-      font-size: .68rem; font-weight: 700; letter-spacing: .12em;
-      text-transform: uppercase; color: var(--muted); margin-bottom: .4rem;
+      font-size: .7rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--text2); margin-bottom: .4rem;
       display: flex; align-items: center; gap: .4rem;
     }
     .legend-group-title::before { content: ''; width: 3px; height: 11px; border-radius: 2px; display: block; }
@@ -891,15 +935,15 @@
     .legend-elem-badge.tech { background: var(--tech-bg); color: var(--tech-text); border: 1px solid var(--tech-border); }
     .legend-elem-badge.mot { background: var(--mot-bg); color: var(--mot-text); border: 1px solid var(--mot-border); }
     .legend-elem-badge.str { background: var(--str-bg); color: var(--str-text); border: 1px solid var(--str-border); }
-    .legend-elem-desc { font-size: .7rem; color: var(--muted); line-height: 1.4; }
+    .legend-elem-desc { font-size: .73rem; color: var(--text2); line-height: 1.4; }
     .legend-elem-name { font-size: .75rem; font-weight: 600; color: var(--white); }
 
     /* Legend — relationships */
     .legend-rel-table { width: 100%; border-collapse: collapse; }
     .legend-rel-table th {
       text-align: left; padding: .4rem .6rem;
-      font-size: .68rem; font-weight: 700; letter-spacing: .08em;
-      text-transform: uppercase; color: var(--muted);
+      font-size: .7rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--text2);
       border-bottom: 1px solid var(--border);
     }
     .legend-rel-table td {
@@ -981,9 +1025,9 @@
     .search-result:hover, .search-result.focused { background:rgba(201,163,85,.08); }
     .search-result-info { flex:1; min-width:0; }
     .search-result-name { font-size:.85rem; color:var(--white); font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    .search-result-meta { font-size:.72rem; color:var(--muted); }
+    .search-result-meta { font-size:.74rem; color:var(--text2); }
     .search-result-badge { font-size:.62rem; padding:.12rem .45rem; border-radius:3px; font-weight:700; flex-shrink:0; }
-    .search-empty { padding:1.5rem 1rem; text-align:center; color:var(--muted); font-size:.84rem; }
+    .search-empty { padding:1.5rem 1rem; text-align:center; color:var(--text2); font-size:.86rem; }
     .search-hint { padding:.4rem 1rem; text-align:right; font-size:.7rem; color:var(--muted); opacity:.6; border-top:1px solid var(--border); }
     .search-trigger { background:none; border:none; cursor:pointer; color:var(--muted); font-size:.95rem; padding:4px 7px; border-radius:5px; transition:color .15s; }
     .search-trigger:hover { color:var(--white); }
@@ -997,15 +1041,15 @@
     .view-item:hover { background:rgba(255,255,255,.05); }
     .view-item.active { background:rgba(201,163,85,.12); border:1px solid rgba(201,163,85,.25); }
     .view-item-name { flex:1; font-size:.82rem; color:var(--white); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .view-item-count { font-size:.68rem; color:var(--muted); flex-shrink:0; }
+    .view-item-count { font-size:.7rem; color:var(--text2); flex-shrink:0; }
     .view-del { background:none; border:none; cursor:pointer; color:var(--muted); font-size:.8rem; padding:1px 4px; border-radius:3px; flex-shrink:0; }
     .view-del:hover { color:#e06c75; }
     .views-elem-panel { overflow-y:auto; max-height:360px; }
     .views-elem-layer { margin-bottom:.9rem; }
-    .views-elem-layer-hd { font-size:.67rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:.3rem; }
+    .views-elem-layer-hd { font-size:.69rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--text2); margin-bottom:.3rem; }
     .views-elem-row { display:flex; align-items:center; gap:.5rem; padding:.18rem 0; cursor:pointer; }
     .views-elem-row label { font-size:.8rem; color:var(--white); cursor:pointer; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    .views-placeholder { color:var(--muted); font-size:.84rem; padding:.5rem 0; }
+    .views-placeholder { color:var(--text2); font-size:.86rem; padding:.5rem 0; }
     /* Inline dialogs (no browser prompt/confirm) */
     .view-inline-dlg { background:rgba(12,18,28,.98); border:1px solid rgba(201,163,85,.38); border-radius:7px; padding:.75rem 1rem; margin-top:.6rem; }
     .view-inline-dlg.danger { border-color:rgba(224,108,117,.4); }
@@ -1016,18 +1060,18 @@
     .view-inline-dlg-row .view-del-name { flex:1; font-size:.83rem; color:var(--gold); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     /* Visual example */
     .views-example { border:1px solid rgba(255,255,255,.09); border-radius:7px; background:rgba(255,255,255,.02); padding:.6rem .85rem .5rem; margin-bottom:.85rem; }
-    .views-example-lbl { font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:.45rem; }
+    .views-example-lbl { font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text2); margin-bottom:.45rem; }
 
     /* ── Snapshot / Version History modal ────────────────────── */
     .snap-row { display:flex; align-items:center; gap:.7rem; padding:.55rem .75rem; border-radius:6px; border:1px solid var(--border); margin-bottom:.45rem; background:rgba(255,255,255,.025); }
     .snap-name { flex:1; font-size:.85rem; color:var(--white); font-weight:600; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    .snap-meta { font-size:.71rem; color:var(--muted); flex-shrink:0; white-space:nowrap; }
+    .snap-meta { font-size:.73rem; color:var(--text2); flex-shrink:0; white-space:nowrap; }
     .snap-actions { display:flex; gap:.35rem; flex-shrink:0; }
     .snap-restore { font-size:.73rem; padding:.22rem .6rem; border-radius:4px; border:1px solid rgba(201,163,85,.4); background:rgba(201,163,85,.1); color:var(--gold); cursor:pointer; transition:background .14s; }
     .snap-restore:hover { background:rgba(201,163,85,.22); }
     .snap-del { font-size:.73rem; padding:.22rem .6rem; border-radius:4px; border:1px solid rgba(224,108,117,.3); background:transparent; color:#e06c75; cursor:pointer; transition:background .14s; }
     .snap-del:hover { background:rgba(224,108,117,.1); }
-    .snap-empty { text-align:center; padding:2.5rem 1rem; color:var(--muted); font-size:.84rem; }
+    .snap-empty { text-align:center; padding:2.5rem 1rem; color:var(--text2); font-size:.86rem; }
   </style>
 </head>
 <body>
@@ -1068,9 +1112,9 @@
         </div>
       </div>
     </div>
-    <p style="font-size:.79rem;color:var(--muted);line-height:1.65" id="ob-tip">Every element type has a <strong style="color:var(--white)">? button</strong> next to it — hover over it for a plain-language explanation and real-world examples. The <strong style="color:var(--white)">Manual &amp; Legend</strong> tab has the full reference.</p>
+    <p style="font-size:.82rem;color:var(--text2);line-height:1.65" id="ob-tip">Every element type has a <strong style="color:var(--white)">? button</strong> next to it — hover over it for a plain-language explanation and real-world examples. The <strong style="color:var(--white)">Manual &amp; Legend</strong> tab has the full reference.</p>
     <div class="onboard-actions">
-      <label style="font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:.4rem;cursor:pointer;margin-right:auto">
+      <label style="font-size:.8rem;color:var(--text2);display:flex;align-items:center;gap:.4rem;cursor:pointer;margin-right:auto">
         <input type="checkbox" id="onboardNoShow" style="accent-color:var(--gold)" onchange="setOnboardPref(this.checked)">
         <span id="ob-noshow-lbl">Don't show again</span>
       </label>
@@ -1090,7 +1134,7 @@
     </div>
     <p class="modal-sub" id="tmpl-sub-el">Choose a ready-made model to get started quickly. Loading a template will replace your current model — save your work first if needed.</p>
     <div id="tmplGrid" class="tmpl-grid"></div>
-    <p style="font-size:.74rem;color:var(--muted)" id="tmpl-note-el">Templates are starting points — rename, add, or delete any element after loading.</p>
+    <p style="font-size:.78rem;color:var(--text2)" id="tmpl-note-el">Templates are starting points — rename, add, or delete any element after loading.</p>
   </div>
 </div>
 
@@ -1101,10 +1145,39 @@
       <div class="modal-title" id="confirm-title">Confirm</div>
       <button class="modal-close" onclick="cancelConfirm()">×</button>
     </div>
-    <p id="confirm-msg" style="font-size:.85rem;color:var(--muted);margin:.2rem 0 1.25rem"></p>
+    <p id="confirm-msg" style="font-size:.86rem;color:var(--text2);margin:.2rem 0 1.25rem"></p>
     <div style="display:flex;justify-content:flex-end;gap:.5rem">
       <button class="btn btn-secondary" id="confirm-cancel-btn" onclick="cancelConfirm()">Cancel</button>
       <button class="btn" id="confirm-ok-btn" onclick="executeConfirm()">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Settings Modal ──────────────────────────────────── -->
+<div id="settingsModal" class="modal-overlay" onclick="if(event.target===this)hideSettings()" style="z-index:3000">
+  <div class="modal-box" style="max-width:480px">
+    <div class="modal-header">
+      <div class="modal-title" id="settings-title-el">⚙ Settings</div>
+      <button class="modal-close" onclick="hideSettings()">×</button>
+    </div>
+    <!-- API Key section -->
+    <div style="margin-bottom:1.5rem">
+      <div style="font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);margin-bottom:.65rem" id="settings-apikey-hd">AI — Anthropic API Key</div>
+      <p style="font-size:.8rem;color:var(--text2);line-height:1.6;margin-bottom:.75rem" id="settings-apikey-desc">Used for <strong style="color:var(--white)">AI-Guided Start</strong> inside the wizard. Your key is stored only in this browser (localStorage) and sent directly to Anthropic — never to any third-party server.</p>
+      <div style="display:flex;gap:.5rem;align-items:center">
+        <input type="password" id="settings-apikey-input"
+          placeholder="sk-ant-…"
+          style="flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:6px;color:var(--white);font-size:.86rem;padding:.45rem .75rem;outline:none;font-family:'Catamaran',system-ui,sans-serif;transition:border-color .15s"
+          oninput="this.style.borderColor=''">
+        <button onclick="toggleApiKeyVisibility()" id="settings-apikey-eye"
+          style="background:none;border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;padding:.42rem .65rem;font-size:.85rem;transition:color .15s"
+          title="Show/hide key">👁</button>
+      </div>
+      <p style="font-size:.73rem;color:var(--muted);margin-top:.4rem;line-height:1.4" id="settings-apikey-note">Key is saved per browser profile. Clear browser data to remove it.</p>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:.5rem;border-top:1px solid var(--border);padding-top:.9rem">
+      <button class="btn btn-secondary" onclick="hideSettings()" id="settings-cancel-btn">Cancel</button>
+      <button class="btn" onclick="saveSettings()" id="settings-save-btn" style="background:var(--gold);color:#0e1526;border:none;font-weight:700">Save</button>
     </div>
   </div>
 </div>
@@ -1113,11 +1186,16 @@
 <div id="wizModal" class="modal-overlay">
   <div class="modal-box" style="max-width:580px">
     <div class="modal-header">
-      <div class="modal-title" id="wiz-title-el">🪄 Build Step by Step</div>
+      <div class="modal-title" id="wiz-title-el">🪄 Guided Start</div>
       <button class="modal-close" onclick="hideWizard()">×</button>
+    </div>
+    <div class="wiz-mode-toggle" id="wiz-mode-toggle">
+      <button class="wiz-mode-btn active" id="wiz-mode-classic" onclick="setWizMode('classic')">📝 <span id="wiz-mode-classic-lbl">Classic</span></button>
+      <button class="wiz-mode-btn" id="wiz-mode-ai" onclick="setWizMode('ai')">✨ <span id="wiz-mode-ai-lbl">AI-Guided</span></button>
     </div>
     <p class="modal-sub" id="wiz-sub-el">Answer four quick questions and the engine will create a working architecture model you can refine.</p>
     <div id="wizContent"></div>
+    <div id="wizAIContent" style="display:none"></div>
   </div>
 </div>
 
@@ -1193,7 +1271,7 @@
 
     <!-- Viewpoints section (TOGAF mode only) -->
     <div id="viewpoints-section" class="viewpoints-section" style="display:none">
-      <div class="viewpoints-section-hd">◈ <span id="vp-section-title">Viewpoints</span> <span style="font-size:.7rem;font-weight:400;color:var(--muted);margin-left:.5rem" id="vp-section-sub">— click a viewpoint to create a named view pre-filled with matching elements</span></div>
+      <div class="viewpoints-section-hd">◈ <span id="vp-section-title">Viewpoints</span> <span style="font-size:.73rem;font-weight:400;color:var(--text2);margin-left:.5rem" id="vp-section-sub">— click a viewpoint to create a named view pre-filled with matching elements</span></div>
       <div class="viewpoints-grid" id="viewpointsGrid"></div>
     </div>
 
@@ -1255,6 +1333,7 @@
            oninput="model.name = this.value">
   </div>
   <button class="search-trigger" id="btn-search-global" onclick="showSearch()" title="Search elements (⌘K / Ctrl+K)">🔍</button>
+  <button class="search-trigger" onclick="showSettings()" title="Settings (API Key, preferences)" style="font-size:.85rem">⚙</button>
   <div class="lang-toggle">
     <button class="lang-btn" data-lang="nl" onclick="setLanguage('nl')">NL</button>
     <span class="lang-sep">·</span>
@@ -1847,9 +1926,13 @@ function applyTranslations() {
   if (tmplNote) tmplNote.textContent = t('tmpl-note');
   // Wizard modal
   const wizTitle = document.getElementById('wiz-title-el');
-  if (wizTitle) wizTitle.textContent = t('wiz-title');
-  const wizSub = document.getElementById('wiz-sub-el');
-  if (wizSub) wizSub.textContent = t('wiz-sub');
+  if (wizTitle) wizTitle.textContent = '🪄 ' + (L === 'nl' ? 'Begeleid Starten' : 'Guided Start');
+  // wiz-sub is set dynamically by _applyWizMode() — update mode toggle labels instead
+  const classicLbl = document.getElementById('wiz-mode-classic-lbl');
+  if (classicLbl) classicLbl.textContent = L === 'nl' ? 'Klassiek' : 'Classic';
+  const aiLbl = document.getElementById('wiz-mode-ai-lbl');
+  if (aiLbl) aiLbl.textContent = L === 'nl' ? 'AI-gestuurd' : 'AI-Guided';
+  applySettingsTranslations();
   // Swimlane header controls
   const swFileLabel = document.getElementById('proc-file-btn-label');
   if (swFileLabel) swFileLabel.textContent = L === 'nl' ? 'Bestand' : 'File';
@@ -2318,13 +2401,249 @@ function hideTemplates() {
 // ══════════════════════════════════════════════════════════════
 const _wiz = { step:1, name:'', actors:'', processes:'', systems:'', err:'' };
 
+let _wizMode = 'classic'; // 'classic' | 'ai'
+
 function showWizard() {
   _wiz.step=1; _wiz.name=''; _wiz.actors=''; _wiz.processes=''; _wiz.systems=''; _wiz.err='';
+  _wizMode = 'classic';
+  _applyWizMode();
   renderWizStep();
   document.getElementById('wizModal').classList.add('open');
 }
 function hideWizard() {
   document.getElementById('wizModal').classList.remove('open');
+}
+
+function setWizMode(mode) {
+  _wizMode = mode;
+  _applyWizMode();
+}
+
+function _applyWizMode() {
+  const NL = currentLang === 'nl';
+  const classicBtn = document.getElementById('wiz-mode-classic');
+  const aiBtn      = document.getElementById('wiz-mode-ai');
+  const classicContent = document.getElementById('wizContent');
+  const aiContent  = document.getElementById('wizAIContent');
+  const subEl      = document.getElementById('wiz-sub-el');
+
+  if (classicBtn) { classicBtn.classList.toggle('active', _wizMode==='classic'); }
+  if (aiBtn)      { aiBtn.classList.toggle('active', _wizMode==='ai'); }
+
+  if (_wizMode === 'classic') {
+    if (classicContent) classicContent.style.display = '';
+    if (aiContent)      aiContent.style.display = 'none';
+    if (subEl) subEl.textContent = NL
+      ? 'Beantwoord vier snelle vragen en het systeem maakt een werkend architectuurmodel.'
+      : 'Answer four quick questions and the engine will create a working architecture model you can refine.';
+  } else {
+    if (classicContent) classicContent.style.display = 'none';
+    if (aiContent)      aiContent.style.display = '';
+    if (subEl) subEl.textContent = NL
+      ? 'Beschrijf uw architectuur in gewone taal — de AI zet het om naar een ArchiMate-model.'
+      : 'Describe your architecture in plain language — the AI will turn it into an ArchiMate model.';
+    renderWizAI();
+  }
+}
+
+// ── AI mode renderer ──────────────────────────────────────────
+let _wizAIText = '';
+let _wizAILoading = false;
+
+function renderWizAI() {
+  const NL = currentLang === 'nl';
+  const aiContent = document.getElementById('wizAIContent');
+  if (!aiContent) return;
+
+  const hasKey = !!getApiKey();
+  const warnHtml = hasKey ? '' : `
+    <div class="wiz-apikey-warn" id="wiz-ai-keywarn">
+      ${NL ? 'Geen API-sleutel ingesteld.' : 'No API key configured.'}
+      <a onclick="hideWizard();showSettings()"> ${NL ? 'Sleutel instellen →' : 'Add key →'}</a>
+    </div>`;
+
+  aiContent.innerHTML = `
+    ${warnHtml}
+    <div class="wiz-q" style="margin-top:${hasKey?'0':'.75rem'}">${NL ? 'Beschrijf uw architectuur' : 'Describe your architecture'}</div>
+    <div class="wiz-hint">${NL
+      ? 'Noem de organisatie, business processen, applicaties en technologie. Hoe meer detail, hoe beter het model.'
+      : 'Include the organisation, business processes, applications and technology. More detail → better model.'}</div>
+    <textarea id="wizAIInput" class="wiz-ai-textarea" placeholder="${NL
+      ? 'Bijv: Een verzekeraar met Claims, Underwriting en Finance afdelingen. Kernsystemen zijn ClaimsManager en PolicyHub…'
+      : 'E.g. An insurer with Claims, Underwriting and Finance departments. Core systems are ClaimsManager and PolicyHub…'}">${esc(_wizAIText)}</textarea>
+    <div class="wiz-spinner" id="wiz-ai-spinner">
+      <div class="wiz-spin-ring"></div>
+      <span>${NL ? 'Model genereren via AI…' : 'Generating model via AI…'}</span>
+    </div>
+    <div id="wiz-ai-err" class="wiz-err" style="margin-top:.5rem"></div>
+    <div class="wiz-actions" style="margin-top:.85rem">
+      <button class="btn btn-primary" id="wiz-ai-gen-btn" onclick="wizAIGenerate()"${!hasKey||_wizAILoading?' disabled':''}>
+        ✨ ${NL ? 'Genereer model' : 'Generate model'}
+      </button>
+    </div>`;
+
+  if (_wizAILoading) {
+    const sp = document.getElementById('wiz-ai-spinner');
+    if (sp) sp.classList.add('active');
+  }
+}
+
+async function wizAIGenerate() {
+  const NL = currentLang === 'nl';
+  const key = getApiKey();
+  if (!key) { showSettings(); return; }
+
+  const ta = document.getElementById('wizAIInput');
+  _wizAIText = ta ? ta.value.trim() : '';
+  if (!_wizAIText) {
+    const errEl = document.getElementById('wiz-ai-err');
+    if (errEl) errEl.textContent = NL ? 'Vul een beschrijving in.' : 'Please enter a description.';
+    return;
+  }
+
+  // Confirm if model already has content
+  if (model.elements.length > 0) {
+    showConfirm(
+      NL ? '✨ AI-model genereren' : '✨ Generate AI Model',
+      NL ? 'Uw huidige model wordt vervangen. Doorgaan?' : 'Your current model will be replaced. Continue?',
+      NL ? 'Genereren' : 'Generate', true,
+      _doWizAIGenerate
+    );
+    return;
+  }
+  _doWizAIGenerate();
+}
+
+async function _doWizAIGenerate() {
+  const NL = currentLang === 'nl';
+  _wizAILoading = true;
+  renderWizAI();
+
+  const SYSTEM_PROMPT = `You are an ArchiMate 3 architecture modelling assistant. The user will describe their organisation and IT landscape in plain language. You must output ONLY valid JSON — no markdown, no code fences, no explanation — matching this exact schema:
+
+{
+  "name": "string (model name, max 60 chars)",
+  "documentation": "string (1-2 sentence summary)",
+  "elements": [
+    {
+      "id": "e1",
+      "layer": "business|application|technology|motivation|strategy",
+      "type": "BusinessActor|BusinessRole|BusinessCollaboration|BusinessInterface|BusinessProcess|BusinessFunction|BusinessInteraction|BusinessEvent|BusinessService|BusinessObject|Contract|Representation|Product|ApplicationComponent|ApplicationCollaboration|ApplicationInterface|ApplicationFunction|ApplicationInteraction|ApplicationProcess|ApplicationEvent|ApplicationService|DataObject|Node|Device|SystemSoftware|TechnologyCollaboration|TechnologyInterface|Path|CommunicationNetwork|TechnologyFunction|TechnologyProcess|TechnologyInteraction|TechnologyEvent|TechnologyService|Artifact|Stakeholder|Driver|Assessment|Goal|Outcome|Principle|Requirement|Constraint|Meaning|Value|Resource|Capability|CourseOfAction|ValueStream",
+      "name": "string",
+      "documentation": "string (optional brief description)"
+    }
+  ],
+  "relationships": [
+    {
+      "id": "r1",
+      "type": "AssignmentRelationship|RealizationRelationship|ServingRelationship|AccessRelationship|InfluenceRelationship|TriggeringRelationship|FlowRelationship|AssociationRelationship|CompositionRelationship|AggregationRelationship|SpecializationRelationship",
+      "sourceId": "e1",
+      "targetId": "e2",
+      "name": "",
+      "documentation": ""
+    }
+  ]
+}
+
+Rules:
+- Use 8-25 elements covering at least Business and Application layers
+- Use realistic ArchiMate types (BusinessActor for people/orgs, BusinessProcess for processes, ApplicationComponent for software systems, DataObject for data, etc.)
+- Every relationship sourceId and targetId must reference a valid element id
+- AssignmentRelationship: actor/role → function/process/behaviour
+- ServingRelationship: lower layer → higher layer (app serves business)
+- RealizationRelationship: implementation → logical concept
+- Use CompositionRelationship sparingly for genuine part-of structures
+- Output ONLY the JSON object, nothing else.`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': getApiKey(),
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 4096,
+        system: SYSTEM_PROMPT,
+        messages: [{ role: 'user', content: _wizAIText }]
+      })
+    });
+
+    if (!resp.ok) {
+      const errData = await resp.json().catch(() => ({}));
+      throw new Error(errData.error?.message || `HTTP ${resp.status}`);
+    }
+
+    const data = await resp.json();
+    const raw = data.content?.[0]?.text || '';
+
+    // Strip markdown code fences if present
+    const cleaned = raw.replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'').trim();
+    let parsed;
+    try { parsed = JSON.parse(cleaned); }
+    catch(e) { throw new Error(NL ? 'AI gaf geen geldig JSON terug. Probeer opnieuw.' : 'AI did not return valid JSON. Please try again.'); }
+
+    // Validate & sanitise
+    if (!Array.isArray(parsed.elements) || parsed.elements.length === 0)
+      throw new Error(NL ? 'AI-model bevat geen elementen.' : 'AI model contains no elements.');
+
+    const validLayers  = new Set(['business','application','technology','motivation','strategy']);
+    const validRelTypes = new Set(['AssignmentRelationship','RealizationRelationship','ServingRelationship','AccessRelationship','InfluenceRelationship','TriggeringRelationship','FlowRelationship','AssociationRelationship','CompositionRelationship','AggregationRelationship','SpecializationRelationship']);
+
+    const elementIds = new Set();
+    const elements = parsed.elements.map(el => {
+      const id = genId();
+      el._newId = id;
+      elementIds.add(el.id);
+      return {
+        id, layer: validLayers.has(el.layer) ? el.layer : 'business',
+        type: el.type || 'BusinessActor',
+        name: (el.name||'Unnamed').slice(0,100),
+        documentation: (el.documentation||'').slice(0,500),
+        properties: []
+      };
+    });
+
+    // Build old→new id map
+    const idMap = {};
+    parsed.elements.forEach(el => { idMap[el.id] = el._newId; });
+
+    const relationships = (parsed.relationships||[])
+      .filter(r => idMap[r.sourceId] && idMap[r.targetId])
+      .map(r => ({
+        id: genId(),
+        type: validRelTypes.has(r.type) ? r.type : 'AssociationRelationship',
+        sourceId: idMap[r.sourceId],
+        targetId: idMap[r.targetId],
+        name: (r.name||'').slice(0,100),
+        documentation: (r.documentation||'').slice(0,500),
+        directed: false, accessType: 'ReadWrite', strength: ''
+      }));
+
+    model = {
+      name: (parsed.name||'AI Architecture Model').slice(0,80),
+      documentation: (parsed.documentation||'').slice(0,1000),
+      elements, relationships, views:[], snapshots:[]
+    };
+    document.getElementById('modelName').value = model.name;
+    document.getElementById('modelDoc').value  = model.documentation;
+    renderAll(); updateStats();
+    hideWizard();
+    showTab('business');
+    showToast(NL
+      ? `✨ AI-model geladen — ${elements.length} elementen, ${relationships.length} relaties`
+      : `✨ AI model loaded — ${elements.length} elements, ${relationships.length} relationships`, 'togaf');
+
+  } catch(err) {
+    _wizAILoading = false;
+    renderWizAI();
+    const errEl = document.getElementById('wiz-ai-err');
+    if (errEl) errEl.textContent = (NL ? 'Fout: ' : 'Error: ') + err.message;
+  }
+  _wizAILoading = false;
 }
 
 function _wizSaveCurrent() {
@@ -3068,6 +3387,64 @@ function showConfirm(title, msg, okLabel, okDanger, callback) {
 }
 function cancelConfirm()  { document.getElementById('confirmModal').classList.remove('open'); _confirmCb = null; }
 function executeConfirm() { document.getElementById('confirmModal').classList.remove('open'); if (_confirmCb) { const cb = _confirmCb; _confirmCb = null; cb(); } }
+
+// ══════════════════════════════════════════════════════════════
+// SETTINGS MODAL
+// ══════════════════════════════════════════════════════════════
+const _APIKEY_STORE = 'architise-anthropic-key';
+
+function showSettings() {
+  const inp = document.getElementById('settings-apikey-input');
+  if (inp) {
+    const stored = (() => { try { return localStorage.getItem(_APIKEY_STORE) || ''; } catch(e) { return ''; } })();
+    inp.value = stored;
+    inp.type  = 'password';
+    const eye = document.getElementById('settings-apikey-eye');
+    if (eye) eye.textContent = '👁';
+  }
+  applySettingsTranslations();
+  document.getElementById('settingsModal').classList.add('open');
+}
+
+function hideSettings() {
+  document.getElementById('settingsModal').classList.remove('open');
+}
+
+function saveSettings() {
+  const inp = document.getElementById('settings-apikey-input');
+  const key = inp ? inp.value.trim() : '';
+  try { if (key) localStorage.setItem(_APIKEY_STORE, key); else localStorage.removeItem(_APIKEY_STORE); } catch(e) {}
+  hideSettings();
+  const NL = currentLang === 'nl';
+  showToast(NL ? 'Instellingen opgeslagen' : 'Settings saved');
+}
+
+function toggleApiKeyVisibility() {
+  const inp = document.getElementById('settings-apikey-input');
+  const eye = document.getElementById('settings-apikey-eye');
+  if (!inp) return;
+  if (inp.type === 'password') { inp.type = 'text'; if (eye) eye.textContent = '🙈'; }
+  else { inp.type = 'password'; if (eye) eye.textContent = '👁'; }
+}
+
+function getApiKey() {
+  try { return localStorage.getItem(_APIKEY_STORE) || ''; } catch(e) { return ''; }
+}
+
+function applySettingsTranslations() {
+  const NL = currentLang === 'nl';
+  const set = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+  set('settings-title-el',    NL ? '⚙ Instellingen'       : '⚙ Settings');
+  set('settings-apikey-hd',   NL ? 'AI — Anthropic API-sleutel' : 'AI — Anthropic API Key');
+  set('settings-apikey-desc', NL ? 'Gebruikt voor AI-gestuurde Start in de wizard. Uw sleutel wordt alleen in deze browser opgeslagen (localStorage) en direct naar Anthropic gestuurd — nooit naar een server van derden.'
+                                 : 'Used for AI-Guided Start inside the wizard. Your key is stored only in this browser (localStorage) and sent directly to Anthropic — never to any third-party server.');
+  const inp = document.getElementById('settings-apikey-input');
+  if (inp) inp.placeholder = 'sk-ant-…';
+  set('settings-apikey-note', NL ? 'Sleutel is opgeslagen per browserprofiel. Browserdata wissen verwijdert de sleutel.'
+                                 : 'Key is saved per browser profile. Clear browser data to remove it.');
+  set('settings-cancel-btn', NL ? 'Annuleren' : 'Cancel');
+  set('settings-save-btn',   NL ? 'Opslaan'   : 'Save');
+}
 
 // ══════════════════════════════════════════════════════════════
 // MENU BAR
@@ -5974,7 +6351,7 @@ function renderProcTab() {
         <!-- Columns (optional extra dimension) -->
         <div class="proc-section">
           <div class="proc-section-header">
-            <span class="proc-section-title">Columns <i class="tip-icon" onmouseenter="showTipById(this,'proc-columns')" onmouseleave="hideTip()">?</i> <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.68rem;color:var(--muted);margin-left:.3rem">optional — phases, locations, partners…</span></span>
+            <span class="proc-section-title">Columns <i class="tip-icon" onmouseenter="showTipById(this,'proc-columns')" onmouseleave="hideTip()">?</i> <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.72rem;color:var(--text2);margin-left:.3rem">optional — phases, locations, partners…</span></span>
             <button class="btn-add proc" onclick="addColumn()">+ Add Column</button>
           </div>
           ${!proc.columns.length
