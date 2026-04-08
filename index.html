@@ -29,6 +29,93 @@
   <meta name="twitter:image"       content="https://arnoldruijterit.nl/Logo%20Zwart.png" />
 
   <link rel="stylesheet" href="style.css" />
+
+  <!-- AI discoverability -->
+  <link rel="llms" type="text/plain" href="/llms.txt" />
+
+  <!-- Structured data for AI crawlers & search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://arnoldruijterit.nl/#arnold",
+        "name": "Arnold Ruijter",
+        "jobTitle": "Senior IT Consultant & Enterprise Architect",
+        "description": "Senior IT consultant with 20+ years of experience in enterprise architecture, integration architecture, and IT leadership. TOGAF-certified. Available for interim and advisory assignments in the Netherlands and internationally.",
+        "url": "https://arnoldruijterit.nl",
+        "worksFor": { "@id": "https://arnoldruijterit.nl/#company" },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Castricum",
+          "addressRegion": "North Holland",
+          "addressCountry": "NL"
+        },
+        "knowsAbout": [
+          "Enterprise Architecture",
+          "TOGAF",
+          "IT Leadership",
+          "Integration Architecture",
+          "IT Strategy",
+          "Digital Transformation",
+          "ERP",
+          "SAP",
+          "Middleware",
+          "API",
+          "EDI",
+          "Supply Chain",
+          "BI & Data Governance",
+          "eCommerce",
+          "Cloud Platforms",
+          "Stakeholder Management",
+          "Interim Management"
+        ],
+        "hasCredential": [
+          {
+            "@type": "EducationalOccupationalCredential",
+            "name": "TOGAF Enterprise Architecture",
+            "credentialCategory": "certification",
+            "recognizedBy": { "@type": "Organization", "name": "Pearson Vue" }
+          },
+          {
+            "@type": "EducationalOccupationalCredential",
+            "name": "SAP Certifications (PI/PO, XI, Integration, ALE)",
+            "credentialCategory": "certification"
+          }
+        ],
+        "nationality": "Dutch",
+        "knowsLanguage": ["nl", "en", "de", "fr"]
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://arnoldruijterit.nl/#company",
+        "name": "Arnold Ruijter IT",
+        "description": "Independent IT consultancy providing enterprise architecture, integration architecture, IT leadership, and IT strategy services across retail, fashion, logistics, and the public sector.",
+        "url": "https://arnoldruijterit.nl",
+        "founder": { "@id": "https://arnoldruijterit.nl/#arnold" },
+        "areaServed": ["Netherlands", "Europe"],
+        "serviceType": [
+          "Enterprise Architecture",
+          "Domain Architecture",
+          "IT Leadership",
+          "Integration Architecture",
+          "IT Strategy",
+          "Interim Management",
+          "IT Advisory",
+          "Vendor Selection",
+          "Tendering Support"
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Castricum",
+          "addressRegion": "North Holland",
+          "addressCountry": "NL"
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 

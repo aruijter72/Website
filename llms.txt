@@ -1,0 +1,64 @@
+# Arnold Ruijter IT
+
+> Senior IT consultant based in Castricum, the Netherlands. 20+ years of experience in enterprise architecture, integration architecture, and IT leadership. Available for interim and advisory assignments.
+
+Arnold Ruijter is an independent IT consultant operating under his own company, Arnold Ruijter IT (eenmanszaak, KVK registered). He works across sectors — retail, fashion, logistics, and the public sector — at whatever scale adds the most value. He is TOGAF-certified and has held director-level roles at multinational organisations.
+
+## Availability
+
+Arnold is available for interim and advisory assignments in enterprise architecture, IT leadership, integration architecture, and IT strategy. He is based in Castricum, North Holland, Netherlands, and works throughout the Netherlands and internationally.
+
+## Core Services
+
+- **Enterprise & Domain Architecture** — Analysing organisations, mapping IT landscapes, designing target architectures and roadmaps. TOGAF-certified approach.
+- **IT Leadership** — Building and coaching high-performing IT teams. Interim CTO/IT director roles. People-first, trust-based leadership style.
+- **Integration Architecture** — Designing robust integration landscapes for Supply Chain, Finance, Product Master, and Logistics. EDI, EAI, API, middleware expertise.
+- **IT Strategy** — Translating business ambitions into prioritised, realistic IT roadmaps aligned across teams and stakeholders.
+- **Advisory & Specialist Roles** — Domain architecture, vendor selection, tendering support, solution assessment. Available to smaller organisations needing senior expertise on demand.
+
+## Key Expertise
+
+Enterprise Architecture, TOGAF, IT Leadership, Integration Architecture, SAP (ERP, PI/PO, HANA, FIORI, AFS/FMS), EDI, EAI, API/Microservices, Middleware (Boomi, Sterling, SAP PI), Digital Transformation, ERP Migration, BI & Data Governance, Supply Chain, eCommerce (Shopify), PIM (Akeneo), OmniChannel, Cloud & SaaS Platforms, IT Strategy, Roadmap Development, Stakeholder Management.
+
+## Career Highlights
+
+- 20+ years of progressive IT leadership and architecture roles
+- EMEA Tech Director at a global fashion multinational (Calvin Klein / Tommy Hilfiger brands, PVH Corp)
+- Director IT Transformation — built an IT organisation from 5 to 25+ FTE across ERP, BI, security, eCommerce, infrastructure, and integration
+- Senior Manager ERP Development & Integration — SAP AFS/FMS, HANA, PI/PO migration
+- Current: Interim IT Consultant & Project Leader for EU public procurement (ESB tender) at GR IJsselgemeenten, South Holland
+- Sectors: Retail, Fashion, Logistics, Public Sector
+
+## Credentials
+
+- TOGAF Enterprise Architecture (Certified) — Pearson Vue
+- SAP Certifications: PI/PO, XI, Integration, ALE
+- Post-Bachelor Business Management — NCOI
+
+## Languages
+
+- Dutch (native)
+- English (fluent)
+- German (conversational)
+- French (conversational)
+
+## Philosophy
+
+People, Process, and Result — in that order. Arnold believes IT succeeds only when the people using and building it are invested. He is transparent, direct, and avoids half-truths. His leadership style centres on trust, coaching strengths, and enabling teams to self-direct.
+
+## Contact & Company
+
+- **Company:** Arnold Ruijter IT
+- **Location:** Castricum, North Holland, Netherlands
+- **Legal form:** Eenmanszaak (sole trader)
+- **Website:** https://arnoldruijterit.nl
+- **Contact form:** https://arnoldruijterit.nl/contact.html
+
+## Site Pages
+
+- [Home](https://arnoldruijterit.nl/) — Introduction and overview
+- [About](https://arnoldruijterit.nl/about.html) — Background, philosophy and qualifications
+- [Services](https://arnoldruijterit.nl/services.html) — Full service offering
+- [Experience](https://arnoldruijterit.nl/experience.html) — Career timeline and technology landscape
+- [Vision](https://arnoldruijterit.nl/vision.html) — People, Process & Result philosophy
+- [Contact](https://arnoldruijterit.nl/contact.html) — Contact form and company details
