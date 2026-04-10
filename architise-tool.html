@@ -1155,25 +1155,39 @@
 
 <!-- ── Settings Modal ──────────────────────────────────── -->
 <div id="settingsModal" class="modal-overlay" onclick="if(event.target===this)hideSettings()" style="z-index:3000">
-  <div class="modal-box" style="max-width:480px">
+  <div class="modal-box" style="max-width:500px">
     <div class="modal-header">
       <div class="modal-title" id="settings-title-el">⚙ Settings</div>
       <button class="modal-close" onclick="hideSettings()">×</button>
     </div>
-    <!-- API Key section -->
-    <div style="margin-bottom:1.5rem">
-      <div style="font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);margin-bottom:.65rem" id="settings-apikey-hd">AI — Anthropic API Key</div>
-      <p style="font-size:.8rem;color:var(--text2);line-height:1.6;margin-bottom:.75rem" id="settings-apikey-desc">Used for <strong style="color:var(--white)">AI-Guided Start</strong> inside the wizard. Your key is stored only in this browser (localStorage) and sent directly to Anthropic — never to any third-party server.</p>
-      <div style="display:flex;gap:.5rem;align-items:center">
-        <input type="password" id="settings-apikey-input"
-          placeholder="sk-ant-…"
-          style="flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:6px;color:var(--white);font-size:.86rem;padding:.45rem .75rem;outline:none;font-family:'Catamaran',system-ui,sans-serif;transition:border-color .15s"
-          oninput="this.style.borderColor=''">
-        <button onclick="toggleApiKeyVisibility()" id="settings-apikey-eye"
-          style="background:none;border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;padding:.42rem .65rem;font-size:.85rem;transition:color .15s"
-          title="Show/hide key">👁</button>
+    <!-- AI Provider section -->
+    <div style="margin-bottom:1.25rem">
+      <div style="font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);margin-bottom:.65rem" id="settings-provider-hd">AI Provider</div>
+      <div class="wiz-mode-toggle" style="margin-bottom:.9rem">
+        <button class="wiz-mode-btn active" id="settings-provider-anthropic" onclick="setSettingsProvider('anthropic')">🟣 Anthropic</button>
+        <button class="wiz-mode-btn" id="settings-provider-openai" onclick="setSettingsProvider('openai')">🟢 OpenAI</button>
       </div>
-      <p style="font-size:.73rem;color:var(--muted);margin-top:.4rem;line-height:1.4" id="settings-apikey-note">Key is saved per browser profile. Clear browser data to remove it.</p>
+      <!-- Anthropic key -->
+      <div id="settings-anthropic-wrap">
+        <p style="font-size:.79rem;color:var(--text2);line-height:1.55;margin-bottom:.65rem" id="settings-ant-desc">API key for <strong style="color:var(--white)">Anthropic Claude</strong>. Get one at <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color:var(--gold)">console.anthropic.com</a>. Sent directly to Anthropic — never stored on any server.</p>
+        <div style="display:flex;gap:.5rem;align-items:center">
+          <input type="password" id="settings-apikey-input" placeholder="sk-ant-…"
+            style="flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:6px;color:var(--white);font-size:.86rem;padding:.45rem .75rem;outline:none;font-family:'Catamaran',system-ui,sans-serif;transition:border-color .15s">
+          <button onclick="toggleApiKeyVisibility('settings-apikey-input','settings-apikey-eye')" id="settings-apikey-eye"
+            style="background:none;border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;padding:.42rem .65rem;font-size:.85rem">👁</button>
+        </div>
+      </div>
+      <!-- OpenAI key -->
+      <div id="settings-openai-wrap" style="display:none">
+        <p style="font-size:.79rem;color:var(--text2);line-height:1.55;margin-bottom:.65rem" id="settings-oai-desc">API key for <strong style="color:var(--white)">OpenAI GPT-4o mini</strong>. Get one at <a href="https://platform.openai.com/api-keys" target="_blank" style="color:var(--gold)">platform.openai.com</a>. Sent directly to OpenAI — never stored on any server.</p>
+        <div style="display:flex;gap:.5rem;align-items:center">
+          <input type="password" id="settings-oaikey-input" placeholder="sk-…"
+            style="flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:6px;color:var(--white);font-size:.86rem;padding:.45rem .75rem;outline:none;font-family:'Catamaran',system-ui,sans-serif;transition:border-color .15s">
+          <button onclick="toggleApiKeyVisibility('settings-oaikey-input','settings-oaikey-eye')" id="settings-oaikey-eye"
+            style="background:none;border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;padding:.42rem .65rem;font-size:.85rem">👁</button>
+        </div>
+      </div>
+      <p style="font-size:.73rem;color:var(--muted);margin-top:.45rem;line-height:1.4" id="settings-apikey-note">Keys are saved per browser profile. Clear browser data to remove them.</p>
     </div>
     <div style="display:flex;justify-content:flex-end;gap:.5rem;border-top:1px solid var(--border);padding-top:.9rem">
       <button class="btn btn-secondary" onclick="hideSettings()" id="settings-cancel-btn">Cancel</button>
@@ -1333,7 +1347,7 @@
            oninput="model.name = this.value">
   </div>
   <button class="search-trigger" id="btn-search-global" onclick="showSearch()" title="Search elements (⌘K / Ctrl+K)">🔍</button>
-  <button class="search-trigger" onclick="showSettings()" title="Settings (API Key, preferences)" style="font-size:.85rem">⚙</button>
+  <button class="search-trigger" id="btn-settings" onclick="showSettings()" title="Settings (AI provider &amp; API keys)" style="font-size:1.1rem">⚙</button>
   <div class="lang-toggle">
     <button class="lang-btn" data-lang="nl" onclick="setLanguage('nl')">NL</button>
     <span class="lang-sep">·</span>
@@ -2455,16 +2469,22 @@ function renderWizAI() {
   const aiContent = document.getElementById('wizAIContent');
   if (!aiContent) return;
 
-  const hasKey = !!getApiKey();
+  const provider = getProvider();
+  const hasKey   = !!getActiveKey();
+  const provName = provider === 'openai' ? 'OpenAI' : 'Anthropic';
   const warnHtml = hasKey ? '' : `
     <div class="wiz-apikey-warn" id="wiz-ai-keywarn">
-      ${NL ? 'Geen API-sleutel ingesteld.' : 'No API key configured.'}
+      ${NL ? `Geen ${provName} API-sleutel ingesteld.` : `No ${provName} API key configured.`}
       <a onclick="hideWizard();showSettings()"> ${NL ? 'Sleutel instellen →' : 'Add key →'}</a>
     </div>`;
 
+  const provBadge = hasKey
+    ? `<span style="font-size:.68rem;font-weight:700;padding:.1rem .45rem;border-radius:4px;background:rgba(255,255,255,.07);color:var(--text2);margin-left:.5rem;vertical-align:middle">${provName}</span>`
+    : '';
+
   aiContent.innerHTML = `
     ${warnHtml}
-    <div class="wiz-q" style="margin-top:${hasKey?'0':'.75rem'}">${NL ? 'Beschrijf uw architectuur' : 'Describe your architecture'}</div>
+    <div class="wiz-q" style="margin-top:${hasKey?'0':'.75rem'}">${NL ? 'Beschrijf uw architectuur' : 'Describe your architecture'}${provBadge}</div>
     <div class="wiz-hint">${NL
       ? 'Noem de organisatie, business processen, applicaties en technologie. Hoe meer detail, hoe beter het model.'
       : 'Include the organisation, business processes, applications and technology. More detail → better model.'}</div>
@@ -2477,6 +2497,7 @@ function renderWizAI() {
     </div>
     <div id="wiz-ai-err" class="wiz-err" style="margin-top:.5rem"></div>
     <div class="wiz-actions" style="margin-top:.85rem">
+      <button class="btn btn-secondary" style="font-size:.75rem;padding:.3rem .7rem" onclick="hideWizard();showSettings()" title="${NL?'Provider / sleutel wijzigen':'Change provider / key'}">⚙</button>
       <button class="btn btn-primary" id="wiz-ai-gen-btn" onclick="wizAIGenerate()"${!hasKey||_wizAILoading?' disabled':''}>
         ✨ ${NL ? 'Genereer model' : 'Generate model'}
       </button>
@@ -2490,8 +2511,8 @@ function renderWizAI() {
 
 async function wizAIGenerate() {
   const NL = currentLang === 'nl';
-  const key = getApiKey();
-  if (!key) { showSettings(); return; }
+  const key = getActiveKey();
+  if (!key) { hideWizard(); showSettings(); return; }
 
   const ta = document.getElementById('wizAIInput');
   _wizAIText = ta ? ta.value.trim() : '';
@@ -2556,29 +2577,61 @@ Rules:
 - Output ONLY the JSON object, nothing else.`;
 
   try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': getApiKey(),
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true',
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 4096,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: 'user', content: _wizAIText }]
-      })
-    });
+    const provider = getProvider();
+    const key      = getActiveKey();
+    let raw = '';
 
-    if (!resp.ok) {
-      const errData = await resp.json().catch(() => ({}));
-      throw new Error(errData.error?.message || `HTTP ${resp.status}`);
+    if (provider === 'openai') {
+      // ── OpenAI (GPT-4o mini) ────────────────────────────────
+      const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${key}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          max_tokens: 4096,
+          messages: [
+            { role: 'system', content: SYSTEM_PROMPT },
+            { role: 'user',   content: _wizAIText }
+          ]
+        })
+      });
+      if (!resp.ok) {
+        const errData = await resp.json().catch(() => ({}));
+        const msg = errData.error?.message || JSON.stringify(errData);
+        throw new Error(`OpenAI HTTP ${resp.status}: ${msg}`);
+      }
+      const data = await resp.json();
+      raw = data.choices?.[0]?.message?.content || '';
+
+    } else {
+      // ── Anthropic (Claude) ──────────────────────────────────
+      const resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'x-api-key': key,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true',
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 4096,
+          system: SYSTEM_PROMPT,
+          messages: [{ role: 'user', content: _wizAIText }]
+        })
+      });
+      if (!resp.ok) {
+        const errData = await resp.json().catch(() => ({}));
+        const type = errData.error?.type ? ` [${errData.error.type}]` : '';
+        const msg  = errData.error?.message || JSON.stringify(errData);
+        throw new Error(`Anthropic HTTP ${resp.status}${type}: ${msg}`);
+      }
+      const data = await resp.json();
+      raw = data.content?.[0]?.text || '';
     }
-
-    const data = await resp.json();
-    const raw = data.content?.[0]?.text || '';
 
     // Strip markdown code fences if present
     const cleaned = raw.replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'').trim();
@@ -2633,9 +2686,10 @@ Rules:
     renderAll(); updateStats();
     hideWizard();
     showTab('business');
+    const prov = getProvider() === 'openai' ? 'OpenAI' : 'Anthropic';
     showToast(NL
-      ? `✨ AI-model geladen — ${elements.length} elementen, ${relationships.length} relaties`
-      : `✨ AI model loaded — ${elements.length} elements, ${relationships.length} relationships`, 'togaf');
+      ? `✨ ${prov} model geladen — ${elements.length} elementen, ${relationships.length} relaties`
+      : `✨ ${prov} model loaded — ${elements.length} elements, ${relationships.length} relationships`, 'togaf');
 
   } catch(err) {
     _wizAILoading = false;
@@ -3391,17 +3445,49 @@ function executeConfirm() { document.getElementById('confirmModal').classList.re
 // ══════════════════════════════════════════════════════════════
 // SETTINGS MODAL
 // ══════════════════════════════════════════════════════════════
-const _APIKEY_STORE = 'architise-anthropic-key';
+const _APIKEY_STORE    = 'architise-anthropic-key';
+const _OAIKEY_STORE    = 'architise-openai-key';
+const _PROVIDER_STORE  = 'architise-ai-provider';   // 'anthropic' | 'openai'
+
+let _settingsProvider = 'anthropic';
+
+function getProvider() {
+  try { return localStorage.getItem(_PROVIDER_STORE) || 'anthropic'; } catch(e) { return 'anthropic'; }
+}
+function getApiKey() {
+  try { return localStorage.getItem(_APIKEY_STORE) || ''; } catch(e) { return ''; }
+}
+function getOpenAIKey() {
+  try { return localStorage.getItem(_OAIKEY_STORE) || ''; } catch(e) { return ''; }
+}
+function getActiveKey() {
+  return getProvider() === 'openai' ? getOpenAIKey() : getApiKey();
+}
+
+function setSettingsProvider(p) {
+  _settingsProvider = p;
+  const antBtn  = document.getElementById('settings-provider-anthropic');
+  const oaiBtn  = document.getElementById('settings-provider-openai');
+  const antWrap = document.getElementById('settings-anthropic-wrap');
+  const oaiWrap = document.getElementById('settings-openai-wrap');
+  if (antBtn) antBtn.classList.toggle('active', p === 'anthropic');
+  if (oaiBtn) oaiBtn.classList.toggle('active', p === 'openai');
+  if (antWrap) antWrap.style.display = p === 'anthropic' ? '' : 'none';
+  if (oaiWrap) oaiWrap.style.display = p === 'openai'    ? '' : 'none';
+}
 
 function showSettings() {
-  const inp = document.getElementById('settings-apikey-input');
-  if (inp) {
-    const stored = (() => { try { return localStorage.getItem(_APIKEY_STORE) || ''; } catch(e) { return ''; } })();
-    inp.value = stored;
-    inp.type  = 'password';
-    const eye = document.getElementById('settings-apikey-eye');
-    if (eye) eye.textContent = '👁';
-  }
+  _settingsProvider = getProvider();
+  // Restore stored keys
+  const antInp = document.getElementById('settings-apikey-input');
+  const oaiInp = document.getElementById('settings-oaikey-input');
+  if (antInp) { antInp.value = getApiKey();    antInp.type = 'password'; }
+  if (oaiInp) { oaiInp.value = getOpenAIKey(); oaiInp.type = 'password'; }
+  const antEye = document.getElementById('settings-apikey-eye');
+  const oaiEye = document.getElementById('settings-oaikey-eye');
+  if (antEye) antEye.textContent = '👁';
+  if (oaiEye) oaiEye.textContent = '👁';
+  setSettingsProvider(_settingsProvider);
   applySettingsTranslations();
   document.getElementById('settingsModal').classList.add('open');
 }
@@ -3411,39 +3497,41 @@ function hideSettings() {
 }
 
 function saveSettings() {
-  const inp = document.getElementById('settings-apikey-input');
-  const key = inp ? inp.value.trim() : '';
-  try { if (key) localStorage.setItem(_APIKEY_STORE, key); else localStorage.removeItem(_APIKEY_STORE); } catch(e) {}
+  const antInp = document.getElementById('settings-apikey-input');
+  const oaiInp = document.getElementById('settings-oaikey-input');
+  const antKey = antInp ? antInp.value.trim() : '';
+  const oaiKey = oaiInp ? oaiInp.value.trim() : '';
+  try {
+    if (antKey) localStorage.setItem(_APIKEY_STORE, antKey); else localStorage.removeItem(_APIKEY_STORE);
+    if (oaiKey) localStorage.setItem(_OAIKEY_STORE, oaiKey); else localStorage.removeItem(_OAIKEY_STORE);
+    localStorage.setItem(_PROVIDER_STORE, _settingsProvider);
+  } catch(e) {}
   hideSettings();
   const NL = currentLang === 'nl';
   showToast(NL ? 'Instellingen opgeslagen' : 'Settings saved');
+  // Re-render AI panel if open
+  if (_wizMode === 'ai') renderWizAI();
 }
 
-function toggleApiKeyVisibility() {
-  const inp = document.getElementById('settings-apikey-input');
-  const eye = document.getElementById('settings-apikey-eye');
+function toggleApiKeyVisibility(inputId, eyeId) {
+  const inp = document.getElementById(inputId);
+  const eye = document.getElementById(eyeId);
   if (!inp) return;
   if (inp.type === 'password') { inp.type = 'text'; if (eye) eye.textContent = '🙈'; }
   else { inp.type = 'password'; if (eye) eye.textContent = '👁'; }
 }
 
-function getApiKey() {
-  try { return localStorage.getItem(_APIKEY_STORE) || ''; } catch(e) { return ''; }
-}
-
 function applySettingsTranslations() {
   const NL = currentLang === 'nl';
   const set = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
-  set('settings-title-el',    NL ? '⚙ Instellingen'       : '⚙ Settings');
-  set('settings-apikey-hd',   NL ? 'AI — Anthropic API-sleutel' : 'AI — Anthropic API Key');
-  set('settings-apikey-desc', NL ? 'Gebruikt voor AI-gestuurde Start in de wizard. Uw sleutel wordt alleen in deze browser opgeslagen (localStorage) en direct naar Anthropic gestuurd — nooit naar een server van derden.'
-                                 : 'Used for AI-Guided Start inside the wizard. Your key is stored only in this browser (localStorage) and sent directly to Anthropic — never to any third-party server.');
-  const inp = document.getElementById('settings-apikey-input');
-  if (inp) inp.placeholder = 'sk-ant-…';
-  set('settings-apikey-note', NL ? 'Sleutel is opgeslagen per browserprofiel. Browserdata wissen verwijdert de sleutel.'
-                                 : 'Key is saved per browser profile. Clear browser data to remove it.');
-  set('settings-cancel-btn', NL ? 'Annuleren' : 'Cancel');
-  set('settings-save-btn',   NL ? 'Opslaan'   : 'Save');
+  set('settings-title-el',    NL ? '⚙ Instellingen' : '⚙ Settings');
+  set('settings-provider-hd', NL ? 'AI-provider'    : 'AI Provider');
+  const sbtn = document.getElementById('btn-settings');
+  if (sbtn) sbtn.title = NL ? 'Instellingen (AI-provider & API-sleutels)' : 'Settings (AI provider & API keys)';
+  set('settings-apikey-note', NL ? 'Sleutels worden opgeslagen per browserprofiel. Browserdata wissen verwijdert ze.'
+                                 : 'Keys are saved per browser profile. Clear browser data to remove them.');
+  set('settings-cancel-btn',  NL ? 'Annuleren' : 'Cancel');
+  set('settings-save-btn',    NL ? 'Opslaan'   : 'Save');
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -6060,7 +6148,7 @@ function importFromArchitecture() {
 
   // Auto-flows from relationships
   if (document.getElementById('autoImportFlows')?.checked && Object.keys(importedStepMap).length > 1) {
-    const FLOW_TYPES = new Set(['Triggering','Flow','Association']);
+    const FLOW_TYPES = new Set(['TriggeringRelationship','FlowRelationship','AssociationRelationship']);
     (model.relationships || []).forEach(rel => {
       if (!FLOW_TYPES.has(rel.type)) return;
       const from = importedStepMap[rel.sourceId];
@@ -6143,11 +6231,11 @@ function renderProcPreview() {
     const numCols = columns.length;
     const colIdx = {}; columns.forEach((c, i) => colIdx[c.id] = i);
 
-    // Count steps per cell to compute LANE_H
+    // Count steps per cell to compute LANE_H (skip steps with no lane assigned)
     const cellCount = {};
     steps.forEach(s => {
+      const li = laneIdx[s.laneId]; if (li === undefined) return;
       const ci = colIdx[s.columnId] ?? 0;
-      const li = laneIdx[s.laneId] ?? 0;
       const k = `${li}_${ci}`;
       cellCount[k] = (cellCount[k] || 0) + 1;
     });
@@ -6157,11 +6245,11 @@ function renderProcPreview() {
     svgW = LANE_STRIP + numCols * COL_W;
     svgH = PROC_HDR + COL_HDR_H + numLanes * LANE_H;
 
-    // Track per-cell order for stacking
+    // Track per-cell order for stacking (skip steps with no lane assigned)
     const cellOrder = {};
     steps.forEach(s => {
+      const li = laneIdx[s.laneId]; if (li === undefined) return;
       const ci = colIdx[s.columnId] ?? 0;
-      const li = laneIdx[s.laneId] ?? 0;
       const k = `${li}_${ci}`;
       if (!cellOrder[k]) cellOrder[k] = 0;
       const order = cellOrder[k]++;
@@ -6216,7 +6304,11 @@ function renderProcPreview() {
     // Steps (reuse common renderer below)
     svg += _renderStepsSVG(steps, sPos, STEP_W, STEP_H, STEP_R, STEP_C, ww);
     svg += '</svg>';
-    wrap.innerHTML = svg;
+    const unassignedG = steps.filter(s => laneIdx[s.laneId] === undefined).length;
+    wrap.innerHTML = svg + (unassignedG
+      ? `<div style="font-size:.73rem;color:var(--muted);margin-top:.4rem;padding:0 .25rem">
+           ⚠ ${unassignedG} step${unassignedG>1?'s':''} not shown — assign a lane in the Steps table above.
+         </div>` : '');
 
   } else {
     // ── Flow mode: auto-layout via toposort ──────────────────────
@@ -6229,7 +6321,8 @@ function renderProcPreview() {
     svgH = PROC_HDR + numLanes * LANE_H;
 
     steps.forEach(s => {
-      const col = colMap[s.id], li = laneIdx[s.laneId] ?? 0;
+      const li = laneIdx[s.laneId]; if (li === undefined) return; // skip unassigned steps
+      const col = colMap[s.id];
       sPos[s.id] = {
         cx: LANE_STRIP + MARGIN + col*COL_W + STEP_W/2,
         cy: PROC_HDR + li*LANE_H + LANE_H/2
@@ -6262,7 +6355,11 @@ function renderProcPreview() {
 
     svg += _renderStepsSVG(steps, sPos, STEP_W, STEP_H, STEP_R, STEP_C, ww);
     svg += '</svg>';
-    wrap.innerHTML = svg;
+    const unassigned = steps.filter(s => laneIdx[s.laneId] === undefined).length;
+    wrap.innerHTML = svg + (unassigned
+      ? `<div style="font-size:.73rem;color:var(--muted);margin-top:.4rem;padding:0 .25rem">
+           ⚠ ${unassigned} step${unassigned>1?'s':''} not shown — assign a lane in the Steps table above.
+         </div>` : '');
   }
 }
 
@@ -6487,9 +6584,12 @@ function renderProcTab() {
 function exportDrawio() {
   const proc = getActiveProc(); if (!proc) return;
 
-  const LANE_STRIP = 150, PROC_HDR = 40, COL_HDR_H = 32;
-  const STEP_W = 130, STEP_H = 54, STEP_R = 27;
-  const MARGIN = 30;
+  // Layout constants
+  const PROC_HDR  = 34;   // standalone title bar height
+  const LANE_HDR  = 26;   // horizontal lane-name strip inside each lane
+  const COL_HDR_H = 28;   // column header row height (grid mode only)
+  const STEP_W = 130, STEP_H = 52, STEP_R = 26;
+  const MARGIN = 24;      // left/right padding inside lanes (flow mode)
 
   const { lanes, steps, flows, columns } = proc;
   const hasColumns = columns && columns.length > 0;
@@ -6499,111 +6599,116 @@ function exportDrawio() {
   let dxId = 2;
   const nextId = () => String(dxId++);
   const laneIds = {}, stepIds = {};
-  let cells = '', totalW, totalH, LANE_H;
+  let cells = '', totalW, LANE_H;
+
+  // Shared style helpers
+  const DX_LANE_COLORS = ['#EFF6FF','#FFFBEB','#F0FDF4','#FFF7ED','#FAF5FF','#F0FDFA'];
+  const dxStepStyle = type => {
+    if (type==='start')    return `ellipse;fillColor=#D4EDDA;strokeColor=#28A745;fontColor=#155724;fontStyle=1;fontSize=10;whiteSpace=wrap;html=1;`;
+    if (type==='end')      return `ellipse;fillColor=#F8D7DA;strokeColor=#DC3545;fontColor=#721C24;fontStyle=1;fontSize=10;whiteSpace=wrap;html=1;`;
+    if (type==='decision') return `rhombus;fillColor=#FFF3CD;strokeColor=#D4A000;fontColor=#664D03;fontStyle=1;fontSize=10;whiteSpace=wrap;html=1;`;
+    return `rounded=1;arcSize=12;fillColor=#D1ECF1;strokeColor=#0C7A9D;fontColor=#0C5460;fontStyle=1;fontSize=10;whiteSpace=wrap;html=1;`;
+  };
+  // Lane: horizontal=1 puts the name in a horizontal strip at the top of each row
+  const laneStyle = c => `swimlane;startSize=${LANE_HDR};horizontal=1;fillColor=${c};strokeColor=#CCCCCC;fontColor=#444444;fontStyle=1;fontSize=11;`;
 
   if (hasColumns) {
     // ── Grid mode ─────────────────────────────────────────────
-    const COL_W = 200;
+    const COL_W = 180;
     const colIdx = {}; columns.forEach((c, i) => colIdx[c.id] = i);
 
-    // Compute LANE_H from max steps per cell
+    // Compute LANE_H from max steps stacked in any cell (skip unassigned)
     const cellCount = {};
     steps.forEach(s => {
-      const k = `${laneIdx[s.laneId]??0}_${colIdx[s.columnId]??0}`;
+      const li = laneIdx[s.laneId]; if (li === undefined) return;
+      const k = `${li}_${colIdx[s.columnId]??0}`;
       cellCount[k] = (cellCount[k]||0)+1;
     });
     const maxStack = Math.max(1, ...Object.values(cellCount));
-    LANE_H = Math.max(100, maxStack*(STEP_H+16)+30);
+    LANE_H = Math.max(LANE_HDR + 80, LANE_HDR + maxStack*(STEP_H+14)+20);
 
-    totalW = LANE_STRIP + columns.length * COL_W;
-    totalH = PROC_HDR + COL_HDR_H + numLanes * LANE_H;
+    totalW = columns.length * COL_W;
+    const poolH = COL_HDR_H + numLanes * LANE_H;
 
-    // Light colour palette for export
-    const DX_LANE_COLORS = ['#FFFFFF','#F7F9FC','#F9FBF7','#FDF8F5','#F9F7FD','#F5FAFA'];
-    const dxStepStyle = type => {
-      if (type==='start')    return `ellipse;fillColor=#D4EDDA;strokeColor=#28A745;fontColor=#155724;fontStyle=1;fontSize=10;`;
-      if (type==='end')      return `ellipse;fillColor=#F8D7DA;strokeColor=#DC3545;fontColor=#721C24;fontStyle=1;fontSize=10;`;
-      if (type==='decision') return `rhombus;fillColor=#FFF3CD;strokeColor=#D4A000;fontColor=#664D03;fontStyle=1;fontSize=10;`;
-      return `rounded=1;arcSize=12;fillColor=#D1ECF1;strokeColor=#0C7A9D;fontColor=#0C5460;fontStyle=1;fontSize=10;`;
-    };
+    // ① Title — standalone rect directly above the pool
+    cells += `<mxCell id="${nextId()}" value="${esc(proc.name||'Process')}" style="text;html=1;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;fontColor=#222222;strokeColor=#CCCCCC;fillColor=#F0F0F0;" vertex="1" parent="1"><mxGeometry x="40" y="40" width="${totalW}" height="${PROC_HDR}" as="geometry"/></mxCell>\n`;
 
+    // ② Pool container — no label, sits directly below title
     const containerId = nextId();
-    cells += `<mxCell id="${containerId}" value="${esc(proc.name||'Process')}" style="shape=pool;startSize=${PROC_HDR};horizontal=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontColor=#333333;fontStyle=1;fontSize=13;" vertex="1" parent="1"><mxGeometry x="40" y="40" width="${totalW}" height="${totalH}" as="geometry"/></mxCell>\n`;
+    cells += `<mxCell id="${containerId}" value="" style="swimlane;startSize=0;swimlaneLine=0;fillColor=#FFFFFF;strokeColor=#CCCCCC;" vertex="1" parent="1"><mxGeometry x="40" y="${40+PROC_HDR}" width="${totalW}" height="${poolH}" as="geometry"/></mxCell>\n`;
 
-    // Lanes (horizontal rows)
+    // ③ Column header cells (children of pool, top row)
+    columns.forEach((c, ci) => {
+      cells += `<mxCell id="${nextId()}" value="${esc(c.name||'Col '+(ci+1))}" style="text;html=1;align=center;verticalAlign=middle;fontStyle=1;fontSize=11;fontColor=#5E35B1;strokeColor=#D1C4E9;fillColor=#EDE7F6;" vertex="1" parent="${containerId}"><mxGeometry x="${ci*COL_W}" y="0" width="${COL_W}" height="${COL_HDR_H}" as="geometry"/></mxCell>\n`;
+    });
+
+    // ④ Lane rows (children of pool, below column headers)
     lanes.forEach((l, i) => {
       const lid = nextId(); laneIds[l.id] = lid;
-      const laneColor = DX_LANE_COLORS[i % DX_LANE_COLORS.length];
-      cells += `<mxCell id="${lid}" value="${esc(l.name||'Lane '+(i+1))}" style="swimlane;startSize=${LANE_STRIP};horizontal=0;fillColor=${laneColor};strokeColor=#CCCCCC;fontColor=#444444;fontStyle=1;fontSize=11;" vertex="1" parent="${containerId}"><mxGeometry x="0" y="${PROC_HDR+COL_HDR_H+i*LANE_H}" width="${totalW}" height="${LANE_H}" as="geometry"/></mxCell>\n`;
+      cells += `<mxCell id="${lid}" value="${esc(l.name||'Lane '+(i+1))}" style="${laneStyle(DX_LANE_COLORS[i%DX_LANE_COLORS.length])}" vertex="1" parent="${containerId}"><mxGeometry x="0" y="${COL_HDR_H+i*LANE_H}" width="${totalW}" height="${LANE_H}" as="geometry"/></mxCell>\n`;
     });
 
-    // Column header labels
-    columns.forEach((c, ci) => {
-      const hid = nextId();
-      cells += `<mxCell id="${hid}" value="${esc(c.name||'Col '+(ci+1))}" style="text;html=1;align=center;verticalAlign=middle;fontStyle=1;fontSize=11;fontColor=#5E35B1;strokeColor=#D1C4E9;fillColor=#EDE7F6;" vertex="1" parent="${containerId}"><mxGeometry x="${LANE_STRIP+ci*COL_W}" y="${PROC_HDR}" width="${COL_W}" height="${COL_HDR_H}" as="geometry"/></mxCell>\n`;
-    });
-
-    // Steps — track stacking order per cell
+    // ⑤ Steps (children of their lane; coords in full lane cell space)
     const cellOrder = {};
     steps.forEach(s => {
+      const li = laneIdx[s.laneId]; if (li === undefined) return;
       const ci = colIdx[s.columnId] ?? 0;
-      const li = laneIdx[s.laneId] ?? 0;
       const k = `${li}_${ci}`;
       if (!cellOrder[k]) cellOrder[k] = 0;
       const order = cellOrder[k]++;
       const total = cellCount[k] || 1;
       const isRound = s.type==='start'||s.type==='end';
       const sw = isRound?STEP_R*2:STEP_W, sh=isRound?STEP_R*2:STEP_H;
-      const sx = LANE_STRIP + ci*COL_W + (COL_W-sw)/2;
-      const stackH = total*(STEP_H+16)-16;
-      const sy = (LANE_H-stackH)/2 + order*(STEP_H+16) + (STEP_H-sh)/2;
-      const sid = nextId(); stepIds[s.id]=sid;
-      const parentId = lanes.length?(laneIds[s.laneId]||containerId):containerId;
-      cells+=`<mxCell id="${sid}" value="${esc(s.label||s.type)}" style="${dxStepStyle(s.type)}" vertex="1" parent="${parentId}"><mxGeometry x="${sx}" y="${sy}" width="${sw}" height="${sh}" as="geometry"/></mxCell>\n`;
+      const contentH = LANE_H - LANE_HDR;
+      const sx = ci*COL_W + (COL_W-sw)/2;
+      const stackH = total*(STEP_H+14)-14;
+      const sy = LANE_HDR + (contentH-stackH)/2 + order*(STEP_H+14) + (STEP_H-sh)/2;
+      const sid = nextId(); stepIds[s.id] = sid;
+      cells += `<mxCell id="${sid}" value="${esc(s.label||s.type)}" style="${dxStepStyle(s.type)}" vertex="1" parent="${laneIds[s.laneId]||containerId}"><mxGeometry x="${sx}" y="${sy}" width="${sw}" height="${sh}" as="geometry"/></mxCell>\n`;
     });
 
   } else {
     // ── Flow mode ─────────────────────────────────────────────
     const COL_W = 190;
-    LANE_H = 130;
+    LANE_H = LANE_HDR + 100;   // 26px name strip + 100px content
+
     const colMap = procColMap(steps, flows);
-    const maxCol = steps.length ? Math.max(...steps.map(s => colMap[s.id])) : 0;
-    totalW = LANE_STRIP + MARGIN + (maxCol+1)*COL_W + MARGIN;
-    totalH = PROC_HDR + numLanes * LANE_H;
+    const validSteps = steps.filter(s => laneIdx[s.laneId] !== undefined);
+    const maxCol = validSteps.length ? Math.max(...validSteps.map(s => colMap[s.id])) : 0;
+    totalW = MARGIN + (maxCol+1)*COL_W + MARGIN;
+    const poolH = numLanes * LANE_H;
 
-    const DX_LANE_COLORS = ['#FFFFFF','#F7F9FC','#F9FBF7','#FDF8F5','#F9F7FD','#F5FAFA'];
-    const dxStepStyle = type => {
-      if (type==='start')    return `ellipse;fillColor=#D4EDDA;strokeColor=#28A745;fontColor=#155724;fontStyle=1;fontSize=10;`;
-      if (type==='end')      return `ellipse;fillColor=#F8D7DA;strokeColor=#DC3545;fontColor=#721C24;fontStyle=1;fontSize=10;`;
-      if (type==='decision') return `rhombus;fillColor=#FFF3CD;strokeColor=#D4A000;fontColor=#664D03;fontStyle=1;fontSize=10;`;
-      return `rounded=1;arcSize=12;fillColor=#D1ECF1;strokeColor=#0C7A9D;fontColor=#0C5460;fontStyle=1;fontSize=10;`;
-    };
+    // ① Title — standalone rect directly above the pool
+    cells += `<mxCell id="${nextId()}" value="${esc(proc.name||'Process')}" style="text;html=1;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;fontColor=#222222;strokeColor=#CCCCCC;fillColor=#F0F0F0;" vertex="1" parent="1"><mxGeometry x="40" y="40" width="${totalW}" height="${PROC_HDR}" as="geometry"/></mxCell>\n`;
 
+    // ② Pool container — no label, sits directly below title
     const containerId = nextId();
-    cells += `<mxCell id="${containerId}" value="${esc(proc.name||'Process')}" style="shape=pool;startSize=${PROC_HDR};horizontal=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;fontColor=#333333;fontStyle=1;fontSize=13;" vertex="1" parent="1"><mxGeometry x="40" y="40" width="${totalW}" height="${totalH}" as="geometry"/></mxCell>\n`;
+    cells += `<mxCell id="${containerId}" value="" style="swimlane;startSize=0;swimlaneLine=0;fillColor=#FFFFFF;strokeColor=#CCCCCC;" vertex="1" parent="1"><mxGeometry x="40" y="${40+PROC_HDR}" width="${totalW}" height="${poolH}" as="geometry"/></mxCell>\n`;
 
+    // ③ Lane rows (children of pool)
     lanes.forEach((l, i) => {
       const lid = nextId(); laneIds[l.id] = lid;
-      const laneColor = DX_LANE_COLORS[i % DX_LANE_COLORS.length];
-      cells += `<mxCell id="${lid}" value="${esc(l.name||'Lane '+(i+1))}" style="swimlane;startSize=${LANE_STRIP};horizontal=0;fillColor=${laneColor};strokeColor=#CCCCCC;fontColor=#444444;fontStyle=1;fontSize=11;" vertex="1" parent="${containerId}"><mxGeometry x="0" y="${PROC_HDR+i*LANE_H}" width="${totalW}" height="${LANE_H}" as="geometry"/></mxCell>\n`;
+      cells += `<mxCell id="${lid}" value="${esc(l.name||'Lane '+(i+1))}" style="${laneStyle(DX_LANE_COLORS[i%DX_LANE_COLORS.length])}" vertex="1" parent="${containerId}"><mxGeometry x="0" y="${i*LANE_H}" width="${totalW}" height="${LANE_H}" as="geometry"/></mxCell>\n`;
     });
 
+    // ④ Steps (children of their lane; coords in full lane cell space)
     steps.forEach(s => {
-      const col=colMap[s.id], lIdx=laneIdx[s.laneId]??0;
-      const isRound=s.type==='start'||s.type==='end';
-      const sw=isRound?STEP_R*2:STEP_W, sh=isRound?STEP_R*2:STEP_H;
-      const sx=MARGIN+col*COL_W+(isRound?(STEP_W-sw)/2:0), sy=(LANE_H-sh)/2;
-      const sid=nextId(); stepIds[s.id]=sid;
-      const parentId=lanes.length?(laneIds[s.laneId]||containerId):containerId;
-      cells+=`<mxCell id="${sid}" value="${esc(s.label||s.type)}" style="${dxStepStyle(s.type)}" vertex="1" parent="${parentId}"><mxGeometry x="${sx}" y="${sy}" width="${sw}" height="${sh}" as="geometry"/></mxCell>\n`;
+      const li = laneIdx[s.laneId]; if (li === undefined) return;
+      const col = colMap[s.id];
+      const isRound = s.type==='start'||s.type==='end';
+      const sw = isRound?STEP_R*2:STEP_W, sh = isRound?STEP_R*2:STEP_H;
+      const contentH = LANE_H - LANE_HDR;
+      const sx = MARGIN + col*COL_W + (isRound?(STEP_W-sw)/2:0);
+      const sy = LANE_HDR + (contentH-sh)/2;
+      const sid = nextId(); stepIds[s.id] = sid;
+      cells += `<mxCell id="${sid}" value="${esc(s.label||s.type)}" style="${dxStepStyle(s.type)}" vertex="1" parent="${laneIds[s.laneId]||containerId}"><mxGeometry x="${sx}" y="${sy}" width="${sw}" height="${sh}" as="geometry"/></mxCell>\n`;
     });
   }
 
-  // Flows (same for both modes)
+  // Flows — edges connect step cells across lanes; parent="1" (graph root) handles all routing
   flows.forEach(f => {
     const src=stepIds[f.from], tgt=stepIds[f.to]; if(!src||!tgt) return;
-    const eid=nextId();
-    cells+=`<mxCell id="${eid}" value="${esc(f.label||'')}" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#a78af5;fontColor=#c9a355;fontSize=9;fontStyle=1;" edge="1" source="${src}" target="${tgt}" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>\n`;
+    cells += `<mxCell id="${nextId()}" value="${esc(f.label||'')}" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#a78af5;fontColor=#c9a355;fontSize=9;fontStyle=1;" edge="1" source="${src}" target="${tgt}" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>\n`;
   });
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
