@@ -171,12 +171,27 @@
       border-radius: 14px; padding: 2rem 1.8rem;
       display: flex; flex-direction: column; gap: 1rem;
       transition: var(--transition);
+      position: relative; overflow: hidden;
     }
-    .get-card:hover { border-color: rgba(201,163,85,.25); background: rgba(255,255,255,.04); }
+    .get-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--gold2));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform var(--transition);
+    }
+    .get-card:hover {
+      border-color: rgba(201,163,85,.3);
+      background: rgba(255,255,255,.045);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0,0,0,.25), 0 0 0 1px rgba(201,163,85,.1);
+    }
+    .get-card:hover::before { transform: scaleX(1); }
     .get-card-icon { font-size: 2rem; }
     .get-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--white); }
     .get-card p  { font-size: .9rem; color: var(--muted); line-height: 1.7; flex: 1; }
     .get-note    { font-size: .8rem; color: var(--muted); opacity: .7; }
+    .get-cta-wrap { text-align: center; margin-top: 2.5rem; }
 
 
     /* responsive */
@@ -338,20 +353,19 @@
         <div class="get-card-icon">⬡</div>
         <h3 data-i18n="arch.get.live.title">ArchiMate</h3>
         <p data-i18n="arch.get.live.desc">Model enterprise architecture across Business, Application and Technology layers using the ArchiMate 3 standard. Export directly to Archi (.archimate) for seamless handoff.</p>
-        <a href="https://aruijter72.github.io/Architise/" target="_blank" rel="noopener"
-           class="btn-primary" style="text-align:center" data-i18n="arch.get.live.btn"
-           onclick="this.href='https://aruijter72.github.io/Architise/?lang='+(localStorage.getItem('arit-lang')||'nl')">Open Architise →</a>
         <span class="get-note" data-i18n="arch.get.live.note">ArchiMate 3 · Archi export · Guided start &amp; templates</span>
       </div>
       <div class="get-card fade-in">
         <div class="get-card-icon">🏊</div>
         <h3 data-i18n="arch.get.dl.title">Swimlane</h3>
         <p data-i18n="arch.get.dl.desc">Design process flows with a visual swimlane editor. Assign steps to roles, add decisions and events, and export your diagram to draw.io XML for further editing or sharing.</p>
-        <a href="https://aruijter72.github.io/Architise/" target="_blank" rel="noopener"
-           class="btn-primary" style="text-align:center" data-i18n="arch.get.dl.btn"
-           onclick="this.href='https://aruijter72.github.io/Architise/?lang='+(localStorage.getItem('arit-lang')||'nl')">Open Architise →</a>
         <span class="get-note" data-i18n="arch.get.dl.note">Process flows · Role lanes · draw.io export</span>
       </div>
+    </div>
+    <div class="get-cta-wrap fade-in">
+      <a href="https://aruijter72.github.io/Architise/" target="_blank" rel="noopener"
+         class="btn-primary" data-i18n="arch.get.live.btn"
+         onclick="this.href='https://aruijter72.github.io/Architise/?lang='+(localStorage.getItem('arit-lang')||'nl')">Open Architise →</a>
     </div>
   </div>
 </section>
