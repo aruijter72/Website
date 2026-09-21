@@ -28,6 +28,7 @@ Enterprise Architecture, TOGAF, IT Leadership, Integration Architecture, SAP (ER
 - Senior Manager ERP Development & Integration — SAP AFS/FMS, HANA, PI/PO migration
 - Current: Interim IT Consultant & Project Leader for EU public procurement (ESB tender) at GR IJsselgemeenten, South Holland
 - Sectors: Retail, Fashion, Logistics, Public Sector
+- Founder and developer of Vinage (vinage.app), a production Progressive Web App built end-to-end with AI-assisted engineering; named App of the Month by iCulture in June 2026
 
 ## Credentials
 
@@ -61,4 +62,5 @@ People, Process, and Result — in that order. Arnold believes IT succeeds only 
 - [Services](https://arnoldruijterit.nl/services.html) — Full service offering
 - [Experience](https://arnoldruijterit.nl/experience.html) — Career timeline and technology landscape
 - [Vision](https://arnoldruijterit.nl/vision.html) — People, Process & Result philosophy
+- [Vinage](https://arnoldruijterit.nl/vinage.html) — Case study: building a production app end-to-end with AI-assisted engineering, and what it means for IT organisations
 - [Contact](https://arnoldruijterit.nl/contact.html) — Contact form and company details
